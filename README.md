@@ -4,14 +4,50 @@
 [![Node >=20](https://img.shields.io/badge/node-%3E%3D20-brightgreen)](package.json)
 [![Next.js 15](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
 
-面向婚礼场景的 **座位编排** 与 **抽奖（log-lottery）** 一体化工具链。本仓库是 **整合层（缝合工）**：排座 UI 衍生自 [ajdincatic/wedding-seats](https://github.com/ajdincatic/wedding-seats)，抽奖对接 [LOG1997/log-lottery](https://github.com/LOG1997/log-lottery)；我们主要维护两者之间的导出列、一键导入、实时同步与可选云端备份。
+面向婚礼场景的 **座位编排** 与 **抽奖（log-lottery）** 一体化工具链。本仓库是 **整合层（缝合工）**：在两位优秀开源作者的作品之上，做婚礼现场的导出、导入、实时同步与可选云端备份。
 
 **English:** Integration fork — **wedding seating planner** + **log-lottery** with Excel export, `postMessage` bridge, and optional live sync. Local-first; optional cloud when you self-host the API.
 
+---
+
+## 致谢 / Acknowledgments
+
+**本仓库的核心能力来自上游开源项目，我们在此向原作者致以诚挚感谢。** 排座界面与拖拽体验、抽奖 3D 与大屏逻辑，均非本仓库从零编写；我们主要维护两者之间的数据格式、桥接协议、现场文档与部署示例。使用或 Fork 本仓库时，请同时了解并支持下列作者。
+
+### 婚礼排座 — [Ajdin Catic](https://github.com/ajdincatic) · [wedding-seats](https://github.com/ajdincatic/wedding-seats)
+
+感谢 **Ajdin** 开源了优雅好用的婚礼排座工具（Next.js、拖拽排桌、多语言、PDF/CSV 导出等）。我们在此基础上扩展了云端同步、宾客 Excel 导入预览，以及与抽奖系统的联动。
+
+| | |
+|---|---|
+| **官网 / 演示** | [weddingseats.app](https://weddingseats.app) · [Vercel 演示](https://wedding-seating-plan-pearl.vercel.app/) |
+| **许可** | MIT |
+| **支持原作者** | [Buy Me a Coffee — ajdin70230](https://buymeacoffee.com/ajdin70230) |
+
+排座核心体验相关的 Issue / 功能请求，请优先向 **[ajdincatic/wedding-seats](https://github.com/ajdincatic/wedding-seats)** 反馈。
+
+### 婚礼 / 年会抽奖 — [LOG1997](https://github.com/LOG1997) · [log-lottery](https://github.com/LOG1997/log-lottery)
+
+感谢 **LOG1997** 开源了成熟的 Vue 3 + Three.js 抽奖系统（奖项配置、3D 球体、IndexedDB 名单、现场大屏等）。我们在 `log-lottery/` 内维护与排座对接的补丁（一键导入、实时合并同步、抽奖端删人不被覆盖等）。
+
+| | |
+|---|---|
+| **仓库** | [github.com/LOG1997/log-lottery](https://github.com/LOG1997/log-lottery) |
+| **许可** | MIT · 默认 dev 端口 **6719**，路径 `/log-lottery/` |
+
+抽奖核心（3D、音效、奖项 UI）的 Issue / PR，请优先向 **[LOG1997/log-lottery](https://github.com/LOG1997/log-lottery)** 提交。
+
+### 本仓库的定位
+
+我们仅是 **整合与现场定制**，**核心功劳与版权归属上述作者**。完整署名、引用示例、商标说明与第三方许可见 **[ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md)** · [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+
+**English (short):** Seating from [ajdincatic/wedding-seats](https://github.com/ajdincatic/wedding-seats); lottery from [LOG1997/log-lottery](https://github.com/LOG1997/log-lottery); integration layer here. Please star and support the upstream projects.
+
+---
 | 文档 | 说明 |
 |------|------|
+| [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md) | **完整致谢**（引用格式、商标、整合范围 — 文首为摘要） |
 | [docs/USAGE.md](docs/USAGE.md) | **使用指南**（现场流程、三种联动方式） |
-| [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md) | **致谢**（上游作者、仓库链接、如何引用） |
 | [docs/PRIVACY-CHECKLIST.md](docs/PRIVACY-CHECKLIST.md) | **开源前隐私检查**（勿提交宾客名单与密钥） |
 | [docs/GITHUB-PUBLISH.md](docs/GITHUB-PUBLISH.md) | **首次推送到 GitHub**（remote、log-lottery、CI） |
 | [docs/INTEGRATION.md](docs/INTEGRATION.md) | 排座 ↔ 抽奖 `postMessage` 协议 |
@@ -45,6 +81,7 @@
 
 ## 目录
 
+- [致谢 / Acknowledgments](#致谢--acknowledgments)
 - [架构速写](#架构速写)
 - [界面预览](#界面预览)
 - [开源与隐私](#开源与隐私)
@@ -62,7 +99,6 @@
 - [部署提示](#部署提示)
 - [常见问题](#常见问题)
 - [品牌化](#品牌化)
-- [致谢与开源上游](#致谢与开源上游)
 - [License](#license)
 
 ---
@@ -362,19 +398,6 @@ npm start
 
 ---
 
-## 致谢与开源上游
-
-**完整致谢（作者 GitHub、官网、如何支持原作者、本仓库整合范围）见 [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md)。**
-
-摘要：
-
-- **排座：** [ajdincatic/wedding-seats](https://github.com/ajdincatic/wedding-seats) · [weddingseats.app](https://weddingseats.app) · [Buy Me a Coffee](https://buymeacoffee.com/ajdin70230)
-- **抽奖：** [LOG1997/log-lottery](https://github.com/LOG1997/log-lottery)（MIT，Vue 3 + Three.js，dev 端口 **6719**）
-
-我们仅是整合与现场定制，**核心功劳归上述作者**。
-
----
-
 ## License
 
-[MIT](LICENSE) — 整合层代码。上游项目各自遵循其仓库中的许可证；再分发时请保留 [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md) 中的署名。
+[MIT](LICENSE) — 整合层代码。上游项目各自遵循其仓库中的许可证；再分发时请保留文首 **[致谢](#致谢--acknowledgments)** 与 [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md) 中的署名。
