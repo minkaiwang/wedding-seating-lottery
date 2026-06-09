@@ -24,9 +24,28 @@
 
 ---
 
+## 界面预览
+
+本地开发（`npm run dev:stack`）下的界面示例；开源默认品牌为「示例新人」，Fork 后请改 `brand.ts`。
+
+| 首页 | 宾客管理 |
+|:---:|:---:|
+| ![排座首页](docs/screenshots/home.png) | ![宾客页](docs/screenshots/guests.png) |
+| 排座 | 预览与导出 |
+| ![排座页](docs/screenshots/seating.png) | ![预览导出](docs/screenshots/preview.png) |
+
+**抽奖（log-lottery）主页：**
+
+![抽奖主页](docs/screenshots/lottery-home.png)
+
+**English:** Screenshots from a local dev stack (empty demo data). Replace placeholder names in `brand.ts` after forking. Regenerate with `node scripts/capture-readme-screenshots.mjs` while `dev:stack` is running.
+
+---
+
 ## 目录
 
 - [架构速写](#架构速写)
+- [界面预览](#界面预览)
 - [开源与隐私](#开源与隐私)
 - [本地数据、跨浏览器与备份](#本地数据跨浏览器与备份)
 - [婚礼或正式发布前自检](#婚礼或正式发布前自检)
@@ -240,6 +259,7 @@ Prisma + SQLite（可换数据库）保存方案副本；`/sync` 支持登录后
 | `npm run verify` | 排座 lint + build |
 | `npm run verify:stack` | 排座 + `log-lottery` 校验（需存在子目录） |
 | `npm run verify:ci` / `verify:lottery:ci` | CI 等价校验（见 [`scripts/engine-strict-run.mjs`](scripts/engine-strict-run.mjs)） |
+| `node scripts/capture-readme-screenshots.mjs` | 本地 `dev:stack` 运行时抓取 README 截图到 `docs/screenshots/`（需一次性 `npx playwright install chromium`） |
 
 ---
 
