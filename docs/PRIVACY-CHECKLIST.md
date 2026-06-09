@@ -41,7 +41,7 @@ git grep -i "你的姓名|朋友|@qq|@163|1[3-9][0-9]{9}" -- . ":!node_modules"
 | 博客作者 | `src/app/(main)/blog/**/layout.tsx` | 勿写真实新人全名 |
 | 弹窗窗口名 | `src/lib/lotteryBridge.ts` | 勿用姓名缩写（已改为通用名） |
 | 演示 URL | `README.md` | 若 pearl.vercel.app 曾部署 **你的** 真实数据，勿在文档中宣传该实例；可只链上游 [weddingseats.app](https://weddingseats.app) |
-| 结构化数据 | `src/app/page.tsx` | 检查 `aggregateRating` 等是否为真实统计（示例数据应删除或改为中性描述） |
+| 结构化数据 | `src/app/page.tsx` | 已移除示例 `aggregateRating`；勿添加虚假评分 |
 
 ---
 

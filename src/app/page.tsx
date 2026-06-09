@@ -29,13 +29,6 @@ export default function Home() {
         "applicationCategory": "LifestyleApplication",
         "operatingSystem": "Web Browser",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "ratingCount": "1247",
-          "bestRating": "5",
-          "worstRating": "1"
-        },
         "description":
           `${SEATING_APP_NAME_ZH}：支持拖拽排桌，提供简体中文等六种语言界面，可导出 PDF、CSV、JSON，无需注册。`,
         "screenshot": "https://weddingseats.app/screenshot-1.png",
@@ -62,13 +55,6 @@ export default function Home() {
       "applicationCategory": "LifestyleApplication",
       "operatingSystem": "Web Browser",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "ratingCount": "1247",
-        "bestRating": "5",
-        "worstRating": "1"
-      },
       "description":
         `${SEATING_APP_NAME_EN}: drag-and-drop seating planner in six languages. Export to PDF, CSV, or JSON. No registration required.`,
       "screenshot": "https://weddingseats.app/screenshot-1.png",

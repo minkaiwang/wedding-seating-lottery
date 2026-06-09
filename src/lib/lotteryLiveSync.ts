@@ -4,6 +4,8 @@ import { getLotteryImportPageUrl, getLotteryPostMessageTargetOrigin } from '@/li
 
 /** 与抽奖端 `weddingSeatingLiveSync.ts` 一致 */
 export const LOTTERY_MSG_LIVE_SYNC = 'WEDDING_SEATING_SYNC';
+/** 抽奖 iframe 挂载 listener 后向排座父页发送，避免首包在 Vue 就绪前丢失 */
+export const LOTTERY_MSG_LIVE_SYNC_READY = 'WEDDING_SEATING_SYNC_READY';
 
 const STORAGE_KEY = 'weddingSeats:lotteryLiveSync';
 
@@ -50,6 +52,34 @@ export function registerLotteryLiveSyncTarget(win: Window | null): void {
 
 export function unregisterLotteryLiveSyncTarget(): void {
   syncTargetWindow = null;
+}
+
+/** 监听 iframe 内抽奖页 READY；返回取消函数 */
+export function listenLotteryLiveSyncReady(onReady: () => void): () => void {
+  if (typeof window === 'undefined') return () => {};
+  const targetOrigin = getLotteryPostMessageTargetOrigin();
+  function onMessage(e: MessageEvent) {
+    if (e.origin !== targetOrigin) return;
+    if (e.data?.type !== LOTTERY_MSG_LIVE_SYNC_READY) return;
+    onReady();
+  }
+  window.addEventListener('message', onMessage);
+  return () => window.removeEventListener('message', onMessage);
+}
+
+/** 首次同步：立即推送 + 短延迟重试，应对 iframe load 早于 Vue listener 的竞态 */
+export function postLotteryLiveSyncWithRetry(
+  guests: Guest[],
+  tables: Table[],
+  delaysMs: number[] = [0, 600, 1800],
+): void {
+  for (const ms of delaysMs) {
+    if (ms === 0) {
+      postLotteryLiveSync(guests, tables);
+    } else {
+      window.setTimeout(() => postLotteryLiveSync(guests, tables), ms);
+    }
+  }
 }
 
 /**

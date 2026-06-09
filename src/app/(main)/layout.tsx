@@ -20,7 +20,8 @@ import LotteryLiveSyncIframe from '@/components/LotteryLiveSyncIframe';
 import { LOTTERY_APP_NAME_ZH, SEATING_APP_NAME_ZH } from '@/lib/brand';
 import {
   createLotteryLiveSyncScheduler,
-  postLotteryLiveSync,
+  listenLotteryLiveSyncReady,
+  postLotteryLiveSyncWithRetry,
   readLotteryLiveSyncEnabled,
   writeLotteryLiveSyncEnabled,
 } from '@/lib/lotteryLiveSync';
@@ -310,8 +311,14 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   };
 
   const flushLotteryLiveSyncFromRefs = useCallback(() => {
-    postLotteryLiveSync(guestsRef.current, tablesRef.current);
+    postLotteryLiveSyncWithRetry(guestsRef.current, tablesRef.current);
   }, []);
+
+  useEffect(() => {
+    if (!lotteryLiveSync) return;
+    const flush = () => postLotteryLiveSyncWithRetry(guestsRef.current, tablesRef.current);
+    return listenLotteryLiveSyncReady(flush);
+  }, [lotteryLiveSync]);
 
   // Update HTML lang attribute and localStorage when language changes
   useEffect(() => {

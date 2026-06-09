@@ -14,9 +14,8 @@ export const DEFAULT_WEDDING_SEATING_ORIGINS: readonly string[] = [
 
 export function allowedWeddingSeatingOrigins(): string[] {
     const raw = (import.meta.env.VITE_WEDDING_SEATING_ORIGINS as string | undefined)?.trim()
-    if (raw) {
-        const list = raw.split(',').map(s => s.trim()).filter(Boolean)
-        return [...new Set(list)]
-    }
-    return [...DEFAULT_WEDDING_SEATING_ORIGINS]
+    const fromEnv = raw
+        ? raw.split(',').map(s => s.trim()).filter(Boolean)
+        : []
+    return [...new Set([...DEFAULT_WEDDING_SEATING_ORIGINS, ...fromEnv])]
 }

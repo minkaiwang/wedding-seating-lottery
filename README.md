@@ -15,6 +15,7 @@
 | [docs/PRIVACY-CHECKLIST.md](docs/PRIVACY-CHECKLIST.md) | **开源前隐私检查**（勿提交宾客名单与密钥） |
 | [docs/GITHUB-PUBLISH.md](docs/GITHUB-PUBLISH.md) | **首次推送到 GitHub**（remote、log-lottery、CI） |
 | [docs/INTEGRATION.md](docs/INTEGRATION.md) | 排座 ↔ 抽奖 `postMessage` 协议 |
+| [SECURITY.md](SECURITY.md) | 安全报告、部署与 `/sync` 模型 |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | 贡献与 Issue 该发哪个仓库 |
 | [ROADMAP.md](ROADMAP.md) | 后续规划 |
 
@@ -52,6 +53,7 @@
 - [快速开始](#快速开始)
 - [功能概览](#功能概览)
 - [与抽奖联动](#与抽奖联动)
+- [排座 ↔ 抽奖 逻辑说明](#排座--抽奖-逻辑说明)
 - [可选云端 API](#可选云端-api)
 - [仓库布局与获取 log-lottery](#仓库布局与获取-log-lottery)
 - [环境变量](#环境变量)
@@ -147,27 +149,38 @@ flowchart LR
 
 ## 快速开始
 
-**仅排座（不克隆抽奖子项目时）：**
+### 仅排座（无 `log-lottery/` 时）
 
 ```bash
 npm install
-cp .env.example .env
+cp .env.example .env    # Windows: Copy-Item .env.example .env
 npm run dev
 ```
 
-Windows PowerShell 可使用：`Copy-Item .env.example .env`。若暂不使用云端同步，`.env` 可保持示例中的占位；仅当需要 `/sync`、登录与 `/api/plan` 时再配置数据库与密钥（见「环境变量」）。
+浏览器打开 [http://localhost:3000](http://localhost:3000)。若暂不使用云端同步，`.env` 可保持占位；需要 `/sync` 时再配置数据库与 `JWT_SECRET`（见「环境变量」）。首次启用云端：`npm run db:init`。
 
-浏览器打开 [http://localhost:3000](http://localhost:3000)。首次启用云端同步时执行 `npm run db:init`（初始化 Prisma + SQLite，详见 `.env.example`）。
+### 排座 + 抽奖（推荐）
 
-**排座 + 抽奖同时开发：** 请先将 [LOG1997/log-lottery](https://github.com/LOG1997/log-lottery) 放到仓库根目录的 **`log-lottery/`** 下（见下节），然后：
+本 fork 已内置 **`log-lottery/`**。完整本地栈：
 
 ```bash
+npm install
+npm install --prefix log-lottery    # 生成子项目 lockfile，CI 需要
+cp .env.example .env
+# 可选: Copy-Item log-lottery/.env.example log-lottery/.env
 npm run dev:stack
 ```
 
-默认抽奖开发服务为 `http://localhost:6719`，与 `NEXT_PUBLIC_LOTTERY_IMPORT_URL` 缺省值一致。
+| 服务 | 默认地址 |
+|------|----------|
+| 排座 | http://localhost:3000 |
+| 抽奖 | http://localhost:6719/log-lottery/home |
 
-**Node：** 根项目要求 **≥ 20**（见 `package.json`）。上游 `log-lottery` 可能要求更高版本；若 `verify:stack` 在子项目安装阶段报错，请按其仓库 `engines` 升级 Node。
+`dev:stack` 使用 `concurrently` 并行启动 Next.js 与 Vite；抽奖 **strictPort: true**，6719 被占用时会失败而非静默换端口。
+
+**Node：** 根项目 **≥ 20**。子项目若报 engines 错误，按其 `package.json` 升级 Node。
+
+**上游 log-lottery 说明：** 子目录上游包管理器为 pnpm；本仓库 CI 与文档以 **npm + `log-lottery/package-lock.json`** 为准。
 
 ---
 
@@ -183,7 +196,10 @@ npm run dev:stack
 
 ### 云端同步（可选）
 
-Prisma + SQLite（可换数据库）保存方案副本；`/sync` 支持登录后与本地比对、拉取 / 推送。详见 `.env.example` 与 `npm run db:init`。
+Prisma + SQLite（可换数据库）保存方案副本；`/sync` 支持登录后与本地比对、拉取 / 推送。
+
+- 默认管理员：**`admin`** / seed 密码 **`88888888`**（未设 `ADMIN_PASSWORD` 时；**生产务必修改**）
+- 详见 `.env.example` 与 `npm run db:init`；安全模型见 [SECURITY.md](SECURITY.md)
 
 ---
 
@@ -193,11 +209,46 @@ Prisma + SQLite（可换数据库）保存方案副本；`/sync` 支持登录后
 
 | 方式 | 说明 |
 |------|------|
-| **导出 Excel** | 列与 `log-lottery` 人员名单模板一致（如 uid、name、department、identity），在抽奖端文件导入 |
-| **预览页一键导入** | 使用带 `?lottery=1` 的预览流程，通过 `postMessage` 与「人员名单」页握手（`src/lib/lotteryBridge.ts`） |
-| **宾客页实时同步** | 隐藏 iframe 合并推送名单；抽奖端单独删除的未到场宾客 **不会恢复**（见 [docs/USAGE.md](docs/USAGE.md) §4.3） |
+| **导出 Excel** | 列含 `uid`, `plannerGuestId`, `name`, `department`, `identity`；在抽奖端文件导入（全量替换） |
+| **预览页一键导入** | `postMessage` bridge 弹窗；`/preview?lottery=1` 可自动触发 |
+| **宾客页实时同步** | 隐藏 iframe 合并推送；抽奖端单独删除的未到场宾客 **不会恢复** |
 
-生产环境请将 **`NEXT_PUBLIC_LOTTERY_IMPORT_URL`** 设为线上抽奖站点「人员名单」页的完整 URL（origin 需与抽奖部署一致，否则 `postMessage` 会被浏览器拦截）。
+生产环境请将 **`NEXT_PUBLIC_LOTTERY_IMPORT_URL`** 设为线上抽奖「人员名单」页完整 URL；抽奖端配置 **`VITE_WEDDING_SEATING_ORIGINS`** 含排座 HTTPS origin（与默认值 **合并**）。详见 [docs/INTEGRATION.md](docs/INTEGRATION.md)。
+
+---
+
+## 排座 ↔ 抽奖 逻辑说明
+
+```mermaid
+sequenceDiagram
+  participant S as 排座 Next.js
+  participant L as log-lottery
+  Note over S,L: 一键导入 Bridge（全量）
+  S->>L: window.open(?bridge=1&from=origin)
+  L->>S: LOG_LOTTERY_IMPORT_BRIDGE_READY
+  S->>L: WEDDING_SEATING_IMPORT persons
+  L->>L: reset + clearSyncExclusions
+  L->>S: WEDDING_SEATING_IMPORT_DONE
+  Note over S,L: 实时同步（合并）
+  S->>L: iframe ?liveSync=1&embed=1
+  L->>S: WEDDING_SEATING_SYNC_READY
+  S->>L: WEDDING_SEATING_SYNC seq persons
+  L->>L: mergeFromSeatingPlanner 保留中奖/排除
+```
+
+| 概念 | 行为 |
+|------|------|
+| **数据隔离** | 排座 `localStorage` 与抽奖 IndexedDB **不共享**；需 Excel / bridge / sync 传递 |
+| **Bridge** | **全量替换**；清空抽奖端「同步排除列表」；READY 时重新读取最新宾客快照 |
+| **Live sync** | **合并**；按 `plannerGuestId` 匹配；保留 `isWin`；抽奖端 `deletePerson` 写入排除键 |
+| **Excel 导入** | 与 bridge 一样全量替换，并清空排除列表 |
+| **空 payload 保护** | 排座仍有宾客时，异常空 sync **不会** 清空抽奖名单与中奖记录 |
+| **IndexedDB 竞态** | 合并/导入后忽略迟到的 DB hydration，避免名单被旧缓存覆盖 |
+| **Legacy 去重** | Excel 导入后再 sync 时，按姓名+桌+标签升级旧行并写入 `plannerGuestId` |
+
+现场选型建议：**彩排后期仍改名单** → 实时同步；**定稿后不再改** → 一键导入或 Excel；**不要** 在需要「抽奖端删未到场」的同时又频繁全量 bridge，否则删人记录会被覆盖。
+
+用户向步骤见 [docs/USAGE.md](docs/USAGE.md)；协议字段见 [docs/INTEGRATION.md](docs/INTEGRATION.md)。
 
 ---
 
@@ -241,9 +292,12 @@ Prisma + SQLite（可换数据库）保存方案副本；`/sync` 支持登录后
 | 变量 | 说明 |
 |------|------|
 | `DATABASE_URL` | Prisma 连接串；默认本地 SQLite（路径相对 `prisma/schema.prisma`） |
-| `JWT_SECRET` | **生产环境必填**，会话签名用随机长字符串 |
-| `ADMIN_PASSWORD` | 可选；配合 seed 的管理员密码（见 `.env.example`） |
-| `NEXT_PUBLIC_LOTTERY_IMPORT_URL` | 抽奖「人员名单」页完整 URL；一键导入与 iframe 同步依赖正确的 origin |
+| `JWT_SECRET` | **生产 `/sync` 必填**（≥32 字符随机串）；本地可省略（开发 fallback） |
+| `ADMIN_PASSWORD` | 可选；seed 管理员密码（见 `.env.example`） |
+| `NEXT_PUBLIC_LOTTERY_IMPORT_URL` | 抽奖「人员名单」页完整 URL；**修改后需重新 build** |
+| `COOKIE_SECURE` / `COOKIE_INSECURE` | 反向代理 / HTTP 环境下 Cookie 行为（见 `src/lib/auth-session.ts`） |
+
+抽奖端 **`VITE_WEDDING_SEATING_ORIGINS`** 等见 [`log-lottery/.env.example`](log-lottery/.env.example)。
 
 ---
 
@@ -251,7 +305,8 @@ Prisma + SQLite（可换数据库）保存方案副本；`/sync` 支持登录后
 
 | 命令 | 作用 |
 |------|------|
-| `npm run dev` | 仅排座开发（Turbopack） |
+| `npm run dev` | 仅排座开发 |
+| `npm run dev:3001` / `dev:3002` | 排座备用端口（抽奖 origin 白名单已含） |
 | `npm run dev:stack` | 排座 + `log-lottery` 并行开发 |
 | `npm run clean:next` | 清除 `.next` / `log-lottery/dist`（改 `brand.ts` 后顶栏仍显示旧姓名时用） |
 | `npm run db:init` | `prisma db push` + seed |
@@ -286,12 +341,18 @@ npm start
 
 | 现象 | 建议 |
 |------|------|
-| 一键导入 / 实时同步无反应 | 确认抽奖端已启动且 `NEXT_PUBLIC_LOTTERY_IMPORT_URL` 的 **origin** 与实际打开的抽奖页一致（含协议与端口）。 |
-| 本地抽奖连不上 | 默认抽奖 dev 端口为 **6719**；若改过端口或 `base`，同步修改环境变量。 |
-| `/sync` 或登录报错 | 检查 `DATABASE_URL`、`JWT_SECRET`；首次部署执行 schema 同步（如 `prisma db push` 或团队约定的 migrate 流程）。 |
-| CI 中 lottery 失败 | 确认仓库中包含 **`log-lottery/`** 且 `package-lock.json` 与子项目一致；或本次变更未触及 `log-lottery` 时仅跑排座校验。 |
-| `next build` 提示 lockfile / swc / `patching`（常见于 Windows） | 若最终仍显示 **Compiled successfully** / **✓**，构建视为成功；警告来自 Next 尝试自动修补 lockfile。若需消除提示，可尝试删除 `node_modules` 后重新执行 `npm ci` 或 `npm install`（勿随手删 `package-lock.json` 除非你清楚后果）。 |
-| 换浏览器后排座空了 | 属正常现象：`localStorage` 不跨浏览器。请用预览页 **导入之前的 JSON 备份**，参见「本地数据、跨浏览器与备份」。 |
+| 一键导入 / 实时同步无反应 | 确认抽奖已启动；`NEXT_PUBLIC_LOTTERY_IMPORT_URL` 的 **origin** 与实际抽奖页一致；抽奖端 `VITE_WEDDING_SEATING_ORIGINS` 含排座 origin |
+| 一键导入 25 s 超时 | 弹窗被拦、抽奖未 READY、或零个有效姓名；允许弹窗或改用 Excel |
+| 实时同步开启后首包仍空 | 刷新宾客页重开同步；或 `localStorage.setItem('logLottery:liveSyncDebug','1')` 看抽奖端日志 |
+| 抽奖删的人又回来了 | 是否用了 bridge/Excel **全量覆盖**；实时同步合并版才会记住抽奖端删除 |
+| 同一个人在抽奖出现两次 | 先 Excel（无 `plannerGuestId`）再 sync；改用含该列导出或 bridge 全量导入 |
+| 本地抽奖连不上 | 默认端口 **6719**；`strictPort` 下占用即启动失败 |
+| `/sync` 或登录报错 | 检查 `DATABASE_URL`、`JWT_SECRET`；首次 `npm run db:init` |
+| 登录 HTTP 429 | 失败次数过多被限流，等待 `Retry-After` |
+| 改 env 后联动仍不对 | `NEXT_PUBLIC_*` / `VITE_*` 需 **npm run build** 后部署，非仅 restart |
+| CI 中 lottery 失败 | 确认 `log-lottery/package-lock.json` 存在且与子项目依赖一致 |
+| `next build` lockfile / swc 警告（Windows） | 若最终 **Compiled successfully**，可忽略；或重装 `node_modules` |
+| 换浏览器后排座空了 | 用预览页 **导入 JSON 备份** |
 
 ---
 

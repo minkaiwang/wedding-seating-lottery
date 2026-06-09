@@ -18,11 +18,13 @@
 
 ```bash
 npm install
-cp .env.example .env
-# 可选：克隆 log-lottery 到 ./log-lottery
+npm install --prefix log-lottery   # 子项目 lockfile，CI 需要
+cp .env.example .env               # Windows: Copy-Item .env.example .env
 npm run dev:stack
 npm run verify:stack
 ```
+
+修改 `NEXT_PUBLIC_*` 或 `VITE_*` 后需 **重新 build** 才能生效。子项目上游使用 pnpm，本仓库以 **npm** 为准。
 
 ## PR 要求
 

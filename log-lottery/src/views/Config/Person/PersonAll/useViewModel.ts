@@ -11,6 +11,7 @@ import i18n from '@/locales/i18n'
 import useStore from '@/store'
 import { addOtherInfo } from '@/utils'
 import { readFileBinary, readLocalFileAsArraybuffer } from '@/utils/file'
+import { clearSyncExclusions } from '@/utils/seatingSyncExclusions'
 import { tableColumns } from './columns'
 import ImportExcelWorker from './importExcel.worker?worker'
 
@@ -63,6 +64,7 @@ export function useViewModel({ exportInputFileRef }: { exportInputFileRef: Ref<H
         if (worker) {
             worker.onmessage = (e) => {
                 if (e.data.type === 'done') {
+                    clearSyncExclusions()
                     personConfig.resetPerson()
                     personConfig.addNotPersonList(e.data.data)
                     // 提示导入成功

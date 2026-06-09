@@ -18,12 +18,21 @@ export const usePersonConfig = defineStore('person', () => {
         allPersonList: [] as IPersonConfig[],
         alreadyPersonList: [] as IPersonConfig[],
     })
-    personDb.getDataSortedByDateTime('allPersonList', 'createTime').then((data) => {
-        personConfig.value.allPersonList = data
+    /** 防止 IndexedDB 异步 hydration 覆盖 merge / 导入后的内存状态 */
+    let suppressDbHydration = false
+    Promise.all([
+        personDb.getDataSortedByDateTime('allPersonList', 'createTime'),
+        personDb.getAllData('alreadyPersonList'),
+    ]).then(([all, already]) => {
+        if (!suppressDbHydration) {
+            personConfig.value.allPersonList = all
+            personConfig.value.alreadyPersonList = already
+        }
     })
-    personDb.getAllData('alreadyPersonList').then((data) => {
-        personConfig.value.alreadyPersonList = data
-    })
+
+    function markPersonStoreWritten() {
+        suppressDbHydration = true
+    }
 
     // NOTE: getter
     // 获取全部配置
@@ -59,6 +68,7 @@ export const usePersonConfig = defineStore('person', () => {
         if (personList.length <= 0) {
             return
         }
+        markPersonStoreWritten()
         personList.forEach((item: IPersonConfig) => {
             personConfig.value.allPersonList.push(item)
         })
@@ -145,6 +155,7 @@ export const usePersonConfig = defineStore('person', () => {
 
     // 删除所有人员
     function resetPerson() {
+        markPersonStoreWritten()
         personConfig.value.allPersonList = []
         personConfig.value.alreadyPersonList = []
         personDb.deleteAll('allPersonList')
@@ -168,6 +179,7 @@ export const usePersonConfig = defineStore('person', () => {
 
     /** 婚礼座位实时同步：合并名单，保留抽奖端删除记录与中奖项 */
     function mergeFromSeatingPlanner(incomingRows: Array<Record<string, unknown>>) {
+        markPersonStoreWritten()
         const exclusions = readSyncExclusions()
         const effective = incomingRows.filter((row) => {
             return !exclusions.has(seatingPersonKey({
@@ -180,13 +192,19 @@ export const usePersonConfig = defineStore('person', () => {
         })
 
         if (effective.length === 0) {
-            resetPerson()
+            if (incomingRows.length === 0)
+                resetPerson()
             return
         }
 
         const existingByKey = new Map<string, IPersonConfig>()
+        const legacyByKey = new Map<string, IPersonConfig>()
         for (const person of personConfig.value.allPersonList) {
-            existingByKey.set(seatingPersonKey(person), person)
+            const key = seatingPersonKey(person)
+            existingByKey.set(key, person)
+            if (person.plannerGuestId == null || String(person.plannerGuestId).trim() === '') {
+                legacyByKey.set(key, person)
+            }
         }
 
         const nextList: IPersonConfig[] = []
@@ -199,7 +217,19 @@ export const usePersonConfig = defineStore('person', () => {
                 department: row.department,
                 identity: row.identity,
             })
-            const existing = existingByKey.get(key)
+            let existing = existingByKey.get(key)
+            if (!existing && row.plannerGuestId != null && String(row.plannerGuestId).trim() !== '') {
+                const legacyKey = seatingPersonKey({
+                    name,
+                    department: row.department,
+                    identity: row.identity,
+                })
+                existing = legacyByKey.get(legacyKey)
+                if (existing) {
+                    existing.plannerGuestId = String(row.plannerGuestId)
+                    existingByKey.set(key, existing)
+                }
+            }
             if (existing) {
                 existing.name = name
                 existing.department = row.department != null ? String(row.department) : ''

@@ -20,6 +20,10 @@ export default function PreviewPage() {
   const printRef = useRef<HTMLDivElement>(null);
   const bridgeCleanupRef = useRef<(() => void) | null>(null);
   const lotteryAutoImportConsumedRef = useRef(false);
+  const guestsSnapshotRef = useRef(guests);
+  const tablesSnapshotRef = useRef(tables);
+  guestsSnapshotRef.current = guests;
+  tablesSnapshotRef.current = tables;
   const jsonImportRef = useRef<HTMLInputElement>(null);
   const [previewListSearch, setPreviewListSearch] = useState('');
 
@@ -125,6 +129,10 @@ export default function PreviewPage() {
     showConfirm(tr.preview.importLotteryConfirmTitle, tr.preview.importLotteryConfirmMessage, () => {
       bridgeCleanupRef.current?.();
       bridgeCleanupRef.current = startLotteryImportBridge(guests, tables, {
+        getSnapshot: () => ({
+          guests: guestsSnapshotRef.current,
+          tables: tablesSnapshotRef.current,
+        }),
         onDone: () => {
           bridgeCleanupRef.current = null;
           showAlert(tr.preview.importLotterySuccessTitle, tr.preview.importLotterySuccessMessage);

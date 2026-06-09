@@ -3,6 +3,7 @@ import { allowedWeddingSeatingOrigins } from '@/utils/weddingSeatingOrigins'
 
 /** 与婚礼座位站点 `lotteryLiveSync.ts` 中常量一致 */
 export const MSG_WEDDING_LIVE_SYNC = 'WEDDING_SEATING_SYNC'
+export const MSG_WEDDING_LIVE_SYNC_READY = 'WEDDING_SEATING_SYNC_READY'
 
 /**
  * Set `localStorage.setItem('logLottery:liveSyncDebug', '1')` on the lottery origin to log every applied sync (and stale skips) even in production.
@@ -119,16 +120,19 @@ export function setupWeddingSeatingLiveSync(): () => void {
         }
 
         if (rows.length === 0) {
-            if (meta.guestCount !== undefined && meta.guestCount > 0) {
-                liveSyncWarnMismatch('guestCount > 0 but no rows after normalize', {
+            const plannerTotal = meta.plannerGuestTotal ?? 0
+            const guestCountMeta = meta.guestCount ?? 0
+            if (guestCountMeta > 0 || plannerTotal > 0) {
+                liveSyncWarnMismatch('skip empty payload while seating still has guests (bad or transient sync)', {
                     ...meta,
                     rawPersonsLen: Array.isArray(e.data.persons) ? e.data.persons.length : undefined,
                 })
+                return
             }
             personConfig.resetPerson()
             if (hasSeq)
                 lastAppliedSeq = seq
-            liveSyncDebugApply('applied empty list', meta)
+            liveSyncDebugApply('applied empty list (intentional clear)', meta)
             return
         }
 
@@ -147,12 +151,30 @@ export function setupWeddingSeatingLiveSync(): () => void {
                 lastAppliedSeq = seq
             liveSyncDebugApply('applied', { ...meta, rowsAccepted: copy.length })
         }
-        catch {
-            // 静默失败，避免打断抽奖现场
+        catch (err) {
+            if (import.meta.env.DEV || liveSyncVerboseFlag()) {
+                console.warn('[wedding-seating-live-sync] merge failed', err)
+            }
         }
     }
 
     window.addEventListener('message', onMessage)
+
+    try {
+        const from = new URLSearchParams(window.location.search).get('from')
+        const parentOrigin = from ? new URL(from).origin : null
+        if (
+            window.parent !== window
+            && parentOrigin
+            && allowedWeddingSeatingOrigins().includes(parentOrigin)
+        ) {
+            window.parent.postMessage({ type: MSG_WEDDING_LIVE_SYNC_READY }, parentOrigin)
+        }
+    }
+    catch {
+        /* ignore malformed ?from= */
+    }
+
     return () => {
         disposed = true
         window.removeEventListener('message', onMessage)

@@ -33,6 +33,8 @@ export function startLotteryImportBridge(
     onImportRejected?: () => void;
     /** User closed the lottery window before import finished. */
     onClosedBeforeComplete?: () => void;
+    /** Re-read guests/tables when child signals READY (avoids stale snapshot if user edits while popup loads). */
+    getSnapshot?: () => { guests: Guest[]; tables: Table[] };
     timeoutMs?: number;
   },
 ): () => void {
@@ -67,13 +69,21 @@ export function startLotteryImportBridge(
   let closePoll: number | null = null;
   let timeoutId: number | undefined;
 
+  function buildPersonsForImport() {
+    if (options.getSnapshot) {
+      const snap = options.getSnapshot();
+      return buildLotteryPersonRows(snap.guests, snap.tables);
+    }
+    return persons;
+  }
+
   function onMessage(e: MessageEvent) {
     if (completed) return;
     if (e.origin !== lotteryOrigin) return;
 
     if (e.data?.type === LOTTERY_MSG_READY && !sent && child && !child.closed) {
       sent = true;
-      child.postMessage({ type: LOTTERY_MSG_IMPORT, persons }, lotteryOrigin);
+      child.postMessage({ type: LOTTERY_MSG_IMPORT, persons: buildPersonsForImport() }, lotteryOrigin);
       return;
     }
 
