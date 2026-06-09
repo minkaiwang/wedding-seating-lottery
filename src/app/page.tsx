@@ -1,134 +1,251 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Link from "next/link";
 import Script from "next/script";
-import { getTranslations, Language, languageFlags, languageNames } from '@/lib/i18n';
-import AffiliateSection from '@/components/AffiliateSection';
-
+import { COUPLE_NAMES_ZH, SEATING_APP_NAME_EN, SEATING_APP_NAME_ZH } from '@/lib/brand';
+import { getTranslations, Language, languageFlags, languageNames, SUPPORTED_LANGUAGES } from '@/lib/i18n';
 export default function Home() {
-  const [language, setLanguage] = useState<Language>('en');
+  const [language, setLanguage] = useState<Language>('zh');
   const [showLangMenu, setShowLangMenu] = useState(false);
   const t = getTranslations(language);
 
-  const languages: Language[] = ['en', 'hr', 'es', 'de', 'fr'];
+  const languages = SUPPORTED_LANGUAGES;
 
-  // Structured data for SEO
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "WeddingSeats - Free Wedding Seating Planner",
-    "applicationCategory": "LifestyleApplication",
-    "operatingSystem": "Web Browser",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "ratingCount": "1247",
-      "bestRating": "5",
-      "worstRating": "1"
-    },
-    "description": "Free wedding seating planner with drag & drop functionality. Plan your wedding table arrangement in 5 languages (English, Croatian, Spanish, German, French). Export to PDF, CSV, or JSON. No registration required.",
-    "screenshot": "https://weddingseats.app/screenshot-1.png",
-    "softwareVersion": "1.0",
-    "inLanguage": ["en", "hr", "es", "de", "fr"],
-    "featureList": [
-      "Drag and drop guest seating",
-      "Multiple table types (round, rectangular)",
-      "Auto-assign guests by tags",
-      "Visual room layout planning",
-      "Export to PDF, CSV, JSON",
-      "Multi-language support (5 languages)",
-      "Local storage - complete privacy",
-      "No registration required"
-    ],
-    "browserRequirements": "Requires JavaScript. Modern web browser recommended.",
-    "availableOnDevice": ["Desktop", "Tablet", "Mobile"]
-  };
+  useEffect(() => {
+    try {
+      localStorage.setItem('preferredLanguage', language);
+    } catch {
+      /* ignore quota / private mode */
+    }
+  }, [language]);
 
-  const organizationData = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "WeddingSeats",
-    "url": "https://weddingseats.app",
-    "logo": "https://weddingseats.app/icon.svg",
-    "description": "Provider of free wedding planning tools and seating arrangement software",
-    "sameAs": [
-      "https://twitter.com/weddingseats",
-      "https://facebook.com/weddingseats",
-      "https://instagram.com/weddingseats"
-    ]
-  };
+  const structuredData = useMemo(() => {
+    if (language === 'zh') {
+      return {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": SEATING_APP_NAME_ZH,
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "Web Browser",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "ratingCount": "1247",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "description":
+          `${SEATING_APP_NAME_ZH}：支持拖拽排桌，提供简体中文等六种语言界面，可导出 PDF、CSV、JSON，无需注册。`,
+        "screenshot": "https://weddingseats.app/screenshot-1.png",
+        "softwareVersion": "1.0",
+        "inLanguage": ["zh", "en", "hr", "es", "de", "fr"],
+        "featureList": [
+          "拖拽安排宾客入座",
+          "圆桌与方桌等多种桌型",
+          "按标签智能分配座位",
+          "可视化宴会厅布局",
+          "导出 PDF、CSV、JSON",
+          "六种语言界面",
+          "本地存储，隐私不外传",
+          "无需注册即可使用"
+        ],
+        "browserRequirements": "需要启用 JavaScript，推荐使用现代浏览器。",
+        "availableOnDevice": ["桌面电脑", "平板", "手机"]
+      };
+    }
+    return {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": SEATING_APP_NAME_EN,
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Web Browser",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "1247",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "description":
+        `${SEATING_APP_NAME_EN}: drag-and-drop seating planner in six languages. Export to PDF, CSV, or JSON. No registration required.`,
+      "screenshot": "https://weddingseats.app/screenshot-1.png",
+      "softwareVersion": "1.0",
+      "inLanguage": ["zh", "en", "hr", "es", "de", "fr"],
+      "featureList": [
+        "Drag and drop guest seating",
+        "Multiple table types (round, rectangular)",
+        "Auto-assign guests by tags",
+        "Visual room layout planning",
+        "Export to PDF, CSV, JSON",
+        "Six-language UI",
+        "Local storage - complete privacy",
+        "No registration required"
+      ],
+      "browserRequirements": "Requires JavaScript. Modern web browser recommended.",
+      "availableOnDevice": ["Desktop", "Tablet", "Mobile"]
+    };
+  }, [language]);
 
-  const breadcrumbData = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://weddingseats.app"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Wedding Seating Planner",
-        "item": "https://weddingseats.app/seating"
-      }
-    ]
-  };
+  const organizationData = useMemo(() => {
+    const base = {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": COUPLE_NAMES_ZH,
+      "url": "https://weddingseats.app",
+      "logo": "https://weddingseats.app/icon.svg",
+    };
+    if (language === 'zh') {
+      return {
+        ...base,
+        "description": `${COUPLE_NAMES_ZH}的婚礼座位规划与婚礼抽奖相关站点。`,
+      };
+    }
+    return {
+      ...base,
+      "description": `Wedding seating and lottery tools for ${COUPLE_NAMES_ZH}.`,
+    };
+  }, [language]);
 
-  const faqData = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "Is WeddingSeats free to use?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes! WeddingSeats is completely free. There are no hidden fees, no premium features, and no registration required. All features are available to everyone at no cost."
+  const breadcrumbData = useMemo(() => {
+    if (language === 'zh') {
+      return {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "首页",
+            "item": "https://weddingseats.app"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": SEATING_APP_NAME_ZH,
+            "item": "https://weddingseats.app/seating"
+          }
+        ]
+      };
+    }
+    return {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://weddingseats.app"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": SEATING_APP_NAME_EN,
+          "item": "https://weddingseats.app/seating"
         }
-      },
-      {
-        "@type": "Question",
-        "name": "What languages does WeddingSeats support?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "WeddingSeats supports 5 languages: English, Croatian (Hrvatski), Spanish (Español), German (Deutsch), and French (Français). You can switch languages at any time using the language picker."
+      ]
+    };
+  }, [language]);
+
+  const faqData = useMemo(() => {
+    if (language === 'zh') {
+      return {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": `${SEATING_APP_NAME_ZH}免费吗？`,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "完全免费，无隐藏收费、无付费墙，无需注册即可使用全部功能。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "支持哪些语言？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "界面支持简体中文、英语、克罗地亚语、西班牙语、德语和法语，可随时在语言菜单中切换。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "可以导出座位表吗？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "可以。支持导出 PDF（便于打印）、CSV（表格软件）和 JSON（备份），均在浏览器本地即时生成。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "数据是否私密？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "数据保存在您本机的浏览器本地存储中，不会上传到我们的服务器，我们无法访问您的婚礼安排。"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "自动排座如何工作？",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "根据宾客标签（如亲友、同事等）自动创建餐桌并分配座位，将同类宾客优先聚在一起，并估算所需桌数。"
+            }
+          }
+        ]
+      };
+    }
+    return {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": `Is ${SEATING_APP_NAME_EN} free to use?`,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": `Yes. ${SEATING_APP_NAME_EN} is completely free: no hidden fees, no premium tier, and no registration.`
+          }
+        },
+        {
+          "@type": "Question",
+          "name": `What languages does ${SEATING_APP_NAME_EN} support?`,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Six languages: Chinese (Simplified), English, Croatian, Spanish, German, and French. Switch anytime from the language menu."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I export my seating plan?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! You can export your seating plan in multiple formats: PDF (for printing), CSV (for spreadsheets), and JSON (for backup). All exports are generated instantly in your browser."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my data saved and private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Your data is stored locally in your browser using localStorage. It never leaves your device and is completely private. We don't collect, store, or have access to your wedding plans."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the auto-assign feature work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The smart auto-assign feature automatically creates tables and assigns guests based on their tags (family, friends, etc.). It groups similar guests together and creates the optimal number of tables based on your guest list."
+          }
         }
-      },
-      {
-        "@type": "Question",
-        "name": "Can I export my seating plan?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes! You can export your seating plan in multiple formats: PDF (for printing), CSV (for spreadsheets), and JSON (for backup). All exports are generated instantly in your browser."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Is my data saved and private?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Your data is stored locally in your browser using localStorage. It never leaves your device and is completely private. We don't collect, store, or have access to your wedding plans."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How does the auto-assign feature work?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "The smart auto-assign feature automatically creates tables and assigns guests based on their tags (family, friends, etc.). It groups similar guests together and creates the optimal number of tables based on your guest list."
-        }
-      }
-    ]
-  };
+      ]
+    };
+  }, [language]);
 
   return (
     <>
@@ -154,17 +271,17 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqData) }}
       />
 
-      <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50">
+      <div className="min-h-screen wedding-festive-shell">
       {/* Header */}
       <header className="container mx-auto px-4 py-6">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-purple-900">💒 WeddingSeats</h1>
+          <h1 className="text-2xl font-bold text-rose-900">💒 {t.nav.siteBrand}</h1>
 
           {/* Language Switcher with Flags */}
           <div className="relative">
             <button
               onClick={() => setShowLangMenu(!showLangMenu)}
-              className="flex items-center gap-2 px-3 py-2 bg-white border-2 border-gray-200 rounded-lg hover:border-purple-400 transition-colors cursor-pointer"
+              className="flex items-center gap-2 px-3 py-2 bg-white border-2 border-rose-100 rounded-lg hover:border-amber-400/90 transition-colors cursor-pointer shadow-sm"
             >
               <span className="text-xl">{languageFlags[language]}</span>
               <span className="hidden sm:inline text-sm font-medium text-gray-700">{languageNames[language]}</span>
@@ -182,8 +299,8 @@ export default function Home() {
                       setLanguage(lang);
                       setShowLangMenu(false);
                     }}
-                    className={`w-full flex items-center gap-3 px-4 py-2 text-left hover:bg-purple-50 transition-colors cursor-pointer first:rounded-t-lg last:rounded-b-lg ${
-                      language === lang ? 'bg-purple-100 font-semibold' : ''
+                    className={`w-full flex items-center gap-3 px-4 py-2 text-left hover:bg-rose-50 transition-colors cursor-pointer first:rounded-t-lg last:rounded-b-lg ${
+                      language === lang ? 'bg-rose-100 font-semibold text-rose-900' : ''
                     }`}
                   >
                     <span className="text-xl">{languageFlags[lang]}</span>
@@ -201,7 +318,7 @@ export default function Home() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
             {t.landing.title}<br />
-            <span className="text-purple-600">{t.landing.titleHighlight}</span><br />
+            <span className="bg-gradient-to-r from-rose-600 to-amber-600 bg-clip-text text-transparent">{t.landing.titleHighlight}</span><br />
             {t.landing.titleEnd}
           </h2>
 
@@ -209,16 +326,24 @@ export default function Home() {
             {t.landing.subtitle}
           </p>
 
-          <Link
-            href="/guests"
-            className="inline-block bg-purple-600 hover:bg-purple-700 text-white text-base sm:text-lg md:text-xl font-semibold px-8 sm:px-10 md:px-12 py-3 md:py-4 rounded-full transition-all transform hover:scale-105 shadow-lg"
-          >
-            {t.landing.ctaButton}
-          </Link>
+          <div className="flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:items-center">
+            <Link
+              href="/guests"
+              className="inline-block bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-700 hover:to-rose-800 text-white text-base sm:text-lg md:text-xl font-semibold px-8 sm:px-10 md:px-12 py-3 md:py-4 rounded-full transition-all transform hover:scale-105 shadow-lg shadow-rose-200/50 text-center"
+            >
+              {t.landing.ctaButton}
+            </Link>
+            <Link
+              href="/seating"
+              className="inline-block rounded-full border-2 border-amber-500/90 bg-white px-6 py-3 text-center text-base font-semibold text-rose-800 shadow-md transition-all hover:bg-amber-50/80 sm:px-8 sm:text-lg md:py-4"
+            >
+              ✨ {t.nav.seating}
+            </Link>
+          </div>
 
           {/* Features */}
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mt-12 md:mt-16 lg:mt-20 text-left">
-            <div className="bg-white p-6 rounded-xl shadow-md">
+            <div className="bg-white/95 p-6 rounded-xl shadow-md ring-1 ring-rose-100/80">
               <div className="text-3xl mb-3">👥</div>
               <h3 className="text-lg font-semibold mb-2 text-gray-900">{t.landing.feature1Title}</h3>
               <p className="text-gray-700">
@@ -226,7 +351,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow-md">
+            <div className="bg-white/95 p-6 rounded-xl shadow-md ring-1 ring-rose-100/80">
               <div className="text-3xl mb-3">🪑</div>
               <h3 className="text-lg font-semibold mb-2 text-gray-900">{t.landing.feature2Title}</h3>
               <p className="text-gray-700">
@@ -234,7 +359,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-xl shadow-md">
+            <div className="bg-white/95 p-6 rounded-xl shadow-md ring-1 ring-amber-100/80">
               <div className="text-3xl mb-3">✨</div>
               <h3 className="text-lg font-semibold mb-2 text-gray-900">{t.landing.feature3Title}</h3>
               <p className="text-gray-700">
@@ -276,7 +401,7 @@ export default function Home() {
 
       {/* Blog Section */}
       <section className="container mx-auto px-4 py-12 max-w-4xl">
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 md:p-12">
+        <div className="rounded-2xl bg-gradient-to-r from-rose-50 via-amber-50/80 to-rose-100/60 p-8 shadow-sm ring-1 ring-rose-100/60 md:p-12">
           <div className="text-center mb-8">
             <div className="text-5xl mb-4">📝</div>
             <h2 className="text-3xl font-bold text-gray-900 mb-3">
@@ -299,7 +424,7 @@ export default function Home() {
               <p className="text-gray-700 text-sm mb-3">
                 {t.blog.post1Excerpt}
               </p>
-              <span className="text-purple-600 font-semibold text-sm">
+              <span className="text-rose-600 font-semibold text-sm">
                 {t.blog.readMore}
               </span>
             </Link>
@@ -315,7 +440,7 @@ export default function Home() {
               <p className="text-gray-700 text-sm mb-3">
                 {t.blog.post2Excerpt}
               </p>
-              <span className="text-purple-600 font-semibold text-sm">
+              <span className="text-rose-600 font-semibold text-sm">
                 {t.blog.readMore}
               </span>
             </Link>
@@ -324,7 +449,7 @@ export default function Home() {
           <div className="text-center">
             <Link 
               href="/blog"
-              className="inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+              className="inline-block rounded-lg bg-gradient-to-r from-rose-600 to-rose-700 px-6 py-3 font-semibold text-white shadow-md transition-colors hover:from-rose-700 hover:to-rose-800"
             >
               {t.blog.viewAll}
             </Link>
@@ -332,38 +457,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Buy Me a Coffee - Prominent Section */}
-      <section className="container mx-auto px-4 py-4">
-        <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl shadow-lg p-8 md:p-12 text-center border-2 border-yellow-200">
-          <div className="text-5xl mb-4">☕</div>
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
-            Enjoying WeddingSeats?
-          </h2>
-          <p className="text-base md:text-lg text-gray-700 mb-6 max-w-2xl mx-auto">
-            This tool is 100% free with no ads. If it helped you plan your special day, consider buying me a coffee to keep it running! 💜
-          </p>
-          <a
-            href="https://buymeacoffee.com/ajdin70230"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold text-lg rounded-full transition-all transform hover:scale-105 shadow-lg"
-          >
-            ☕ Buy me a coffee
-          </a>
-        </div>
-      </section>
-
-      {/* Affiliate Section */}
-      <div className="container mx-auto px-4">
-        <AffiliateSection />
-      </div>
-
       {/* Footer */}
       <footer className="container mx-auto px-4 py-12 text-center text-gray-700">
         <p className="mb-4">{t.landing.footerText}</p>
 
         <p className="mt-4 text-sm text-gray-600">
-          Keywords: {t.landing.keywords}
+          {t.landing.keywordsLabel} {t.landing.keywords}
         </p>
       </footer>
       </div>

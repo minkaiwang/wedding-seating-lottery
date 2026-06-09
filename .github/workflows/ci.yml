@@ -1,0 +1,170 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+  pull_request:
+    branches: [main, master]
+    paths-ignore:
+      - '**.md'
+      - 'LICENSE'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      wedding: ${{ steps.outputs.outputs.wedding }}
+      lottery: ${{ steps.outputs.outputs.lottery }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: outputs
+        run: |
+          set -eu
+          wedding=false
+          lottery=false
+          skip_diff=false
+
+          case "${{ github.event_name }}" in
+            workflow_dispatch)
+              wedding=true
+              lottery=true
+              skip_diff=true
+              ;;
+            pull_request)
+              base="${{ github.event.pull_request.base.sha }}"
+              head="${{ github.event.pull_request.head.sha }}"
+              ;;
+            push)
+              base="${{ github.event.before }}"
+              head="${{ github.sha }}"
+              if [ "$base" = "0000000000000000000000000000000000000000" ]; then
+                wedding=true
+                lottery=true
+                skip_diff=true
+              fi
+              ;;
+            *)
+              wedding=true
+              lottery=true
+              skip_diff=true
+              ;;
+          esac
+
+          if [ "$skip_diff" != "true" ]; then
+            # Fork (or shallow) PRs: ensure head commit exists locally (base repo advertises pull/*/head).
+            if [ "${{ github.event_name }}" = "pull_request" ]; then
+              if ! git rev-parse --verify "${head}^{commit}" >/dev/null 2>&1; then
+                pr_n="${{ github.event.pull_request.number }}"
+                git fetch --no-tags --no-recurse-submodules origin "pull/${pr_n}/head:refs/ci/pr-head" || true
+              fi
+            fi
+            if [ "${{ github.event_name }}" = "pull_request" ]; then
+              files=$(git diff --name-only "${base}...${head}" || true)
+            else
+              files=$(git diff --name-only "$base" "$head" || true)
+            fi
+            while IFS= read -r file; do
+              [ -z "$file" ] && continue
+              case "$file" in
+                log-lottery/*) lottery=true ;;
+                *) wedding=true ;;
+              esac
+            done <<< "$files"
+            # Empty or unreadable diff: do not skip all verifies (fork/shallow edge cases).
+            if [ "${wedding}" != "true" ] && [ "${lottery}" != "true" ]; then
+              wedding=true
+              lottery=true
+            fi
+          fi
+
+          echo "wedding=${wedding}" >> "$GITHUB_OUTPUT"
+          echo "lottery=${lottery}" >> "$GITHUB_OUTPUT"
+
+  verify-wedding:
+    needs: changes
+    if: needs.changes.outputs.wedding == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+      npm_config_engine_strict: 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install and verify (wedding)
+        run: |
+          npm ci
+          npm run verify:ci
+
+  verify-lottery:
+    needs: changes
+    if: needs.changes.outputs.lottery == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      npm_config_engine_strict: 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: log-lottery/package-lock.json
+
+      - name: Install and verify (log-lottery)
+        run: |
+          npm ci --prefix log-lottery
+          npm run verify:lottery:ci
+
+  # Single gate for branch protection (requires both slice jobs when both scopes changed).
+  verify-done:
+    name: Verify stack
+    needs: [changes, verify-wedding, verify-lottery]
+    if: always() && needs.changes.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Assert verify jobs
+        env:
+          W_WANT: ${{ needs.changes.outputs.wedding }}
+          L_WANT: ${{ needs.changes.outputs.lottery }}
+          W_GOT: ${{ needs.verify-wedding.result }}
+          L_GOT: ${{ needs.verify-lottery.result }}
+        run: |
+          set -eu
+          fail=0
+          if [ "${W_WANT}" != "true" ] && [ "${L_WANT}" != "true" ]; then
+            echo "::error::No verify scope matched (wedding=${W_WANT}, lottery=${L_WANT})."
+            exit 1
+          fi
+          if [ "${W_WANT}" = "true" ] && [ "${W_GOT}" != "success" ]; then
+            echo "::error::Wedding verify required but result=${W_GOT}"
+            fail=1
+          fi
+          if [ "${L_WANT}" = "true" ] && [ "${L_GOT}" != "success" ]; then
+            echo "::error::Lottery verify required but result=${L_GOT}"
+            fail=1
+          fi
+          exit "${fail}"

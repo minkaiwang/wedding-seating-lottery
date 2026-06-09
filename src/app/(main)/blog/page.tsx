@@ -1,7 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-import { useApp } from '../layout';
+import { useApp } from '@/contexts/seating-app';
 
 export default function BlogPage() {
   const { t } = useApp();
@@ -23,7 +23,7 @@ export default function BlogPage() {
             <div className="flex items-start gap-4">
               <div className="text-4xl">🚫</div>
               <div className="flex-1">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-rose-600 transition-colors">
                   {t.blog.post1Title}
                 </h2>
                 <p className="text-gray-700 mb-3">
@@ -33,7 +33,7 @@ export default function BlogPage() {
                   <span>📅 2025-10-06</span>
                   <span>⏱️ 5 min</span>
                 </div>
-                <div className="mt-3 text-purple-600 font-semibold group-hover:underline">
+                <div className="mt-3 text-rose-600 font-semibold group-hover:underline">
                   {t.blog.readMore}
                 </div>
               </div>
@@ -46,7 +46,7 @@ export default function BlogPage() {
             <div className="flex items-start gap-4">
               <div className="text-4xl">😊</div>
               <div className="flex-1">
-                <h2 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
+                <h2 className="text-2xl font-bold text-gray-900 mb-2 group-hover:text-rose-600 transition-colors">
                   {t.blog.post2Title}
                 </h2>
                 <p className="text-gray-700 mb-3">
@@ -56,7 +56,7 @@ export default function BlogPage() {
                   <span>📅 2025-10-07</span>
                   <span>⏱️ 7 min</span>
                 </div>
-                <div className="mt-3 text-purple-600 font-semibold group-hover:underline">
+                <div className="mt-3 text-rose-600 font-semibold group-hover:underline">
                   {t.blog.readMore}
                 </div>
               </div>
@@ -66,7 +66,7 @@ export default function BlogPage() {
       </div>
 
       {/* SEO Content */}
-      <section className="mt-12 bg-purple-50 rounded-xl p-8">
+      <section className="mt-12 bg-rose-50 rounded-xl p-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-4">
           {t.blog.seoTitle}
         </h2>

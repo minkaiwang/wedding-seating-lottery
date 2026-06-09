@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from 'react';
-import { useApp } from '../layout';
+import { filterTablesBySearchQuery } from '@/lib/tableListFilter';
+import { useApp } from '@/contexts/seating-app';
 
 export default function TablesPage() {
   const { tables, addTable, updateTable, deleteTable, guests, t, showConfirm } = useApp();
@@ -12,6 +13,7 @@ export default function TablesPage() {
   const [editName, setEditName] = useState('');
   const [editType, setEditType] = useState<'round' | 'rectangle'>('round');
   const [editCapacity, setEditCapacity] = useState('8');
+  const [listSearch, setListSearch] = useState('');
 
   const handleAddTable = (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,6 +63,8 @@ export default function TablesPage() {
   const getTotalAssigned = () => tables.reduce((sum, t) => sum + t.guests.length, 0);
   const getAvailableSeats = () => getTotalCapacity() - getTotalAssigned();
 
+  const filteredTables = filterTablesBySearchQuery(tables, guests, listSearch);
+
   return (
     <div className="max-w-4xl mx-auto">
       <div className="mb-6 md:mb-8">
@@ -68,6 +72,9 @@ export default function TablesPage() {
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{t.tables.title}</h1>
           <p className="text-sm md:text-base text-gray-700 mt-1">
             {t.tables.totalTables}: {tables.length} | {t.tables.capacity}: {getTotalCapacity()} | {t.tables.filled}: {getTotalAssigned()} | {t.tables.available}: {getAvailableSeats()}
+          </p>
+          <p className="mt-2 max-w-xl text-xs text-gray-600 leading-relaxed">
+            {t.common.shortcutsHint}
           </p>
         </div>
       </div>
@@ -84,7 +91,7 @@ export default function TablesPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder={t.tables.namePlaceholder}
-              className="w-full px-3 md:px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900 placeholder-gray-500"
+              className="w-full px-3 md:px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent text-gray-900 placeholder-gray-500"
             />
           </div>
 
@@ -95,7 +102,7 @@ export default function TablesPage() {
             <select
               value={type}
               onChange={(e) => setType(e.target.value as 'round' | 'rectangle')}
-              className="w-full px-3 md:px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900"
+              className="w-full px-3 md:px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent text-gray-900"
             >
               <option value="round">{t.tables.round}</option>
               <option value="rectangle">{t.tables.rectangle}</option>
@@ -112,14 +119,14 @@ export default function TablesPage() {
               max="20"
               value={capacity}
               onChange={(e) => setCapacity(e.target.value)}
-              className="w-full px-3 md:px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent text-gray-900"
+              className="w-full px-3 md:px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent text-gray-900"
             />
           </div>
 
           <div className="flex items-end sm:col-span-2 md:col-span-1">
             <button
               type="submit"
-              className="w-full px-4 md:px-6 py-2 text-sm md:text-base cursor-pointer bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-semibold"
+              className="btn-wedding-primary w-full cursor-pointer rounded-lg px-4 py-2 text-sm font-semibold transition-colors md:px-6 md:text-base"
             >
               {t.tables.addTable}
             </button>
@@ -147,7 +154,7 @@ export default function TablesPage() {
                 guests: [],
               });
             }}
-            className="px-3 md:px-4 py-2 md:py-3 cursor-pointer bg-purple-100 hover:bg-purple-200 border-2 border-purple-300 rounded-lg transition-colors text-xs md:text-sm font-semibold text-gray-900"
+            className="px-3 md:px-4 py-2 md:py-3 cursor-pointer bg-rose-100 hover:bg-rose-200 border-2 border-rose-300 rounded-lg transition-colors text-xs md:text-sm font-semibold text-gray-900"
           >
             {preset.type === 'round' ? '🔵' : '🟦'} <span className="hidden sm:inline">{preset.name}</span><span className="sm:hidden">{preset.name.split(' ')[0]}</span> ({preset.capacity})
           </button>
@@ -160,14 +167,47 @@ export default function TablesPage() {
           <h2 className="text-lg font-semibold text-gray-900">{t.tables.tableList}</h2>
         </div>
 
+        {tables.length > 0 && (
+          <div className="flex flex-col gap-2 border-b border-gray-100 px-6 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+            <input
+              type="search"
+              value={listSearch}
+              onChange={(e) => setListSearch(e.target.value)}
+              placeholder={t.tables.listSearchPlaceholder}
+              autoComplete="off"
+              className="w-full sm:max-w-xs rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:border-transparent focus:ring-2 focus:ring-rose-500"
+            />
+            <div className="flex flex-wrap items-center justify-between gap-2 sm:justify-end">
+              <p className="text-xs text-gray-600">
+                {t.tables.listShowing
+                  .replace('{shown}', String(filteredTables.length))
+                  .replace('{total}', String(tables.length))}
+              </p>
+              {listSearch.trim() !== '' && (
+                <button
+                  type="button"
+                  onClick={() => setListSearch('')}
+                  className="text-xs font-semibold text-rose-700 hover:underline"
+                >
+                  {t.seating.clearFilters}
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
         {tables.length === 0 ? (
           <div className="p-12 text-center text-gray-500">
             <p className="text-lg">{t.tables.noTables}</p>
             <p className="text-sm mt-2">{t.tables.noTablesDesc}</p>
           </div>
+        ) : filteredTables.length === 0 ? (
+          <div className="p-12 text-center text-gray-500">
+            <p>{t.tables.listNoFilterMatch}</p>
+          </div>
         ) : (
           <div className="grid md:grid-cols-2 gap-4 p-6">
-            {tables.map(table => {
+            {filteredTables.map(table => {
               const isOverCapacity = table.guests.length > table.capacity;
               const guestsList = table.guests
                 .map(gId => guests.find(g => g.id === gId)?.name)

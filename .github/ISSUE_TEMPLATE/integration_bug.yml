@@ -1,0 +1,27 @@
+name: Integration bug (seating ↔ lottery)
+description: Bridge, live sync, Excel export, or cloud sync in this repo
+title: "[integration] "
+labels: ["integration"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        For core 3D lottery or drag-and-drop seating, please use the upstream links in **New issue → Get started**.
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. npm run dev:stack\n2. …"
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Node version
+      placeholder: "20.x"
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs actual
+    validations:
+      required: true

@@ -12,11 +12,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
       alternates: {
         languages: {
-          en: `${baseUrl}/en`,
-          hr: `${baseUrl}/hr`,
-          es: `${baseUrl}/es`,
-          de: `${baseUrl}/de`,
-          fr: `${baseUrl}/fr`,
+          'zh-Hans': `${baseUrl}/?lang=zh`,
+          en: `${baseUrl}/?lang=en`,
+          hr: `${baseUrl}/?lang=hr`,
+          es: `${baseUrl}/?lang=es`,
+          de: `${baseUrl}/?lang=de`,
+          fr: `${baseUrl}/?lang=fr`,
         },
       },
     },

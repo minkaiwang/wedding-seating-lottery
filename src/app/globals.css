@@ -1,15 +1,50 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --font-sans: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "Segoe UI Mono", Consolas, monospace;
+  --background: #fffaf8;
   --foreground: #171717;
+  /* 婚礼喜庆点缀：与抽奖端 style 中的渐变呼应 */
+  --wedding-rose: #e11d48;
+  --wedding-gold: #d97706;
+  --wedding-blush: #ffe4e6;
+  --wedding-champagne: #fff7ed;
+}
+
+/* 主应用壳：浅红金渐变 + 极淡囍庆纹理（不抢眼） */
+.wedding-festive-shell {
+  position: relative;
+  isolation: isolate;
+  background-color: #fffaf8;
+  background-image:
+    radial-gradient(ellipse 130% 70% at 50% -25%, rgba(254, 205, 211, 0.55) 0%, transparent 52%),
+    radial-gradient(ellipse 90% 60% at 100% 20%, rgba(253, 230, 138, 0.22) 0%, transparent 48%),
+    radial-gradient(ellipse 90% 55% at 0% 75%, rgba(254, 215, 170, 0.2) 0%, transparent 50%),
+    linear-gradient(180deg, #fff5f5 0%, #fffbeb 38%, #fafaf9 100%);
+}
+
+.wedding-festive-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Ctext x='10' y='70' font-size='56' fill='%23be123c'%3E%E2%9D%A4%3C/text%3E%3C/svg%3E");
+  background-size: 120px 120px;
+}
+
+.wedding-festive-shell > * {
+  position: relative;
+  z-index: 1;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "Segoe UI Mono", Consolas, monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,10 +54,67 @@
   }
 }
 
+html {
+  /* 保证文档始终可纵向滚动；Modal 锁 body 时勿依赖 overflow:unset 以免残留 hidden */
+  overflow-y: auto;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background-color: rgba(251, 113, 133, 0.35);
+  color: inherit;
+}
+
+/**
+ * 主操作按钮：实色前景/背景，避免 Tailwind 类未生效或父级样式干扰时出现「白字 + 浅底」无法辨认。
+ */
+.btn-wedding-primary {
+  background-color: #be123c;
+  color: #ffffff;
+  border: 1px solid #9f1239;
+}
+
+.btn-wedding-primary:hover:not(:disabled) {
+  background-color: #9f1239;
+}
+
+.btn-wedding-primary:focus-visible {
+  outline: 2px solid #fb7185;
+  outline-offset: 2px;
+}
+
+.btn-wedding-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/** 预览 / 场地布局：桌位色块（实色，避免仅依赖 Tailwind 时白字落在浅底上） */
+.wedding-table-chip {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.wedding-table-chip--ok {
+  background-color: #be123c;
+}
+
+.wedding-table-chip--full {
+  background-color: #15803d;
+}
+
+.wedding-table-chip--over {
+  background-color: #dc2626;
+}
+
+/** 博客等大块 CTA 背景（实色） */
+.wedding-cta-block {
+  background-color: #be123c;
+  color: #ffffff;
 }
 
 @media print {
@@ -34,6 +126,12 @@ body {
     background: white !important;
   }
 
+  .wedding-festive-shell,
+  .wedding-festive-shell::before {
+    background: white !important;
+    background-image: none !important;
+  }
+
   .print-only {
     display: block !important;
   }
@@ -41,5 +139,10 @@ body {
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+  }
+
+  .pdf-avoid-break {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 }

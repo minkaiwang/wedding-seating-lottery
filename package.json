@@ -1,33 +1,71 @@
 {
   "name": "wedding-seating-plan",
   "version": "0.1.0",
-  "private": true,
+  "description": "Wedding seating planner + log-lottery integration (fork of ajdincatic/wedding-seats with bridge & optional cloud sync)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/minkaiwang/wedding-seating-lottery.git"
+  },
+  "private": false,
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "dev": "next dev",
+    "dev:lottery": "npm run dev --prefix ./log-lottery",
+    "dev:stack": "concurrently -k -n wedding,lottery -c cyan,magenta \"npm run dev\" \"npm run dev:lottery\"",
+    "clean:next": "node ./scripts/clean-next.mjs",
+    "dev:3001": "node ./node_modules/next/dist/bin/next dev -p 3001",
+    "dev:3002": "node ./node_modules/next/dist/bin/next dev -p 3002",
+    "build": "next build",
+    "build:turbo": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "verify": "npm run lint && npm run build",
+    "verify:ci": "node ./scripts/engine-strict-run.mjs run verify",
+    "verify:lottery:ci": "node ./scripts/engine-strict-run.mjs run verify --prefix ./log-lottery",
+    "verify:stack:ci": "npm run verify:ci && npm run verify:lottery:ci",
+    "verify:stack": "npm run verify && npm run verify --prefix ./log-lottery",
+    "check:publish": "node ./scripts/check-before-publish.mjs",
+    "postinstall": "prisma generate",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:init": "prisma db push && npm run db:seed",
+    "db:studio": "prisma studio"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
+    "@prisma/client": "^6.19.0",
     "@vercel/analytics": "^1.5.0",
+    "bcryptjs": "^2.4.3",
     "html2canvas": "^1.4.1",
+    "jose": "^6.0.10",
     "jspdf": "^3.0.3",
     "next": "15.5.9",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^9.2.1",
     "eslint": "^9",
-    "eslint-config-next": "15.5.4",
+    "eslint-config-next": "15.5.9",
+    "prisma": "^6.19.0",
     "tailwindcss": "^4",
+    "tsx": "^4.19.4",
     "typescript": "^5"
   }
 }

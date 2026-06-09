@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Upstream — Wedding Seats
+    url: https://github.com/ajdincatic/wedding-seats/issues
+    about: Core seating planner bugs/features
+  - name: Upstream — log-lottery
+    url: https://github.com/LOG1997/log-lottery/issues
+    about: Core lottery app bugs/features
+  - name: Acknowledgments
+    url: https://github.com/minkaiwang/wedding-seating-lottery/blob/main/ACKNOWLEDGMENTS.md
+    about: Credits and upstream links (update URL after publish)

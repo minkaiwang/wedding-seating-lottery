@@ -14,6 +14,7 @@ const eslintConfig = [
   {
     ignores: [
       "node_modules/**",
+      "log-lottery/**",
       ".next/**",
       "out/**",
       "build/**",

@@ -1,50 +1,30 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import DevToolsIndicatorZh from "@/components/DevToolsIndicatorZh";
+import { COUPLE_NAMES_ZH, SEATING_APP_NAME_ZH } from "@/lib/brand";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-  display: 'swap', // Better font loading performance
-  preload: true,
-  weight: ['400', '600', '700'], // Only load needed weights
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: 'swap',
-  preload: true,
-  weight: ['400'], // Only regular weight
-});
-
 export const metadata: Metadata = {
-  title: "Free Wedding Seating Planner | Plan Stolova Vjenčanje | Planificador Mesas Boda",
-  description: "FREE Wedding Seating Planner with Drag & Drop ✨ Plan table arrangements for your wedding in 5 languages. Export PDF, CSV. No registration needed! 🎉 Besplatno planiranje rasporeda sjedenja za vjenčanje. Planificador gratuito de mesas para bodas.",
+  title: SEATING_APP_NAME_ZH,
+  description:
+    `${SEATING_APP_NAME_ZH}：拖拽排桌、桌位与场地布局；数据保存在本机浏览器，可导出 PDF、CSV、JSON，支持多语言界面，无需注册。`,
   keywords: [
-    // English
-    "wedding seating planner", "wedding seating chart", "wedding table planner", "free wedding seating chart",
-    "wedding floor plan", "seating arrangement wedding", "wedding table layout", "wedding guest seating",
-    "wedding seating plan template", "online wedding seating planner", "drag and drop wedding seating",
-    "wedding reception seating", "wedding table arrangement", "wedding seating chart maker",
-    // Croatian
-    "raspored sjedenja vjenčanje", "plan stolova vjenčanje", "raspored sjedenja svadba", "plan stolova svadba",
-    "raspored gostiju vjenčanje", "prikaz sale vjenčanje", "organizacija vjenčanja", "raspored za vjenčanje",
-    "besplatni alat za vjenčanje", "raspored sjedenja online", "plan stolova online",
-    // Spanish
-    "planificador mesas boda", "distribución mesas boda", "plan de mesa matrimonio", "seating plan boda",
-    "organizador de mesas boda", "diseño de salon boda", "planificador asientos boda", "plan mesa boda gratis",
-    // German
-    "hochzeitssitzordnung", "tischplan hochzeit", "sitzplan hochzeit", "hochzeit tischordnung",
-    "hochzeitsplanung tische", "hochzeit sitzordnung erstellen", "tischplan hochzeit kostenlos",
-    // French
-    "plan de table mariage", "disposition tables mariage", "organisation tables mariage", "plan salle mariage",
-    "planificateur table mariage", "arrangement tables mariage", "plan de table mariage gratuit"
+    "婚礼座位表",
+    "婚宴排座",
+    "婚礼宾客座位",
+    "座位图",
+    "婚宴桌位",
+    "婚礼筹备",
+    "wedding seating planner",
+    "seating chart",
+    "wedding table planner",
+    "plan de table mariage",
+    "Hochzeitssitzordnung",
+    "planificador mesas boda",
   ],
-  authors: [{ name: "WeddingSeats Team" }],
-  creator: "WeddingSeats",
-  publisher: "WeddingSeats",
+  authors: [{ name: COUPLE_NAMES_ZH }],
+  creator: COUPLE_NAMES_ZH,
+  publisher: COUPLE_NAMES_ZH,
   metadataBase: new URL('https://wedding-seats.com'),
   alternates: {
     canonical: '/',
@@ -55,26 +35,26 @@ export const metadata: Metadata = {
   },
   manifest: '/manifest.json',
   openGraph: {
-    title: "FREE Wedding Seating Planner - Plan Your Perfect Wedding Layout ✨",
-    description: "Create your wedding seating chart in minutes! Free drag & drop tool for planning table arrangements. Export to PDF. Works in 5 languages. No sign-up required! 🎉",
+    title: `${SEATING_APP_NAME_ZH}｜拖拽排桌 · 导出 PDF`,
+    description:
+      `${SEATING_APP_NAME_ZH}：本地保存、多语言、导出 PDF/CSV，便于现场与婚庆沟通。`,
     type: "website",
-    locale: "en_US",
-    siteName: "WeddingSeats - Free Wedding Seating Planner",
+    locale: "zh_CN",
+    siteName: SEATING_APP_NAME_ZH,
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'WeddingSeats - Free Wedding Seating Planner',
+        alt: SEATING_APP_NAME_ZH,
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: "FREE Wedding Seating Planner ✨ Drag & Drop Table Planning",
-    description: "Plan your wedding seating arrangement in minutes! Free tool with drag & drop. Export PDF/CSV. 5 languages. No registration! 🎉",
+    title: SEATING_APP_NAME_ZH,
+    description: `${SEATING_APP_NAME_ZH}：拖拽排桌、本机保存、导出 PDF，支持简体中文等语言。`,
     images: ['/og-image.png'],
-    creator: '@weddingseats',
   },
   robots: {
     index: true,
@@ -102,23 +82,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="zh-Hans" suppressHydrationWarning>
       <head>
-        {/* Preconnect to external domains for faster loading */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* DNS prefetch for potential external resources */}
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
 
         {/* Multi-language support hints */}
-        <meta name="available-languages" content="en,hr,es,de,fr" />
-        <meta name="default-language" content="en" />
+        <meta name="available-languages" content="zh,en,hr,es,de,fr" />
+        <meta name="default-language" content="zh" />
       </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className="antialiased">
         {children}
         <Analytics />
+        <DevToolsIndicatorZh />
       </body>
     </html>
   );

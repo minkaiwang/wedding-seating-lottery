@@ -1,7 +1,11 @@
 "use client";
 
-import { useState } from 'react';
-import { useApp } from '../layout';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { LOTTERY_APP_NAME_ZH } from '@/lib/brand';
+import { filterTablesBySearchQuery } from '@/lib/tableListFilter';
+import { formatTableNameFromSequence, shouldSkipTableNumberFour } from '@/lib/tableNumbering';
+import { useApp } from '@/contexts/seating-app';
 import { Guest, Table } from '@/types';
 import { getTranslations } from '@/lib/i18n';
 import {
@@ -17,11 +21,17 @@ import {
   useDroppable,
 } from '@dnd-kit/core';
 
+/** 标题用深色字展示，去掉前置 🎯，避免与按钮文案完全重复 */
+function autoAssignPlainTitle(label: string): string {
+  return label.replace(/^🎯\s*/u, '').trim();
+}
+
 export default function SeatingPage() {
-  const { guests, tables, assignGuestToTable, removeGuestFromTable, addTable, t, showAlert } = useApp();
+  const { guests, tables, assignGuestToTable, removeGuestFromTable, addTable, t, language, showAlert, startUndoBatch, endUndoBatch } = useApp();
   const [activeId, setActiveId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterTag, setFilterTag] = useState('');
+  const [tableListSearch, setTableListSearch] = useState('');
   const [isAutoAssigning, setIsAutoAssigning] = useState(false);
 
   const sensors = useSensors(
@@ -41,6 +51,8 @@ export default function SeatingPage() {
 
     setIsAutoAssigning(true);
 
+    startUndoBatch();
+
     // Group guests by their primary tag (first tag or 'Mixed' if no tag)
     const guestsByGroup: { [key: string]: Guest[] } = {};
     unassigned.forEach(guest => {
@@ -52,14 +64,15 @@ export default function SeatingPage() {
     let tablesCreated = 0;
     const tableCapacity = 8;
 
+    const skipFour = shouldSkipTableNumberFour(language);
+
     // For each group, create tables and assign guests
     Object.entries(guestsByGroup).forEach(([groupName, groupGuests]) => {
       const numTablesNeeded = Math.ceil(groupGuests.length / tableCapacity);
 
       for (let i = 0; i < numTablesNeeded; i++) {
-        const tableNumber = tables.length + tablesCreated + 1;
         const tableName = groupName === 'Mixed'
-          ? `Stol ${tableNumber}`
+          ? formatTableNameFromSequence(tables.length + tablesCreated + 1, t.seating.autoAssignMixedTableName, skipFour)
           : `${groupName} ${i + 1}`;
 
         const guestsForThisTable = groupGuests.slice(i * tableCapacity, (i + 1) * tableCapacity);
@@ -81,6 +94,8 @@ export default function SeatingPage() {
       }
     });
 
+    endUndoBatch();
+
     // Show success message
     setTimeout(() => {
       const message = t.seating.autoAssignSuccess
@@ -94,11 +109,17 @@ export default function SeatingPage() {
   const unassignedGuests = guests.filter(g => !g.tableId);
   const allTags = Array.from(new Set(guests.flatMap(g => g.tags)));
 
+  const searchQ = searchTerm.trim().toLowerCase();
   const filteredGuests = unassignedGuests.filter(guest => {
-    const matchesSearch = guest.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch =
+      !searchQ ||
+      guest.name.toLowerCase().includes(searchQ) ||
+      guest.tags.some((tag) => tag.toLowerCase().includes(searchQ));
     const matchesTag = !filterTag || guest.tags.includes(filterTag);
     return matchesSearch && matchesTag;
   });
+
+  const filteredTables = filterTablesBySearchQuery(tables, guests, tableListSearch);
 
   const handleDragStart = (event: DragStartEvent) => {
     setActiveId(event.active.id as string);
@@ -106,24 +127,34 @@ export default function SeatingPage() {
 
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
+    try {
+      if (over) {
+        const guestId = active.id as string;
+        const targetId = over.id as string;
 
-    if (over) {
-      const guestId = active.id as string;
-      const targetId = over.id as string;
-
-      // Check if dropping on a table
-      const table = tables.find(t => t.id === targetId);
-      if (table) {
-        assignGuestToTable(guestId, targetId);
+        const table = tables.find(t => t.id === targetId);
+        if (table) {
+          assignGuestToTable(guestId, targetId);
+        }
       }
+    } finally {
+      setActiveId(null);
     }
-
-    setActiveId(null);
   };
 
   const handleDragCancel = () => {
     setActiveId(null);
   };
+
+  /** If drag ends without firing end (tab switch / browser quirks), release overlay so nav stays clickable. */
+  useEffect(() => {
+    const release = () => setActiveId(null);
+    const onVis = () => {
+      if (document.visibilityState === 'hidden') release();
+    };
+    document.addEventListener('visibilitychange', onVis);
+    return () => document.removeEventListener('visibilitychange', onVis);
+  }, []);
 
   const activeGuest = guests.find(g => g.id === activeId);
 
@@ -137,34 +168,48 @@ export default function SeatingPage() {
     >
       <div className="max-w-7xl mx-auto">
         <div className="mb-6 md:mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">{t.seating.title}</h1>
-              <p className="text-sm md:text-base text-gray-700">
-                {t.seating.subtitle}
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">{t.seating.title}</h1>
+          <p className="text-sm md:text-base text-gray-700">
+            {t.seating.subtitle}
+          </p>
+          <p className="mt-2 max-w-2xl text-xs text-gray-600 leading-relaxed">
+            {t.common.shortcutsHint}
+          </p>
+
+          <div className="mt-5 flex flex-col gap-3 rounded-xl border border-rose-200 bg-white/95 p-4 shadow-sm ring-1 ring-rose-100/80 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-2 text-lg font-semibold text-gray-900">
+                <span className="text-2xl leading-none" aria-hidden>
+                  🎯
+                </span>
+                <span>{autoAssignPlainTitle(t.seating.autoAssign)}</span>
+              </div>
+              <p className="mt-1.5 text-sm leading-relaxed text-gray-600">
+                {t.seating.autoAssignDesc}
               </p>
             </div>
             <button
+              type="button"
               onClick={handleAutoAssign}
               disabled={isAutoAssigning}
-              className="px-4 md:px-6 py-2 md:py-3 text-sm md:text-base cursor-pointer bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-semibold whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="btn-wedding-primary flex shrink-0 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold whitespace-nowrap shadow-sm transition-colors md:px-6 md:py-3 md:text-base"
             >
               {isAutoAssigning && (
-                <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <svg className="h-4 w-4 shrink-0 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" aria-hidden>
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
               )}
-              {t.seating.autoAssign}
+              {t.seating.autoAssignButton}
             </button>
           </div>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid lg:grid-cols-3 lg:items-stretch gap-4 md:gap-6">
           {/* Left Panel - Unassigned Guests */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl shadow-md lg:sticky lg:top-4">
-              <div className="p-3 sm:p-4 bg-purple-50 border-b">
+          <div className="lg:col-span-1 flex min-h-0 flex-col">
+            <div className="flex min-h-0 flex-1 flex-col bg-white rounded-xl shadow-md lg:sticky lg:top-20 lg:min-h-[calc(100vh-6rem)] lg:max-h-[calc(100vh-6rem)] lg:flex lg:flex-col">
+              <div className="shrink-0 p-3 sm:p-4 bg-rose-50 border-b">
                 <h2 className="text-base md:text-lg font-semibold text-gray-900 mb-3">
                   {t.seating.unassignedGuests} ({unassignedGuests.length})
                 </h2>
@@ -189,15 +234,50 @@ export default function SeatingPage() {
                     ))}
                   </select>
                 )}
+
+                <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+                  <p className="text-xs text-gray-600">
+                    {t.seating.filterShowing
+                      .replace('{shown}', String(filteredGuests.length))
+                      .replace('{total}', String(unassignedGuests.length))}
+                  </p>
+                  {(searchTerm || filterTag) && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSearchTerm('');
+                        setFilterTag('');
+                      }}
+                      className="text-xs font-semibold text-rose-700 hover:underline"
+                    >
+                      {t.seating.clearFilters}
+                    </button>
+                  )}
+                </div>
               </div>
 
-              <div className="p-3 sm:p-4 space-y-2 max-h-[400px] md:max-h-[600px] overflow-y-auto">
+              <div className="min-h-[min(50vh,28rem)] flex-1 space-y-2 overflow-y-auto p-3 sm:p-4 lg:min-h-0">
                 {filteredGuests.length === 0 ? (
-                  <p className="text-center text-gray-500 py-8">
-                    {unassignedGuests.length === 0
-                      ? t.seating.allAssigned
-                      : t.seating.noMatch}
-                  </p>
+                  <div className="text-center text-gray-500 py-8 space-y-3">
+                    {unassignedGuests.length === 0 ? (
+                      <>
+                        <p className={guests.length > 0 ? 'text-green-600 font-medium' : undefined}>
+                          {t.seating.allAssigned}
+                        </p>
+                        {guests.length > 0 && (
+                          <Link
+                            href="/preview?lottery=1"
+                            className="inline-block text-sm font-semibold text-rose-700 hover:underline"
+                            title={LOTTERY_APP_NAME_ZH}
+                          >
+                            {t.nav.previewLottery}
+                          </Link>
+                        )}
+                      </>
+                    ) : (
+                      <p>{t.seating.noMatch}</p>
+                    )}
+                  </div>
                 ) : (
                   filteredGuests.map(guest => (
                     <DraggableGuest key={guest.id} guest={guest} />
@@ -220,36 +300,71 @@ export default function SeatingPage() {
                   <p className="text-sm">{t.seating.noTablesDesc}</p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                  {tables.map(table => {
-                    const isOverCapacity = table.guests.length > table.capacity;
-                    const isFull = table.guests.length === table.capacity;
-                    const tableGuests = table.guests
-                      .map((gId: string) => guests.find(g => g.id === gId))
-                      .filter((g): g is Guest => g !== undefined);
+                <>
+                  <div className="mb-4 flex flex-col gap-2 border-b border-gray-100 pb-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                    <input
+                      type="search"
+                      value={tableListSearch}
+                      onChange={(e) => setTableListSearch(e.target.value)}
+                      placeholder={t.tables.listSearchPlaceholder}
+                      autoComplete="off"
+                      className="w-full sm:max-w-md rounded-lg border border-gray-300 px-3 py-2 text-sm text-gray-900 placeholder-gray-500 focus:border-transparent focus:ring-2 focus:ring-rose-500"
+                    />
+                    <div className="flex flex-wrap items-center justify-between gap-2 sm:justify-end">
+                      <p className="text-xs text-gray-600">
+                        {t.tables.listShowing
+                          .replace('{shown}', String(filteredTables.length))
+                          .replace('{total}', String(tables.length))}
+                      </p>
+                      {tableListSearch.trim() !== '' && (
+                        <button
+                          type="button"
+                          onClick={() => setTableListSearch('')}
+                          className="text-xs font-semibold text-rose-700 hover:underline"
+                        >
+                          {t.seating.clearFilters}
+                        </button>
+                      )}
+                    </div>
+                  </div>
 
-                    return (
-                      <DroppableTable
-                        key={table.id}
-                        table={table}
-                        guests={tableGuests}
-                        isOverCapacity={isOverCapacity}
-                        isFull={isFull}
-                        onRemoveGuest={removeGuestFromTable}
-                        t={t}
-                      />
-                    );
-                  })}
-                </div>
+                  {filteredTables.length === 0 ? (
+                    <div className="py-12 text-center text-gray-500">
+                      <p>{t.tables.listNoFilterMatch}</p>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                      {filteredTables.map((table) => {
+                        const isOverCapacity = table.guests.length > table.capacity;
+                        const isFull = table.guests.length === table.capacity;
+                        const tableGuests = table.guests
+                          .map((gId: string) => guests.find((g) => g.id === gId))
+                          .filter((g): g is Guest => g !== undefined);
+
+                        return (
+                          <DroppableTable
+                            key={table.id}
+                            table={table}
+                            guests={tableGuests}
+                            isOverCapacity={isOverCapacity}
+                            isFull={isFull}
+                            onRemoveGuest={removeGuestFromTable}
+                            t={t}
+                          />
+                        );
+                      })}
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </div>
         </div>
       </div>
 
-      <DragOverlay>
+      <DragOverlay zIndex={60} dropAnimation={null}>
         {activeGuest ? (
-          <div className="bg-purple-600 text-white px-4 py-2 rounded-lg shadow-xl font-semibold">
+          <div className="btn-wedding-primary rounded-lg px-4 py-2 text-sm font-semibold shadow-xl">
             {activeGuest.name}
           </div>
         ) : null}
@@ -260,24 +375,17 @@ export default function SeatingPage() {
 
 // Draggable Guest Component
 function DraggableGuest({ guest }: { guest: Guest }) {
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: guest.id,
   });
-
-  const style = transform
-    ? {
-        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-      }
-    : undefined;
 
   return (
     <div
       ref={setNodeRef}
-      style={style}
       {...listeners}
       {...attributes}
-      className={`p-3 bg-gray-50 border-2 border-gray-200 rounded-lg cursor-move hover:border-purple-400 hover:bg-purple-50 transition-all ${
-        isDragging ? 'opacity-50' : ''
+      className={`touch-none p-3 bg-gray-50 border-2 border-gray-200 rounded-lg cursor-grab active:cursor-grabbing hover:border-rose-400 hover:bg-rose-50 transition-colors ${
+        isDragging ? 'opacity-30' : ''
       }`}
     >
       <div className="font-semibold text-gray-900">{guest.name}</div>
@@ -286,7 +394,7 @@ function DraggableGuest({ guest }: { guest: Guest }) {
           {guest.tags.map((tag: string, idx: number) => (
             <span
               key={idx}
-              className="text-xs px-2 py-0.5 bg-purple-100 text-purple-700 rounded-full"
+              className="text-xs px-2 py-0.5 bg-rose-100 text-rose-700 rounded-full"
             >
               {tag}
             </span>
@@ -322,7 +430,7 @@ function DroppableTable({
       ref={setNodeRef}
       className={`p-4 border-2 rounded-xl transition-all min-h-[200px] ${
         isOver
-          ? 'border-purple-500 bg-purple-50 scale-105'
+          ? 'border-rose-500 bg-rose-50 scale-105'
           : isOverCapacity
           ? 'border-red-500 bg-red-50'
           : isFull
@@ -369,7 +477,7 @@ function DroppableTable({
         )}
 
         {isOver && (
-          <div className="text-sm text-purple-600 font-semibold text-center py-8 animate-pulse">
+          <div className="text-sm text-rose-600 font-semibold text-center py-8 animate-pulse">
             {t.seating.dropHere}
           </div>
         )}

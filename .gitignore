@@ -17,6 +17,9 @@
 /.next/
 /out/
 
+# log-lottery production build (may embed old brand strings until rebuilt)
+/log-lottery/dist/
+
 # production
 /build
 
@@ -32,6 +35,8 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+!log-lottery/.env.example
 
 # vercel
 .vercel
@@ -39,3 +44,29 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Prisma local DB
+/prisma/dev.db
+/prisma/dev.db-journal
+/prisma/*.db
+/prisma/*.db-journal
+
+# Guest / plan exports (never commit real wedding data)
+*.xlsx
+*.xls
+*.csv
+!**/template*.xlsx
+wedding-seating-plan*.json
+*-export.json
+*-backup.json
+
+# Local media uploads (wedding photos, lottery assets)
+/log-lottery/images/*
+!/log-lottery/images/.gitkeep
+/log-lottery/videos/*
+!/log-lottery/videos/.gitkeep
+/log-lottery/data/*
+!/log-lottery/data/.gitkeep
+
+# OS / editor
+Thumbs.db

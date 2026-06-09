@@ -1,7 +1,7 @@
 {
-  "name": "WeddingSeats - Free Wedding Seating Planner",
-  "short_name": "WeddingSeats",
-  "description": "Free wedding seating planner with drag & drop. Plan your wedding table arrangement in 5 languages. Export to PDF/CSV.",
+  "name": "示例新人的婚礼座位规划",
+  "short_name": "示例新人·座位",
+  "description": "婚礼座位规划：拖拽排桌、本地保存，导出 PDF/CSV，多语言界面。Fork 后请在 src/lib/brand.ts 修改新人姓名。",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -16,16 +16,7 @@
     }
   ],
   "categories": ["lifestyle", "utilities", "productivity"],
-  "lang": "en",
+  "lang": "zh",
   "dir": "ltr",
-  "scope": "/",
-  "screenshots": [
-    {
-      "src": "/screenshot-1.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Wedding seating planner main interface"
-    }
-  ]
+  "scope": "/"
 }
