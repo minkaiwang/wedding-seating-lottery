@@ -28,7 +28,7 @@ jobs:
       wedding: ${{ steps.outputs.outputs.wedding }}
       lottery: ${{ steps.outputs.outputs.lottery }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -104,7 +104,7 @@ jobs:
       NEXT_TELEMETRY_DISABLED: '1'
       npm_config_engine_strict: 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v6
         with:
@@ -126,7 +126,7 @@ jobs:
     env:
       npm_config_engine_strict: 'true'
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v6
         with:
