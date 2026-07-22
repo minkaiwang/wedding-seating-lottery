@@ -3,7 +3,9 @@
 import Link from 'next/link';
 import Script from 'next/script';
 import { COUPLE_NAMES_ZH, SEATING_APP_NAME_EN, SEATING_APP_NAME_ZH } from '@/lib/brand';
+import { siteUrl } from '@/lib/site-url';
 import type { Language } from '@/lib/i18n';
+import { serializeJsonLd } from '@/lib/jsonLd';
 import { useApp } from '@/contexts/seating-app';
 
 export default function BlogPost2() {
@@ -22,7 +24,6 @@ export default function BlogPost2() {
     "headline": "Kako Rasporediti Goste Da Svi Budu Srećni: Potpuni Vodič",
     "alternativeHeadline": "How to Arrange Wedding Guests So Everyone Is Happy: Complete Guide",
     "description": "Kompletni vodič za kreiranje idealnog rasporeda sedenja na venčanju. Naučite kako grupisati goste, balansirati stolove i stvoriti atmosferu u kojoj će svi uživati.",
-    "image": "https://weddingseats.app/blog-happy-guests.jpg",
     "author": {
       "@type": "Organization",
       "name": COUPLE_NAMES_ZH
@@ -32,14 +33,14 @@ export default function BlogPost2() {
       "name": SEATING_APP_NAME_ZH,
       "logo": {
         "@type": "ImageObject",
-        "url": "https://weddingseats.app/icon.svg"
+        "url": siteUrl('/icon.svg')
       }
     },
     "datePublished": "2025-10-07",
     "dateModified": "2025-10-07",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://weddingseats.app/blog/how-to-arrange-wedding-guests"
+      "@id": siteUrl('/blog/how-to-arrange-wedding-guests')
     },
     "keywords": ["wedding seating guide", "happy guests", "seating arrangement", "wedding planning", "guest arrangement", "venčanje", "srećni gosti"]
   };
@@ -49,7 +50,7 @@ export default function BlogPost2() {
       <Script
         id="article-schema"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(articleSchema) }}
       />
       
       <article className="max-w-3xl mx-auto">
@@ -802,4 +803,3 @@ export default function BlogPost2() {
     </>
   );
 }
-

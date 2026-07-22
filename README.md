@@ -1,7 +1,7 @@
 # 💒 WeddingSeats — 婚礼排座与抽奖整合
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Node >=20](https://img.shields.io/badge/node-%3E%3D20-brightgreen)](package.json)
+[![Node >=24](https://img.shields.io/badge/node-%3E%3D24-brightgreen)](package.json)
 [![Next.js 15](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
 
 面向婚礼场景的 **座位编排** 与 **抽奖（log-lottery）** 一体化工具链。本仓库是 **整合层（缝合工）**：在两位优秀开源作者的作品之上，做婚礼现场的导出、导入、实时同步与可选云端备份。
@@ -35,7 +35,7 @@
 | **仓库** | [github.com/LOG1997/log-lottery](https://github.com/LOG1997/log-lottery) |
 | **许可** | MIT · 默认 dev 端口 **6719**，路径 `/log-lottery/` |
 
-抽奖核心（3D、音效、奖项 UI）的 Issue / PR，请优先向 **[LOG1997/log-lottery](https://github.com/LOG1997/log-lottery)** 提交。
+抽奖核心（3D、抽奖流程、奖项 UI、音乐管理功能）的 Issue / PR，请优先向 **[LOG1997/log-lottery](https://github.com/LOG1997/log-lottery)** 提交；本仓库生成的内置提示音及排座联动补丁除外。
 
 ### 本仓库的定位
 
@@ -75,7 +75,7 @@
 
 ![抽奖主页](docs/screenshots/lottery-home.png)
 
-**English:** Screenshots from a local dev stack (empty demo data). Replace placeholder names in `brand.ts` after forking. Regenerate with `node scripts/capture-readme-screenshots.mjs` while `dev:stack` is running.
+**截图说明：** 图片仅用于展示本地开发栈的基础界面与空示例数据，不代表线上部署、功能验收或真实宾客名单。发布前请先检查图片中无私人照片、姓名或联系方式；若需更新，请在 `dev:stack` 运行时执行 `npm run screenshots:readme`，并人工确认生成结果后再替换。
 
 ---
 
@@ -92,7 +92,7 @@
 - [与抽奖联动](#与抽奖联动)
 - [排座 ↔ 抽奖 逻辑说明](#排座--抽奖-逻辑说明)
 - [可选云端 API](#可选云端-api)
-- [仓库布局与获取 log-lottery](#仓库布局与获取-log-lottery)
+- [仓库布局与内置 log-lottery](#仓库布局与内置-log-lottery)
 - [环境变量](#环境变量)
 - [常用脚本](#常用脚本)
 - [构建、校验与 CI](#构建校验与-ci)
@@ -109,6 +109,7 @@
 
 - **勿提交** `.env`、`prisma/dev.db`、含真实宾客的 JSON / Excel / CSV
 - **勿提交** 婚礼私人照片、抽奖自定义媒体（`log-lottery/images`、`videos` 等）
+- 抽奖端默认不连接上游远程音乐或公共弹幕服务器；当前内置提示音由本仓库生成脚本使用纯合成波形制作，不含录音或采样音乐。用户另行上传的音乐及配置的服务地址，其使用与分发授权仍由使用者自行确认
 - 修改 **`src/lib/brand.ts`** 后若界面仍显示旧姓名，执行 `npm run clean:next` 并 **重启** `npm run dev`（旧字符串会留在 `.next` 缓存里）
 - 若 Git 历史中曾误提交隐私，需清理历史后再 `push`（见隐私清单）
 
@@ -188,7 +189,7 @@ flowchart LR
 ### 仅排座（无 `log-lottery/` 时）
 
 ```bash
-npm install
+npm ci
 cp .env.example .env    # Windows: Copy-Item .env.example .env
 npm run dev
 ```
@@ -200,8 +201,8 @@ npm run dev
 本 fork 已内置 **`log-lottery/`**。完整本地栈：
 
 ```bash
-npm install
-npm install --prefix log-lottery    # 生成子项目 lockfile，CI 需要
+npm ci
+npm ci --prefix log-lottery
 cp .env.example .env
 # 可选: Copy-Item log-lottery/.env.example log-lottery/.env
 npm run dev:stack
@@ -214,7 +215,7 @@ npm run dev:stack
 
 `dev:stack` 使用 `concurrently` 并行启动 Next.js 与 Vite；抽奖 **strictPort: true**，6719 被占用时会失败而非静默换端口。
 
-**Node：** 根项目 **≥ 20**。子项目若报 engines 错误，按其 `package.json` 升级 Node。
+**Node：** 根项目与抽奖子项目均要求 **≥ 24**；CI 使用 Node 24。
 
 **上游 log-lottery 说明：** 子目录上游包管理器为 pnpm；本仓库 CI 与文档以 **npm + `log-lottery/package-lock.json`** 为准。
 
@@ -234,7 +235,7 @@ npm run dev:stack
 
 Prisma + SQLite（可换数据库）保存方案副本；`/sync` 支持登录后与本地比对、拉取 / 推送。
 
-- 默认管理员：**`admin`** / seed 密码 **`88888888`**（未设 `ADMIN_PASSWORD` 时；**生产务必修改**）
+- 开发环境默认管理员：**`admin`** / seed 密码 **`88888888`**（未设 `ADMIN_PASSWORD` 时）。生产环境 seed 会拒绝默认或少于 12 字符的密码，必须先设置强 **`ADMIN_PASSWORD`**。
 - 详见 `.env.example` 与 `npm run db:init`；安全模型见 [SECURITY.md](SECURITY.md)
 
 ---
@@ -303,21 +304,19 @@ sequenceDiagram
 
 ---
 
-## 仓库布局与获取 log-lottery
+## 仓库布局与内置 log-lottery
 
 ```
 .
 ├── src/                  # 排座 Next.js 应用（含 app/api）
 ├── prisma/               # 云端同步（可选）
-├── log-lottery/          # 抽奖子项目（需自行放入）
+├── log-lottery/          # 已内置的抽奖子项目（vendored 源码 + 本地联动补丁）
 ├── scripts/
 └── .github/workflows/
     └── ci.yml            # CI：按 diff 分别验证 wedding / lottery
 ```
 
-**获取抽奖代码：** 将 [LOG1997/log-lottery](https://github.com/LOG1997/log-lottery) 克隆为根目录下的 `log-lottery`（或 submodule / 子树）。在其目录内安装依赖；根目录的 `npm run dev:stack`、`npm run verify:stack` 依赖该路径存在。
-
-若暂时没有 `log-lottery`，仍可开发与部署排座本体；仅抽奖相关脚本及 CI 中针对 `log-lottery/*` 的校验会跳过或需在本地补齐子项目。
+**抽奖源码已内置：** `log-lottery/` 是普通目录，不是 Git submodule；安装其依赖后即可运行 `npm run dev:stack` 与 `npm run verify:stack`。它基于上游 [LOG1997/log-lottery v0.6.0-5](https://github.com/LOG1997/log-lottery/tree/v0.6.0-5) 的 vendored 快照，并含本仓库的联动补丁；完整署名与授权边界见 [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md) 和 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
 ---
 
@@ -331,6 +330,7 @@ sequenceDiagram
 | `JWT_SECRET` | **生产 `/sync` 必填**（≥32 字符随机串）；本地可省略（开发 fallback） |
 | `ADMIN_PASSWORD` | 可选；seed 管理员密码（见 `.env.example`） |
 | `NEXT_PUBLIC_LOTTERY_IMPORT_URL` | 抽奖「人员名单」页完整 URL；**修改后需重新 build** |
+| `NEXT_PUBLIC_SITE_URL` | 本仓库的公开部署 origin，用于 metadata、sitemap、robots 与结构化数据；未配置时为 `http://localhost:3000` |
 | `COOKIE_SECURE` / `COOKIE_INSECURE` | 反向代理 / HTTP 环境下 Cookie 行为（见 `src/lib/auth-session.ts`） |
 
 抽奖端 **`VITE_WEDDING_SEATING_ORIGINS`** 等见 [`log-lottery/.env.example`](log-lottery/.env.example)。
@@ -347,10 +347,10 @@ sequenceDiagram
 | `npm run clean:next` | 清除 `.next` / `log-lottery/dist`（改 `brand.ts` 后顶栏仍显示旧姓名时用） |
 | `npm run db:init` | `prisma db push` + seed |
 | `npm run db:studio` | Prisma Studio，浏览本地数据 |
-| `npm run verify` | 排座 lint + build |
-| `npm run verify:stack` | 排座 + `log-lottery` 校验（需存在子目录） |
+| `npm run verify` | 排座 lint + 单元测试 + build |
+| `npm run verify:stack` | 排座 + 内置 `log-lottery` 校验 |
 | `npm run verify:ci` / `verify:lottery:ci` | CI 等价校验（见 [`scripts/engine-strict-run.mjs`](scripts/engine-strict-run.mjs)） |
-| `node scripts/capture-readme-screenshots.mjs` | 本地 `dev:stack` 运行时抓取 README 截图到 `docs/screenshots/`（需一次性 `npx playwright install chromium`） |
+| `npm run screenshots:readme` | 本地 `dev:stack` 运行时抓取 README 截图到 `docs/screenshots/`（需一次性 `npx playwright install chromium`） |
 
 ---
 
@@ -370,6 +370,7 @@ npm start
 - **仅排座前端形态：** 无云端同步时可不配置数据库与 `JWT_SECRET`。
 - **启用 `/sync` 与 API：** 使用可持久化的数据库（多数 Serverless 环境不适合文件型 SQLite，请改用托管数据库），并设置强随机 **`JWT_SECRET`**；部署后可用 **`GET /api/health`** 确认数据库状态。
 - **与线上抽奖联调：** 将 **`NEXT_PUBLIC_LOTTERY_IMPORT_URL`** 设为生产环境「人员名单」URL；线上务必 **HTTPS**，并与抽奖站点 **同源策略 / 部署路径**（`/log-lottery/`）一致。
+- **公开部署与搜索：** 设置自己拥有的 HTTPS **`NEXT_PUBLIC_SITE_URL`** 后重新 build；未设置时项目不会把 sitemap、canonical 或结构化数据指向上游域名。
 
 ---
 

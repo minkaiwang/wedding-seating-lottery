@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 240" role="img" aria-labelledby="title desc">
+  <title id="title">超级大奖奖杯</title>
+  <desc id="desc">紫金色背景上的婚礼奖杯插画</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f5e5ff"/><stop offset="1" stop-color="#a879d0"/></linearGradient></defs>
+  <rect width="320" height="240" rx="30" fill="url(#bg)"/>
+  <circle cx="160" cy="105" r="76" fill="#fff" opacity=".35"/>
+  <path d="M119 45h82v44c0 35-18 59-41 59s-41-24-41-59V45Z" fill="#ffe49b" stroke="#6b477f" stroke-width="7"/>
+  <path d="M119 62H91v19c0 28 18 46 46 46M201 62h28v19c0 28-18 46-46 46" fill="none" stroke="#6b477f" stroke-width="7" stroke-linecap="round"/>
+  <path d="M160 148v27M127 190h66M141 175h38" stroke="#6b477f" stroke-width="9" stroke-linecap="round"/>
+  <text x="160" y="222" text-anchor="middle" font-family="sans-serif" font-size="25" font-weight="700" fill="#533466">超级大奖</text>
+</svg>

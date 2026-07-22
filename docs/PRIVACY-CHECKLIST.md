@@ -18,10 +18,11 @@
 
 ```bash
 git status
-git log -p --all -S "@"   # 可选：搜索历史 commit 是否含邮箱
+git log --all --format="%h %an <%ae>"   # 检查提交作者姓名与邮箱
+git log -p --all -S "@"                 # 搜索历史文件内容中的邮箱
 ```
 
-若历史 commit 里已有隐私数据，需 **`git filter-repo`** 或 BFG 清理历史后再公开（单纯删除文件不够）。
+提交作者姓名与邮箱本来就是 Git 历史的一部分。上游作者信息通常应保留用于署名；自己的提交建议预先启用 GitHub noreply 邮箱。若历史 commit 里已有不应公开的个人邮箱、密钥或宾客数据，需在取得仓库维护者确认后使用 **`git filter-repo`** 或 BFG 清理并强制推送（单纯删除文件不够，改写历史也会改变 commit ID）。
 
 ---
 
@@ -40,7 +41,8 @@ git grep -i "你的姓名|朋友|@qq|@163|1[3-9][0-9]{9}" -- . ":!node_modules"
 | PWA / SEO | `public/manifest.json`, `src/app/layout.tsx` | 随 `brand.ts` 或改为通用标题 |
 | 博客作者 | `src/app/(main)/blog/**/layout.tsx` | 勿写真实新人全名 |
 | 弹窗窗口名 | `src/lib/lotteryBridge.ts` | 勿用姓名缩写（已改为通用名） |
-| 演示 URL | `README.md` | 若 pearl.vercel.app 曾部署 **你的** 真实数据，勿在文档中宣传该实例；可只链上游 [weddingseats.app](https://weddingseats.app) |
+| 演示 URL | `README.md` | 若上游或其他演示实例曾部署真实数据，勿将其表述为本仓库的线上服务 |
+| 站点 URL / SEO | `NEXT_PUBLIC_SITE_URL`, `src/lib/site-url.ts` | 仅设置自己拥有的 HTTPS origin；未配置时保留本地开发地址，不应冒用上游域名 |
 | 结构化数据 | `src/app/page.tsx` | 已移除示例 `aggregateRating`；勿添加虚假评分 |
 
 ---
@@ -54,7 +56,7 @@ git grep -i "你的姓名|朋友|@qq|@163|1[3-9][0-9]{9}" -- . ":!node_modules"
 | 抽奖 IndexedDB / localStorage | 含宾客、中奖记录；键 **`globalConfig`** 含大屏主标题 | 演示前在 `localhost:6719` 清除站点数据，或配置页重置标题 |
 | Analytics | Vercel Analytics 等 | 确认隐私政策符合当地法规 |
 
-默认 seed 密码 `88888888` **仅适合本机**；`prisma/seed.ts` 会在弱密码时警告。
+默认 seed 密码 `88888888` **仅适合本机开发**；生产环境 seed 会拒绝默认或少于 12 字符的 `ADMIN_PASSWORD`。
 
 ---
 

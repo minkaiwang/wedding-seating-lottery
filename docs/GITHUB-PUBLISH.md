@@ -13,7 +13,7 @@ npm run verify:stack
 
 ## 1. 重要：不要推到上游仓库
 
-当前若 `git remote -v` 仍显示 `ajdincatic/wedding-seats`，那是 **排座原作者** 的仓库，**请勿直接 push**。
+`upstream` 可以保留为排座原作者仓库；关键是确认 **`origin` 的 push 地址** 不是 `ajdincatic/wedding-seats`。当前仓库正常状态应是 `origin` 指向你自己的整合仓库、`upstream` 指向原项目。
 
 ```bash
 # 保留只读上游（可选）
@@ -24,6 +24,13 @@ git remote add origin https://github.com/YOUR_USER/wedding-seating-lottery.git
 ```
 
 创建仓库后，更新 `package.json` 里 `repository.url` 为你的地址。
+
+核对命令：
+
+```bash
+git remote get-url --push origin
+git remote get-url --push upstream
+```
 
 ---
 
@@ -58,6 +65,10 @@ git add log-lottery
 ```bash
 git status
 git check-ignore -v prisma/dev.db .env
+
+# 可选：把本次不应公开的姓名或标识放在 shell/CI 密钥中，不要写进仓库
+$env:PUBLISH_BLOCKED_TERMS='private-term-1,private-term-2' # PowerShell 示例
+npm run check:publish
 ```
 
 ---

@@ -6,6 +6,7 @@ import { useToast } from 'vue-toast-notification'
 import { loadingKey, loadingState } from '@/components/Loading'
 import i18n from '@/locales/i18n'
 import { useGlobalConfig } from '@/store/globalConfig'
+import { useServerConfig } from '@/store/serverConfig'
 import { isLogLotteryEmbedMode } from '@/utils/runtimeEmbed'
 import { setupWeddingSeatingImportBridge } from '@/utils/weddingSeatingBridge'
 import { setupWeddingSeatingLiveSync } from '@/utils/weddingSeatingLiveSync'
@@ -53,6 +54,8 @@ onMounted(() => {
     globalConfig.migrateWeddingDefaultLanguage()
     globalConfig.migrateLegacyTopTitle()
     globalConfig.migrateStaleBrandTopTitle()
+    globalConfig.migrateLegacyRemoteMusic()
+    useServerConfig().migrateLegacyDefaultHost()
     i18n.global.locale.value = globalConfig.getLanguage as 'en' | 'zhCn'
 
     if (!isEmbed) {

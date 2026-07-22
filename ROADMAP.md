@@ -1,6 +1,6 @@
 # 项目计划与后续改动指引
 
-基于当前仓库现状整理：**排座**（Next.js + `localStorage`）、**可选云端同步**（Prisma + JWT + `/api/plan`）、**抽奖联动**（`log-lottery` 桥接与实时同步）。下列按优先级分组，并列出预计主要涉及的文件，便于排期与分工。
+基于当前仓库现状整理（最近核对：2026-07-22）：**排座**（Next.js + `localStorage`）、**可选云端同步**（Prisma + JWT + `/api/plan`）、**抽奖联动**（`log-lottery` 桥接与实时同步）。下列按优先级分组，并列出预计主要涉及的文件，便于排期与分工。
 
 ---
 
@@ -23,7 +23,7 @@
 
 | 方向 | 建议 | 主要涉及文件 |
 |------|------|----------------|
-| 密钥与 seed | 生产强制 `JWT_SECRET` / 强 `ADMIN_PASSWORD`；可选启动时拒绝弱配置 | `prisma/seed.ts`，`src/lib/auth-session.ts`，`src/app/api/auth/session/route.ts`，`.env.example` |
+| 密钥与 seed | 已在生产 seed 阶段拒绝默认或不足 12 位的 `ADMIN_PASSWORD`；部署时仍须配置强 `JWT_SECRET` | `prisma/seed.ts`，`src/lib/auth-session.ts`，`.env.example` |
 | 登录限流 | 当前为进程内内存 Map，多实例部署时效递减；可迁 Redis 或边缘限流 | `src/lib/loginRateLimit.ts`，`src/app/api/auth/login/route.ts` |
 | 健康与运维 | 已有 `/api/health`；可加版本号、Git SHA（构建注入） | `src/app/api/health/route.ts`，`next.config.ts` |
 | 数据库 | Serverless 不用文件 SQLite；文档化 Postgres 连接串与迁移流程 | `prisma/schema.prisma`，`README.md`，可选 `prisma/migrations/*` |
@@ -65,7 +65,7 @@
 | 宾客导入 | 大面积表格导入预览与列识别 | `src/lib/guestImport.ts`，`src/components/GuestImportPreviewModal.tsx`，`src/app/(main)/guests/page.tsx` |
 | 桌台 / 筛选 | 列表筛选与布局交互 | `src/lib/tableListFilter.ts`，`src/app/(main)/tables/page.tsx`，`src/app/(main)/layout/page.tsx` |
 | 无障碍与移动端 | 拖拽替代操作、触控目标、焦点顺序 | 各 `src/app/(main)/*/page.tsx`，`src/components/Modal.tsx` |
-| 文案与 SEO | 域名 canonical 多处（`weddingseats.app` / `wedding-seats.com`）宜统一策略 | `src/app/sitemap.ts`，`src/app/layout.tsx`，`src/app/page.tsx`，各 `blog/**/layout.tsx` |
+| 文案与 SEO | canonical 与结构化数据已统一读取 `NEXT_PUBLIC_SITE_URL`；正式部署时需填写真实公网地址 | `src/lib/site-url.ts`，`src/app/sitemap.ts`，`src/app/layout.tsx`，各 `blog/**/layout.tsx` |
 
 ---
 
@@ -75,9 +75,9 @@
 
 | 方向 | 建议 | 主要涉及文件 |
 |------|------|----------------|
-| 单元测试 | `normalizeSeatingPlan`、导入解析、planKey 校验 | `src/lib/planImport.ts`，`src/lib/planKey.ts`，新 `*.test.ts` |
+| 单元测试 | 已建立导入规范化、请求体限制、planKey、站点 URL 与 JSON-LD 安全序列化基线；继续补核心交互与 API 权限边界 | `src/lib/*.test.ts`，`scripts/run-tests.mjs` |
 | E2E | 核心路径：建宾客 → 拖桌 → 导出 | 新 Playwright 配置与 `e2e/*` |
-| Lint/类型 | 保持 `verify` 与 CI 绿色；大文件（如 `i18n`）可按语言拆模块降低冲突 | `eslint.config.mjs`，可选拆分 `src/lib/i18n/` |
+| Lint/类型 | `verify` 已串联 lint、单元测试与构建，CI 同时校验根项目和抽奖项目；大文件（如 `i18n`）可按语言拆模块降低冲突 | `package.json`，`.github/workflows/ci.yml`，可选拆分 `src/lib/i18n/` |
 
 ---
 

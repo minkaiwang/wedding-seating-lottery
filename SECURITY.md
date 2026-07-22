@@ -23,12 +23,12 @@ Do **not** post working exploit code in public issues.
 - Set strong **`JWT_SECRET`** (≥32 random characters) and **`ADMIN_PASSWORD`** before any public `/sync` deployment.
 - Use **HTTPS** in production; restrict database network access.
 - Do not commit `.env`, database files, or guest export files (see [docs/PRIVACY-CHECKLIST.md](docs/PRIVACY-CHECKLIST.md)).
-- **`NEXT_PUBLIC_*`** and lottery **`VITE_*`** vars are embedded at **build** time — rotate secrets by rebuilding, not only restarting.
+- **`NEXT_PUBLIC_*`** and lottery **`VITE_*`** vars are embedded in client-side builds and must never contain secrets. Rebuild after changing these public values; restarting alone is not sufficient.
 
 ## Authentication model (`/sync`)
 
 - Session cookie signed with `JWT_SECRET`; optional `COOKIE_SECURE` / `COOKIE_INSECURE` for reverse proxies.
-- Default seed user: **`admin`** / **`88888888`** when `ADMIN_PASSWORD` is unset (local only — change before production).
+- Development-only seed user: **`admin`** / **`88888888`** when `ADMIN_PASSWORD` is unset. In production, seed rejects the default password and passwords shorter than 12 characters; set a strong `ADMIN_PASSWORD` before initialization.
 - Failed login attempts are **rate-limited in memory** per IP (HTTP **429**); not suitable as sole protection against distributed attacks — use network-level controls for public deployments.
 - **`planKey`** (default `singleton`) isolates cloud plan blobs; any authenticated user who knows a key can read/write that plan — treat keys as shared secrets within your team, not multi-tenant isolation.
 

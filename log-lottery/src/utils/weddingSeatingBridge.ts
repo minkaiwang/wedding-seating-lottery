@@ -5,6 +5,7 @@ import useStore from '@/store'
 import { addOtherInfo } from '@/utils/index'
 import { isLogLotteryEmbedMode } from '@/utils/runtimeEmbed'
 import { clearSyncExclusions } from '@/utils/seatingSyncExclusions'
+import { isTrustedWindowSource } from '@/utils/weddingSeatingMessageSecurity'
 import { allowedWeddingSeatingOrigins } from '@/utils/weddingSeatingOrigins'
 
 type ToastApi = ReturnType<typeof useToast>
@@ -106,6 +107,8 @@ export function setupWeddingSeatingImportBridge(router: Router, toast: ToastApi)
         if (disposed)
             return
         if (e.origin !== parentOrigin)
+            return
+        if (!isTrustedWindowSource(e.source, window.opener))
             return
         if (e.data?.type !== MSG_WEDDING_IMPORT)
             return

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { SEATING_APP_NAME_ZH } from '@/lib/brand';
+import { siteUrl } from '@/lib/site-url';
 
 export const metadata: Metadata = {
   title: `婚礼筹备博客 | ${SEATING_APP_NAME_ZH}`,
@@ -9,18 +10,18 @@ export const metadata: Metadata = {
     title: `Blog | ${SEATING_APP_NAME_ZH}`,
     description: 'Expert wedding planning advice and guides. Learn how to arrange guests, avoid common mistakes, and create an unforgettable atmosphere.',
     type: 'website',
-    url: 'https://weddingseats.app/blog',
+    url: siteUrl('/blog'),
   },
   alternates: {
-    canonical: 'https://weddingseats.app/blog',
+    canonical: siteUrl('/blog'),
     languages: {
-      'zh-Hans': 'https://weddingseats.app/blog?lang=zh',
-      'en': 'https://weddingseats.app/blog?lang=en',
-      'hr': 'https://weddingseats.app/blog?lang=hr',
-      'es': 'https://weddingseats.app/blog?lang=es',
-      'de': 'https://weddingseats.app/blog?lang=de',
-      'fr': 'https://weddingseats.app/blog?lang=fr',
-      'x-default': 'https://weddingseats.app/blog?lang=zh',
+      'zh-Hans': siteUrl('/blog?lang=zh'),
+      'en': siteUrl('/blog?lang=en'),
+      'hr': siteUrl('/blog?lang=hr'),
+      'es': siteUrl('/blog?lang=es'),
+      'de': siteUrl('/blog?lang=de'),
+      'fr': siteUrl('/blog?lang=fr'),
+      'x-default': siteUrl('/blog?lang=zh'),
     },
   },
 };
@@ -32,4 +33,3 @@ export default function BlogLayout({
 }) {
   return children;
 }
-

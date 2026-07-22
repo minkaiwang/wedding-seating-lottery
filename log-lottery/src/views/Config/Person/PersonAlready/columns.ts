@@ -20,9 +20,7 @@ export function tableColumns(props: IColumnsProps) {
         {
             label: i18n.global.t('data.avatar'),
             props: 'avatar',
-            formatValue(row: any) {
-                return row.avatar ? `<img src="${row.avatar}" alt="avatar" style="width: 50px; height: 50px;"/>` : '-'
-            },
+            avatar: true,
         },
         {
             label: i18n.global.t('data.department'),

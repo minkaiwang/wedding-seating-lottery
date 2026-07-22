@@ -13,6 +13,11 @@ import {
   recordLoginFailure,
 } from '@/lib/loginRateLimit';
 import { prisma } from '@/lib/prisma';
+import { readJsonBodyWithLimit } from '@/lib/readJsonBody';
+
+const MAX_LOGIN_BODY_BYTES = 8 * 1024;
+const MAX_USERNAME_LENGTH = 100;
+const MAX_PASSWORD_LENGTH = 1_024;
 
 export async function POST(req: Request) {
   if (!process.env.DATABASE_URL) {
@@ -22,17 +27,24 @@ export async function POST(req: Request) {
     );
   }
 
-  let body: { username?: string; password?: string };
-  try {
-    body = (await req.json()) as { username?: string; password?: string };
-  } catch {
-    return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
+  const parsedBody = await readJsonBodyWithLimit(req, MAX_LOGIN_BODY_BYTES);
+  if (!parsedBody.ok) {
+    return NextResponse.json({ error: parsedBody.error }, { status: parsedBody.status });
   }
+  const body =
+    parsedBody.value && typeof parsedBody.value === 'object'
+      ? (parsedBody.value as { username?: unknown; password?: unknown })
+      : {};
 
   const username = typeof body.username === 'string' ? body.username.trim() : '';
   const password = typeof body.password === 'string' ? body.password : '';
-  if (!username || !password) {
-    return NextResponse.json({ error: 'Missing username or password' }, { status: 400 });
+  if (
+    !username ||
+    !password ||
+    username.length > MAX_USERNAME_LENGTH ||
+    password.length > MAX_PASSWORD_LENGTH
+  ) {
+    return NextResponse.json({ error: 'Invalid username or password' }, { status: 400 });
   }
 
   if (!isJwtSecretConfigured()) {

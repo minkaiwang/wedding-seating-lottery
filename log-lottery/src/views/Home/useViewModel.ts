@@ -9,7 +9,7 @@ import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls
 import { nextTick, onMounted, onUnmounted, ref } from 'vue'
 import { useToast } from 'vue-toast-notification'
 import dongSound from '@/assets/audio/end.mp3'
-import enterAudio from '@/assets/audio/enter.wav'
+import enterAudio from '@/assets/audio/enter.mp3'
 import worldCupAudio from '@/assets/audio/worldcup.mp3'
 import { CONFETTI_FIRE_MAX_COUNT, SINGLE_TIME_MAX_PERSON_COUNT } from '@/constant/config'
 import { useElementPosition, useElementStyle } from '@/hooks/useElement'
@@ -17,6 +17,7 @@ import i18n from '@/locales/i18n'
 import useStore from '@/store'
 import { selectCard } from '@/utils'
 import { rgba } from '@/utils/color'
+import { replaceWithDetailLines, safeAvatarUrl } from '@/utils/safeContent'
 import { LotteryStatus } from './type'
 import { computeHomeCameraYOffset, computeHomeLayoutMetrics, computeHomeTableCameraZ, confettiFire, createSphereVertices, createTableVertices, getRandomElements, initTableData } from './utils'
 
@@ -130,7 +131,7 @@ export function useViewModel() {
 
             const detail = document.createElement('div')
             detail.className = 'card-detail'
-            detail.innerHTML = `${tableData.value[i].department}<br/>${tableData.value[i].identity}`
+            replaceWithDetailLines(detail, tableData.value[i].department, tableData.value[i].identity)
             if (isShowAvatar.value)
                 detail.style.display = 'none'
             element.appendChild(detail)
@@ -138,7 +139,9 @@ export function useViewModel() {
             if (isShowAvatar.value) {
                 const avatar = document.createElement('img')
                 avatar.className = 'card-avatar'
-                avatar.src = tableData.value[i].avatar
+                const avatarUrl = safeAvatarUrl(tableData.value[i].avatar)
+                if (avatarUrl)
+                    avatar.src = avatarUrl
                 avatar.alt = 'avatar'
                 avatar.style.width = '140px'
                 avatar.style.height = '140px'
@@ -432,11 +435,9 @@ export function useViewModel() {
      * @description: 停止抽奖音乐
      */
     function stopLotteryMusic() {
-        if (!isPlayWinMusic.value) {
-            return
-        }
         if (lotteryMusic.value) {
             lotteryMusic.value.pause()
+            lotteryMusic.value.currentTime = 0
             lotteryMusic.value = null
         }
     }
@@ -487,9 +488,6 @@ export function useViewModel() {
      * @description: 重置音频状态
      */
     function resetAudioState() {
-        if (!isPlayWinMusic.value) {
-            return
-        }
         // 停止抽奖音乐
         stopLotteryMusic()
 

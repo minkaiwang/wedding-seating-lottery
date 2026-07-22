@@ -28,7 +28,7 @@ jobs:
       wedding: ${{ steps.outputs.outputs.wedding }}
       lottery: ${{ steps.outputs.outputs.lottery }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -104,17 +104,18 @@ jobs:
       NEXT_TELEMETRY_DISABLED: '1'
       npm_config_engine_strict: 'true'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '24'
           cache: npm
           cache-dependency-path: package-lock.json
 
       - name: Install and verify (wedding)
         run: |
           npm ci
+          npm audit --omit=dev --audit-level=high
           npm run verify:ci
 
   verify-lottery:
@@ -125,17 +126,18 @@ jobs:
     env:
       npm_config_engine_strict: 'true'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '24'
           cache: npm
           cache-dependency-path: log-lottery/package-lock.json
 
       - name: Install and verify (log-lottery)
         run: |
           npm ci --prefix log-lottery
+          npm audit --prefix log-lottery --omit=dev --audit-level=high
           npm run verify:lottery:ci
 
   # Single gate for branch protection (requires both slice jobs when both scopes changed).

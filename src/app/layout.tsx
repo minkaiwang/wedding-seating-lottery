@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import DevToolsIndicatorZh from "@/components/DevToolsIndicatorZh";
 import { COUPLE_NAMES_ZH, SEATING_APP_NAME_ZH } from "@/lib/brand";
+import { SITE_URL } from "@/lib/site-url";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
   authors: [{ name: COUPLE_NAMES_ZH }],
   creator: COUPLE_NAMES_ZH,
   publisher: COUPLE_NAMES_ZH,
-  metadataBase: new URL('https://wedding-seats.com'),
+  metadataBase: new URL(SITE_URL),
   alternates: {
     canonical: '/',
   },
@@ -41,20 +42,11 @@ export const metadata: Metadata = {
     type: "website",
     locale: "zh_CN",
     siteName: SEATING_APP_NAME_ZH,
-    images: [
-      {
-        url: '/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: SEATING_APP_NAME_ZH,
-      },
-    ],
   },
   twitter: {
-    card: 'summary_large_image',
+    card: 'summary',
     title: SEATING_APP_NAME_ZH,
     description: `${SEATING_APP_NAME_ZH}：拖拽排桌、本机保存、导出 PDF，支持简体中文等语言。`,
-    images: ['/og-image.png'],
   },
   robots: {
     index: true,
@@ -66,13 +58,6 @@ export const metadata: Metadata = {
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
-  },
-  verification: {
-    google: 'your-google-verification-code',
-    yandex: 'your-yandex-verification-code',
-  },
-  other: {
-    'msvalidate.01': 'your-bing-verification-code',
   },
 };
 

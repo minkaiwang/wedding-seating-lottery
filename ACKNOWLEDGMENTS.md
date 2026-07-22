@@ -15,7 +15,7 @@
 | **官网 / 品牌** | [weddingseats.app](https://weddingseats.app) |
 | **在线演示** | [wedding-seating-plan-pearl.vercel.app](https://wedding-seating-plan-pearl.vercel.app/)（上游仓库 homepage） |
 | **技术栈** | Next.js、TypeScript、Tailwind CSS、拖拽排桌等 |
-| **许可** | MIT（见上游仓库；本仓库排座部分为其衍生扩展） |
+| **许可** | 上游 README 标示为 MIT；仓库当前未见独立 LICENSE 文件，授权边界请以原作者后续声明为准 |
 
 **我们做了什么（相对上游）：**
 
@@ -50,17 +50,11 @@
   - `seatingSyncExclusions.ts` — 抽奖端删除未到场宾客后不被同步覆盖
   - 奖项「可重复抽取」、同奖去重等现场向修复
 - 根目录 `npm run dev:stack` 并行启动排座 + 抽奖，便于本地联调
+- 使用可复现的纯合成生成器替换上游快照中的内置音频素材；生成器不读取录音、音乐采样或其它第三方媒体
 
-**获取上游代码：**
+**本仓库的 vendored 基线：** `log-lottery/` 已作为普通源码目录纳入本仓库（不是 submodule），基于上游 [v0.6.0-5](https://github.com/LOG1997/log-lottery/tree/v0.6.0-5)（该 tag 指向 commit `07d0948ea7741bd890bd097dee0f2fc2b995a316`），并包含本仓库为排座联动维护的本地补丁。保留该目录中的上游 LICENSE；补丁范围以本仓库提交记录和本文件所列桥接文件为准。
 
-```bash
-git clone https://github.com/LOG1997/log-lottery.git log-lottery
-cd log-lottery && npm install
-```
-
-本仓库中的 `log-lottery/` 可能是 **完整克隆 + 本地补丁**，或 **git submodule**。开源发布时建议注明所基于的上游 **commit / tag**，并保留上游 LICENSE。
-
-抽奖核心功能（3D 球体、奖项配置、音乐等）的 Issue 与 PR，请优先向 **[LOG1997/log-lottery](https://github.com/LOG1997/log-lottery)** 提交；仅「与 wedding-seating-plan 桥接协议」相关的问题适合在本仓库讨论。
+抽奖核心功能（3D 球体、奖项配置、音乐管理功能等）的 Issue 与 PR，请优先向 **[LOG1997/log-lottery](https://github.com/LOG1997/log-lottery)** 提交；本仓库生成的内置提示音，以及仅与 wedding-seating-plan 桥接协议相关的问题，可在本仓库讨论。
 
 ---
 
@@ -96,4 +90,4 @@ cd log-lottery && npm install
 
 ## 6. 商标与名称
 
-「Wedding Seats / weddingseats.app」等名称与品牌归原作者所有。本仓库使用上游代码时保留其版权声明；请勿暗示本仓库由上游官方直接运营，除非获得作者明确授权。
+「Wedding Seats / weddingseats.app」等名称与品牌归原作者所有。本仓库使用上游代码时保留其版权声明；请勿暗示本仓库由上游官方直接运营，除非获得作者明确授权。根目录的 MIT 许可证仅适用于本仓库可由维护者授权的整合层贡献；上游组件的授权与署名以其各自仓库和随附文件为准。

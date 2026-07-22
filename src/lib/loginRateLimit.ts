@@ -5,15 +5,34 @@ type Entry = { fails: number; since: number };
 const store = new Map<string, Entry>();
 const WINDOW_MS = 15 * 60 * 1000;
 const MAX_FAILS = 12;
+const MAX_ENTRIES = 10_000;
+let writesSinceCleanup = 0;
+
+function normalizeClientKey(value: string): string {
+  const normalized = value.trim();
+  if (!normalized) return 'unknown';
+  return normalized.length <= 128 ? normalized : normalized.slice(0, 128);
+}
+
+function pruneStore(now: number): void {
+  for (const [key, entry] of store) {
+    if (now - entry.since > WINDOW_MS) store.delete(key);
+  }
+  while (store.size >= MAX_ENTRIES) {
+    const oldestKey = store.keys().next().value as string | undefined;
+    if (oldestKey === undefined) break;
+    store.delete(oldestKey);
+  }
+}
 
 export function getLoginClientKey(req: Request): string {
   const fwd = req.headers.get('x-forwarded-for');
   if (fwd) {
     const first = fwd.split(',')[0]?.trim();
-    if (first) return first;
+    if (first) return normalizeClientKey(first);
   }
   const real = req.headers.get('x-real-ip')?.trim();
-  if (real) return real;
+  if (real) return normalizeClientKey(real);
   return 'unknown';
 }
 
@@ -34,12 +53,19 @@ export function checkLoginAllowed(ip: string): { allowed: true } | { allowed: fa
 
 export function recordLoginFailure(ip: string): void {
   const now = Date.now();
-  let e = store.get(ip);
+  writesSinceCleanup++;
+  if (writesSinceCleanup >= 100 || store.size >= MAX_ENTRIES) {
+    pruneStore(now);
+    writesSinceCleanup = 0;
+  }
+  const key = normalizeClientKey(ip);
+  let e = store.get(key);
   if (!e || now - e.since > WINDOW_MS) {
     e = { fails: 0, since: now };
   }
   e.fails++;
-  store.set(ip, e);
+  store.delete(key);
+  store.set(key, e);
 }
 
 export function clearLoginFailures(ip: string): void {

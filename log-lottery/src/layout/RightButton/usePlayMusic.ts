@@ -14,7 +14,7 @@ export function usePlayMusic() {
     const { getMusicList: localMusicList, getCurrentMusic: currentMusic } = storeToRefs(globalConfig)
     const audio = ref(new Audio())
 
-    async function play(item: IMusic) {
+    async function play(item: IMusic | null) {
         if (!item) {
             return
         }
@@ -39,7 +39,7 @@ export function usePlayMusic() {
         audio.value.src = audioUrl
         audio.value.play()
     }
-    function playMusic(item: IMusic, skip = false) {
+    function playMusic(item: IMusic | null, skip = false) {
         if (!item) {
             return
         }
@@ -53,7 +53,7 @@ export function usePlayMusic() {
     function nextPlay() {
         // 播放下一首
         if (localMusicList.value.length >= 1) {
-            let index = localMusicList.value.findIndex((item: IMusic) => item.name === currentMusic.value.item.name)
+            let index = localMusicList.value.findIndex((item: IMusic) => item.name === currentMusic.value.item?.name)
             index++
             if (index >= localMusicList.value.length) {
                 index = 0
@@ -66,14 +66,14 @@ export function usePlayMusic() {
         audio.value.addEventListener('ended', nextPlay)
     }
     onMounted(() => {
-        globalConfig.setCurrentMusic(localMusicList.value[0], true)
+        globalConfig.setCurrentMusic(localMusicList.value[0] ?? null, true)
         onPlayEnd()
         // 不使用空格控制audio
     })
     onUnmounted(() => {
         audio.value.removeEventListener('ended', nextPlay)
     })
-    watch(currentMusic, (val: { item: IMusic, paused: boolean }) => {
+    watch(currentMusic, (val: { item: IMusic | null, paused: boolean }) => {
         if (!val.paused && audio.value) {
             play(val.item)
         }

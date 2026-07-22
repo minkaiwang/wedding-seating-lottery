@@ -2,13 +2,13 @@
 import type { IPrizeConfig } from '@/types/storeType'
 import { useI18n } from 'vue-i18n'
 
-import defaultPrizeImage from '@/assets/images/龙.png'
-
 defineProps<{
     temporaryPrize: IPrizeConfig
     addTemporaryPrize: () => void
     deleteTemporaryPrize: () => void
 }>()
+
+const defaultPrizeImage = `${import.meta.env.BASE_URL}resource/image/image3.svg`
 
 const { t } = useI18n()
 </script>

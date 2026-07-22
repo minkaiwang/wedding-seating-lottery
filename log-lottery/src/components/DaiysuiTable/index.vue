@@ -1,6 +1,7 @@
 <script setup lang='ts'>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { safeAvatarUrl } from '@/utils/safeContent'
 
 const props = defineProps({
     data: {
@@ -26,6 +27,10 @@ const actionsColumns = computed<any[]>(() => {
 
     return columns
 })
+
+function displayValue(column: any, row: any) {
+    return column.formatValue ? column.formatValue(row) : row[column.props]
+}
 </script>
 
 <template>
@@ -48,8 +53,16 @@ const actionsColumns = computed<any[]>(() => {
         <tr v-for="item in data" :key="item.id" class="hover">
           <!-- <th>{{ item.id }}</th> -->
           <td v-for="(column, index) in dataColumns" :key="index">
-            <span v-if="column.formatValue" v-html="column.formatValue(item)" />
-            <span v-else>{{ item[column.props] }}</span>
+            <template v-if="column.avatar">
+              <img
+                v-if="safeAvatarUrl(item[column.props])"
+                :src="safeAvatarUrl(item[column.props])"
+                alt="avatar"
+                style="width: 50px; height: 50px;"
+              >
+              <span v-else>-</span>
+            </template>
+            <span v-else>{{ displayValue(column, item) }}</span>
           </td>
           <!-- action -->
           <td v-for="(column, index) in actionsColumns" :key="index" class="flex gap-2">

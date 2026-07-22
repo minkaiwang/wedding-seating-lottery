@@ -1,7 +1,6 @@
 <script setup lang='ts'>
 import type { IPrizeConfig } from '@/types/storeType'
 import { ref, watch } from 'vue'
-import defaultPrizeImage from '@/assets/images/龙.png'
 import { useGsap } from './useGsap'
 
 const props = defineProps<{
@@ -11,6 +10,8 @@ const props = defineProps<{
     temporaryPrizeShow: boolean
     addTemporaryPrize: () => void
 }>()
+
+const defaultPrizeImage = `${import.meta.env.BASE_URL}resource/image/image3.svg`
 
 const prizeShow = defineModel<boolean>('prizeShow')
 const scrollContainerRef = ref<any>(null)

@@ -45,6 +45,16 @@ export const useServerConfig = defineStore('server', {
         setServerStatus(status: boolean) {
             this.serverConfig.serverStatus = status
         },
+        /** Remove the former upstream service endpoint from persisted settings. */
+        migrateLegacyDefaultHost() {
+            const isLegacyHost = (server: ServerType | null | undefined) => (
+                typeof server?.host === 'string'
+                && /^https:\/\/(?:www\.)?to2026\.xyz(?::8080)?\/?$/i.test(server.host)
+            )
+            this.serverConfig.serverList = this.serverConfig.serverList.filter(server => !isLegacyHost(server))
+            if (isLegacyHost(this.serverConfig.currentServer))
+                this.serverConfig.currentServer = this.serverConfig.serverList[0] ?? defaultServerHostList[0]
+        },
         // 重置所有配置
         resetDefault() {
             this.serverConfig = {

@@ -4,7 +4,9 @@ import { useEffect, useMemo, useState } from 'react';
 import Link from "next/link";
 import Script from "next/script";
 import { COUPLE_NAMES_ZH, SEATING_APP_NAME_EN, SEATING_APP_NAME_ZH } from '@/lib/brand';
+import { siteUrl } from '@/lib/site-url';
 import { getTranslations, Language, languageFlags, languageNames, SUPPORTED_LANGUAGES } from '@/lib/i18n';
+import { serializeJsonLd } from '@/lib/jsonLd';
 export default function Home() {
   const [language, setLanguage] = useState<Language>('zh');
   const [showLangMenu, setShowLangMenu] = useState(false);
@@ -31,7 +33,6 @@ export default function Home() {
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
         "description":
           `${SEATING_APP_NAME_ZH}：支持拖拽排桌，提供简体中文等六种语言界面，可导出 PDF、CSV、JSON，无需注册。`,
-        "screenshot": "https://weddingseats.app/screenshot-1.png",
         "softwareVersion": "1.0",
         "inLanguage": ["zh", "en", "hr", "es", "de", "fr"],
         "featureList": [
@@ -57,7 +58,6 @@ export default function Home() {
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
       "description":
         `${SEATING_APP_NAME_EN}: drag-and-drop seating planner in six languages. Export to PDF, CSV, or JSON. No registration required.`,
-      "screenshot": "https://weddingseats.app/screenshot-1.png",
       "softwareVersion": "1.0",
       "inLanguage": ["zh", "en", "hr", "es", "de", "fr"],
       "featureList": [
@@ -80,8 +80,8 @@ export default function Home() {
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": COUPLE_NAMES_ZH,
-      "url": "https://weddingseats.app",
-      "logo": "https://weddingseats.app/icon.svg",
+      "url": siteUrl('/'),
+      "logo": siteUrl('/icon.svg'),
     };
     if (language === 'zh') {
       return {
@@ -105,13 +105,13 @@ export default function Home() {
             "@type": "ListItem",
             "position": 1,
             "name": "首页",
-            "item": "https://weddingseats.app"
+            "item": siteUrl('/')
           },
           {
             "@type": "ListItem",
             "position": 2,
             "name": SEATING_APP_NAME_ZH,
-            "item": "https://weddingseats.app/seating"
+            "item": siteUrl('/seating')
           }
         ]
       };
@@ -124,13 +124,13 @@ export default function Home() {
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://weddingseats.app"
+          "item": siteUrl('/')
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": SEATING_APP_NAME_EN,
-          "item": "https://weddingseats.app/seating"
+          "item": siteUrl('/seating')
         }
       ]
     };
@@ -239,22 +239,22 @@ export default function Home() {
       <Script
         id="structured-data-application"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(structuredData) }}
       />
       <Script
         id="structured-data-organization"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationData) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(organizationData) }}
       />
       <Script
         id="structured-data-breadcrumb"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbData) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbData) }}
       />
       <Script
         id="structured-data-faq"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqData) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqData) }}
       />
 
       <div className="min-h-screen wedding-festive-shell">

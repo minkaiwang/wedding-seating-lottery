@@ -1,4 +1,6 @@
 import useStore from '@/store'
+import { isLogLotteryEmbedMode } from '@/utils/runtimeEmbed'
+import { isTrustedWindowSource, readTrustedLiveSyncParentOrigin } from '@/utils/weddingSeatingMessageSecurity'
 import { allowedWeddingSeatingOrigins } from '@/utils/weddingSeatingOrigins'
 
 /** 与婚礼座位站点 `lotteryLiveSync.ts` 中常量一致 */
@@ -70,6 +72,15 @@ function normalizeImportRows(persons: unknown): Record<string, unknown>[] {
  * 可选 `guestCount`、`plannerGuestTotal`、`tableCount`、`sentAt` 仅供调试日志对照。
  */
 export function setupWeddingSeatingLiveSync(): () => void {
+    const parentOrigin = readTrustedLiveSyncParentOrigin(
+        window.location.search,
+        isLogLotteryEmbedMode(),
+        window.parent !== window,
+        allowedWeddingSeatingOrigins(),
+    )
+    if (!parentOrigin)
+        return () => {}
+
     const personConfig = useStore().personConfig
     let lastAppliedSeq = 0
     let disposed = false
@@ -77,7 +88,9 @@ export function setupWeddingSeatingLiveSync(): () => void {
     function onMessage(e: MessageEvent) {
         if (disposed)
             return
-        if (!allowedWeddingSeatingOrigins().includes(e.origin))
+        if (e.origin !== parentOrigin)
+            return
+        if (!isTrustedWindowSource(e.source, window.parent))
             return
         if (e.data?.type !== MSG_WEDDING_LIVE_SYNC)
             return
@@ -160,20 +173,7 @@ export function setupWeddingSeatingLiveSync(): () => void {
 
     window.addEventListener('message', onMessage)
 
-    try {
-        const from = new URLSearchParams(window.location.search).get('from')
-        const parentOrigin = from ? new URL(from).origin : null
-        if (
-            window.parent !== window
-            && parentOrigin
-            && allowedWeddingSeatingOrigins().includes(parentOrigin)
-        ) {
-            window.parent.postMessage({ type: MSG_WEDDING_LIVE_SYNC_READY }, parentOrigin)
-        }
-    }
-    catch {
-        /* ignore malformed ?from= */
-    }
+    window.parent.postMessage({ type: MSG_WEDDING_LIVE_SYNC_READY }, parentOrigin)
 
     return () => {
         disposed = true

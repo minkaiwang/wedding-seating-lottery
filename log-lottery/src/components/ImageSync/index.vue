@@ -13,13 +13,15 @@ const imageDbStore = localforage.createInstance({
 })
 
 const imgUrl = ref('')
+const imageFailed = ref(false)
 
 async function getImageStoreItem(item: IImage): Promise<string> {
     let image = ''
     if (item.url === 'Storage') {
         const key = item.id
         const imageData = await imageDbStore.getItem<IFileData>(key)
-        image = URL.createObjectURL(imageData?.data as Blob)
+        if (imageData?.data instanceof Blob)
+            image = URL.createObjectURL(imageData.data)
     }
     else {
         image = item.url as string
@@ -30,11 +32,19 @@ async function getImageStoreItem(item: IImage): Promise<string> {
 
 onMounted(async () => {
     imgUrl.value = await getImageStoreItem(props.imgItem)
+    imageFailed.value = !imgUrl.value
 })
 </script>
 
 <template>
-  <img :src="imgUrl" alt="Image" class="object-cover h-full rounded-xl">
+  <img
+    v-if="!imageFailed"
+    :src="imgUrl"
+    :alt="imgItem.name || '奖品图片'"
+    class="object-cover h-full rounded-xl"
+    @error="imageFailed = true"
+  >
+  <span v-else class="grid h-full min-h-8 place-items-center text-xl" role="img" :aria-label="imgItem.name || '奖品图片'">🎁</span>
 </template>
 
 <style lang='scss' scoped>

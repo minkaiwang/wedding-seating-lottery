@@ -8,4 +8,4 @@ contact_links:
     about: Core lottery app bugs/features
   - name: Acknowledgments
     url: https://github.com/minkaiwang/wedding-seating-lottery/blob/main/ACKNOWLEDGMENTS.md
-    about: Credits and upstream links (update URL after publish)
+    about: Credits, vendored baseline, and upstream links

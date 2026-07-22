@@ -4,6 +4,7 @@ import { COOKIE_NAME, verifySessionToken } from '@/lib/auth-session';
 import { getPlanKeyFromRequest } from '@/lib/planKey';
 import { normalizeSeatingPlan } from '@/lib/planImport';
 import { prisma } from '@/lib/prisma';
+import { readJsonBodyWithLimit } from '@/lib/readJsonBody';
 
 async function requireUser(): Promise<string | NextResponse> {
   if (!process.env.DATABASE_URL) {
@@ -33,6 +34,9 @@ export async function GET(req: Request) {
   try {
     const parsed: unknown = JSON.parse(row.payload);
     const plan = normalizeSeatingPlan(parsed);
+    if (!plan) {
+      return NextResponse.json({ error: 'Stored plan is invalid' }, { status: 500 });
+    }
     return NextResponse.json({ plan });
   } catch {
     return NextResponse.json({ error: 'Stored plan is invalid' }, { status: 500 });
@@ -48,14 +52,12 @@ export async function PUT(req: Request) {
     return NextResponse.json({ error: 'Invalid planKey' }, { status: 400 });
   }
 
-  let raw: unknown;
-  try {
-    raw = await req.json();
-  } catch {
-    return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
+  const body = await readJsonBodyWithLimit(req);
+  if (!body.ok) {
+    return NextResponse.json({ error: body.error }, { status: body.status });
   }
 
-  const plan = normalizeSeatingPlan(raw);
+  const plan = normalizeSeatingPlan(body.value);
   if (!plan) {
     return NextResponse.json({ error: 'Invalid seating plan payload' }, { status: 400 });
   }

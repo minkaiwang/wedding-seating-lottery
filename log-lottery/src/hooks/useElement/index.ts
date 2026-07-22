@@ -1,5 +1,6 @@
 import type { IPersonConfig } from '@/types/storeType'
 import { rgba } from '@/utils/color'
+import { replaceWithDetailLines, safeAvatarUrl } from '@/utils/safeContent'
 
 /** Extra scale for drawn (lucky) result cards vs sphere cards. */
 const LUCKY_CARD_SCALE_BOOST = 1.22
@@ -101,12 +102,12 @@ export function useElementStyle(props: IUseElementStyle) {
 
     const detailFontScale = mod === 'lucky' ? 0.58 : 0.5
     element.children[2].style.fontSize = `${textSize * scale * detailFontScale}px`
-    // 设置部门和身份的默认值
-    element.children[2].innerHTML = ''
-    if (person.department || person.identity) {
-        element.children[2].innerHTML = `${person.department ? person.department : ''}<br/>${person.identity ? person.identity : ''}`
-    }
-    element.children[3].src = person.avatar
+    replaceWithDetailLines(element.children[2], person.department, person.identity)
+    const avatarUrl = safeAvatarUrl(person.avatar)
+    if (avatarUrl)
+        element.children[3].src = avatarUrl
+    else
+        element.children[3].removeAttribute('src')
     return element
 }
 interface CardRule {

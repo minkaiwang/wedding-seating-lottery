@@ -3,7 +3,9 @@
 import Link from 'next/link';
 import Script from 'next/script';
 import { COUPLE_NAMES_ZH, SEATING_APP_NAME_EN, SEATING_APP_NAME_ZH } from '@/lib/brand';
+import { siteUrl } from '@/lib/site-url';
 import type { Language } from '@/lib/i18n';
+import { serializeJsonLd } from '@/lib/jsonLd';
 import { useApp } from '@/contexts/seating-app';
 
 export default function BlogPost1() {
@@ -21,7 +23,6 @@ export default function BlogPost1() {
     "headline": "5 Grešaka Pri Rasporedu Gostiju na Venčanju (i Kako Ih Izbeći)",
     "alternativeHeadline": "5 Mistakes When Arranging Wedding Guests (And How to Avoid Them)",
     "description": "Otkrijte 5 najčešćih grešaka koje parovi prave pri rasporedu gostiju na venčanju i kako da ih izbegnete za savršenu atmosferu.",
-    "image": "https://weddingseats.app/blog-seating-mistakes.jpg",
     "author": {
       "@type": "Organization",
       "name": COUPLE_NAMES_ZH
@@ -31,14 +32,14 @@ export default function BlogPost1() {
       "name": SEATING_APP_NAME_ZH,
       "logo": {
         "@type": "ImageObject",
-        "url": "https://weddingseats.app/icon.svg"
+        "url": siteUrl('/icon.svg')
       }
     },
     "datePublished": "2025-10-06",
     "dateModified": "2025-10-06",
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://weddingseats.app/blog/5-wedding-seating-mistakes"
+      "@id": siteUrl('/blog/5-wedding-seating-mistakes')
     },
     "keywords": ["wedding seating", "seating mistakes", "wedding planning", "guest arrangement", "venčanje", "raspored gostiju"]
   };
@@ -48,7 +49,7 @@ export default function BlogPost1() {
       <Script
         id="article-schema"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(articleSchema) }}
       />
       
       <article className="max-w-3xl mx-auto">
@@ -405,4 +406,3 @@ export default function BlogPost1() {
     </>
   );
 }
-

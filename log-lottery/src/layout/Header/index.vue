@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { navList } from './config'
 
+const projectHomeUrl = import.meta.env.BASE_URL
+const projectIconUrl = `${projectHomeUrl}wedding-rings.svg`
+
 function skip(url: string) {
     window.open(url, '_self')
 }
@@ -31,8 +34,8 @@ function skip(url: string) {
             </li>
           </ul>
         </div>
-        <a class="text-xl lg:pl-12 max-lg:mx-auto" href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" class="logo" alt="Vite logo">
+        <a class="text-xl lg:pl-12 max-lg:mx-auto" :href="projectHomeUrl">
+          <img :src="projectIconUrl" class="logo" alt="Wedding lottery">
         </a>
       </div>
       <div class="hidden navbar-center lg:flex">

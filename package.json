@@ -9,7 +9,7 @@
   },
   "private": false,
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=24.0.0"
   },
   "scripts": {
     "dev": "next dev",
@@ -22,21 +22,20 @@
     "build:turbo": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "verify": "npm run lint && npm run build",
+    "test": "node scripts/run-tests.mjs",
+    "verify": "npm run lint && npm run test && npm run build",
     "verify:ci": "node ./scripts/engine-strict-run.mjs run verify",
     "verify:lottery:ci": "node ./scripts/engine-strict-run.mjs run verify --prefix ./log-lottery",
     "verify:stack:ci": "npm run verify:ci && npm run verify:lottery:ci",
     "verify:stack": "npm run verify && npm run verify --prefix ./log-lottery",
     "check:publish": "node ./scripts/check-before-publish.mjs",
+    "screenshots:readme": "node ./scripts/capture-readme-screenshots.mjs",
     "postinstall": "prisma generate",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
     "db:init": "prisma db push && npm run db:seed",
     "db:studio": "prisma studio"
-  },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -45,13 +44,14 @@
     "@prisma/client": "^6.19.0",
     "@vercel/analytics": "^1.5.0",
     "bcryptjs": "^2.4.3",
+    "dotenv": "^17.4.2",
     "html2canvas": "^1.4.1",
     "jose": "^6.0.10",
-    "jspdf": "^3.0.3",
-    "next": "15.5.9",
+    "jspdf": "^4.2.1",
+    "next": "15.5.21",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "xlsx": "^0.18.5"
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -62,10 +62,15 @@
     "@types/react-dom": "^19",
     "concurrently": "^9.2.1",
     "eslint": "^9",
-    "eslint-config-next": "15.5.9",
+    "eslint-config-next": "15.5.21",
+    "playwright": "^1.61.1",
     "prisma": "^6.19.0",
     "tailwindcss": "^4",
-    "tsx": "^4.19.4",
+    "tsx": "^4.23.1",
     "typescript": "^5"
+  },
+  "overrides": {
+    "postcss": "8.5.21",
+    "sharp": "0.35.3"
   }
 }
