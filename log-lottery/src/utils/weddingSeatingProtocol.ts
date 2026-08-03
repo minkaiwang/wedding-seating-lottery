@@ -17,11 +17,53 @@ export interface WeddingSeatingSyncMeta {
     rawPersonsLen?: number
 }
 
+export interface WeddingSeatingSequenceWatermark {
+    acceptedSeq: number
+    persistedSeq: number
+}
+
 export type WeddingSeatingSyncDecision
     = | { action: 'ignore-stale', rows: [], meta: WeddingSeatingSyncMeta, reason: 'non-increasing-seq' }
       | { action: 'skip-empty', rows: [], meta: WeddingSeatingSyncMeta, reason: 'authoritative-roster-nonempty' }
       | { action: 'clear', rows: [], meta: WeddingSeatingSyncMeta }
       | { action: 'merge', rows: NormalizedWeddingSeatingRow[], meta: WeddingSeatingSyncMeta }
+
+export function createWeddingSeatingSequenceWatermark(
+    initialSeq: number = 0,
+): WeddingSeatingSequenceWatermark {
+    return { acceptedSeq: initialSeq, persistedSeq: initialSeq }
+}
+
+export function reserveWeddingSeatingSequence(
+    watermark: WeddingSeatingSequenceWatermark,
+    seq: number | undefined,
+): WeddingSeatingSequenceWatermark {
+    if (seq === undefined)
+        return watermark
+    return { ...watermark, acceptedSeq: Math.max(watermark.acceptedSeq, seq) }
+}
+
+export function settleWeddingSeatingSequence(
+    watermark: WeddingSeatingSequenceWatermark,
+    seq: number | undefined,
+    outcome: 'persisted' | 'failed',
+): WeddingSeatingSequenceWatermark {
+    if (seq === undefined)
+        return watermark
+
+    if (outcome === 'persisted') {
+        const persistedSeq = Math.max(watermark.persistedSeq, seq)
+        return {
+            acceptedSeq: Math.max(watermark.acceptedSeq, persistedSeq),
+            persistedSeq,
+        }
+    }
+
+    if (watermark.acceptedSeq === seq && watermark.persistedSeq < seq) {
+        return { ...watermark, acceptedSeq: watermark.persistedSeq }
+    }
+    return watermark
+}
 
 function finiteNumber(value: unknown): number | undefined {
     return typeof value === 'number' && Number.isFinite(value) ? value : undefined

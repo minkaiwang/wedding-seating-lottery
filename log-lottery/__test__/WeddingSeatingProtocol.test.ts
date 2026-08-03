@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import { decideWeddingSeatingSync, normalizeWeddingSeatingRows } from '@/utils/weddingSeatingProtocol'
+import {
+    createWeddingSeatingSequenceWatermark,
+    decideWeddingSeatingSync,
+    normalizeWeddingSeatingRows,
+    reserveWeddingSeatingSequence,
+    settleWeddingSeatingSequence,
+} from '@/utils/weddingSeatingProtocol'
 
 describe('wedding seating protocol normalization', () => {
     it('normalizes public fields and drops rows without a usable name', () => {
@@ -92,5 +98,42 @@ describe('wedding seating live-sync decisions', () => {
         }, 1)
 
         expect(decision.action).toBe('clear')
+    })
+})
+
+describe('wedding seating persistence watermark', () => {
+    it('rejects duplicate or reordered messages while a newer snapshot is pending', () => {
+        let watermark = createWeddingSeatingSequenceWatermark(9)
+        watermark = reserveWeddingSeatingSequence(watermark, 10)
+
+        expect(decideWeddingSeatingSync({ persons: [{ name: 'Guest 1' }], seq: 10 }, watermark.acceptedSeq).action)
+            .toBe('ignore-stale')
+        expect(decideWeddingSeatingSync({ persons: [{ name: 'Guest 1' }], seq: 9 }, watermark.acceptedSeq).action)
+            .toBe('ignore-stale')
+        expect(watermark).toEqual({ acceptedSeq: 10, persistedSeq: 9 })
+    })
+
+    it('allows the same sequence to retry when its persistence fails', () => {
+        let watermark = createWeddingSeatingSequenceWatermark(9)
+        watermark = reserveWeddingSeatingSequence(watermark, 10)
+        watermark = settleWeddingSeatingSequence(watermark, 10, 'failed')
+
+        expect(watermark).toEqual({ acceptedSeq: 9, persistedSeq: 9 })
+        expect(decideWeddingSeatingSync({ persons: [{ name: 'Guest 1' }], seq: 10 }, watermark.acceptedSeq).action)
+            .toBe('merge')
+    })
+
+    it('does not roll back past a newer accepted or persisted snapshot', () => {
+        let watermark = createWeddingSeatingSequenceWatermark(9)
+        watermark = reserveWeddingSeatingSequence(watermark, 10)
+        watermark = reserveWeddingSeatingSequence(watermark, 11)
+        watermark = settleWeddingSeatingSequence(watermark, 10, 'failed')
+
+        expect(watermark).toEqual({ acceptedSeq: 11, persistedSeq: 9 })
+
+        watermark = settleWeddingSeatingSequence(watermark, 11, 'persisted')
+        expect(watermark).toEqual({ acceptedSeq: 11, persistedSeq: 11 })
+        expect(decideWeddingSeatingSync({ persons: [{ name: 'Guest 1' }], seq: 10 }, watermark.acceptedSeq).action)
+            .toBe('ignore-stale')
     })
 })
