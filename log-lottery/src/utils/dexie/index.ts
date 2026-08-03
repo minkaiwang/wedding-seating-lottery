@@ -28,6 +28,21 @@ class IndexDb {
         this.dbStore[tableName].bulkAdd(data)
     }
 
+    /** Atomically replace one or more stores in a single ordered transaction. */
+    replaceDataSets(dataSets: Record<string, DbData[]>): Promise<void> {
+        const tableNames = Object.keys(dataSets)
+        const tables = tableNames.map(tableName => this.dbStore[tableName])
+        return this.dbStore.transaction('rw', ...tables, async () => {
+            for (const tableName of tableNames) {
+                const table = this.dbStore[tableName]
+                await table.clear()
+                const rows = dataSets[tableName]
+                if (rows.length > 0)
+                    await table.bulkPut(rows)
+            }
+        })
+    }
+
     /**
      * @param tableName 表名
      * @param data 记录（可缺省 id / dateTime / type，将自动补全）

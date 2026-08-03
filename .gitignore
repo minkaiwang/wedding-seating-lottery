@@ -68,5 +68,18 @@ wedding-seating-plan*.json
 /log-lottery/data/*
 !/log-lottery/data/.gitkeep
 
+# Synthetic research evidence: publish frozen production batches, keep exploratory runs local.
+!/research-evaluation/results/raw/bridge_production_formal*.csv
+!/research-evaluation/results/raw/ablation_formal*.csv
+!/research-evaluation/results/processed/bridge_production_formal*_summary.csv
+!/research-evaluation/results/processed/live_sync_fault_production*_summary.csv
+!/research-evaluation/results/processed/ablation_formal*_summary.csv
+/research-evaluation/results/**/*pilot*
+/research-evaluation/results/**/*smoke*
+/research-evaluation/results/**/*precheck*
+/research-evaluation/results/**/bridge_formal_20260802b.*
+
 # OS / editor
 Thumbs.db
+__pycache__/
+*.py[cod]

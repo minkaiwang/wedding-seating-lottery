@@ -1,0 +1,326 @@
+{
+  "source_csv": "E:\\wedding-ec-eval\\research-evaluation\\results\\raw\\ablation_formal_2026-08-03T031053021Z.csv",
+  "records": 3200,
+  "groups": [
+    {
+      "scenario": "message-order",
+      "variant": "sequence-guard",
+      "roster_size": 50,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "message-order",
+      "variant": "sequence-guard",
+      "roster_size": 200,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "message-order",
+      "variant": "sequence-guard",
+      "roster_size": 500,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "message-order",
+      "variant": "sequence-guard",
+      "roster_size": 1000,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "message-order",
+      "variant": "without-sequence-guard",
+      "roster_size": 50,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "message-order",
+      "variant": "without-sequence-guard",
+      "roster_size": 200,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "message-order",
+      "variant": "without-sequence-guard",
+      "roster_size": 500,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "message-order",
+      "variant": "without-sequence-guard",
+      "roster_size": 1000,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "stable-identity",
+      "variant": "full-protocol",
+      "roster_size": 50,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": 1.0,
+      "elapsed_median_ms": 0.03474999999998825,
+      "elapsed_p95_ms": 0.09778999999999476
+    },
+    {
+      "scenario": "stable-identity",
+      "variant": "full-protocol",
+      "roster_size": 200,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": 1.0,
+      "elapsed_median_ms": 0.1370000000000004,
+      "elapsed_p95_ms": 0.30641000000000096
+    },
+    {
+      "scenario": "stable-identity",
+      "variant": "full-protocol",
+      "roster_size": 500,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": 1.0,
+      "elapsed_median_ms": 0.33039999999999736,
+      "elapsed_p95_ms": 0.5979350000000039
+    },
+    {
+      "scenario": "stable-identity",
+      "variant": "full-protocol",
+      "roster_size": 1000,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": 1.0,
+      "elapsed_median_ms": 0.6302499999999895,
+      "elapsed_p95_ms": 0.8669850000000792
+    },
+    {
+      "scenario": "stable-identity",
+      "variant": "without-stable-id",
+      "roster_size": 50,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": 0.0,
+      "elapsed_median_ms": 0.042050000000003196,
+      "elapsed_p95_ms": 0.137995000000012
+    },
+    {
+      "scenario": "stable-identity",
+      "variant": "without-stable-id",
+      "roster_size": 200,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": 0.0,
+      "elapsed_median_ms": 0.16310000000001418,
+      "elapsed_p95_ms": 0.344380000000001
+    },
+    {
+      "scenario": "stable-identity",
+      "variant": "without-stable-id",
+      "roster_size": 500,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": 0.0,
+      "elapsed_median_ms": 0.3982499999999902,
+      "elapsed_p95_ms": 0.8748800000000015
+    },
+    {
+      "scenario": "stable-identity",
+      "variant": "without-stable-id",
+      "roster_size": 1000,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": 0.0,
+      "elapsed_median_ms": 0.7548999999999637,
+      "elapsed_p95_ms": 1.3440549999999631
+    },
+    {
+      "scenario": "state-continuity",
+      "variant": "replace-all",
+      "roster_size": 50,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": 0.0,
+      "elapsed_median_ms": 0.0021000000000128,
+      "elapsed_p95_ms": 0.0062050000000069645
+    },
+    {
+      "scenario": "state-continuity",
+      "variant": "replace-all",
+      "roster_size": 200,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": 0.0,
+      "elapsed_median_ms": 0.0062000000000068,
+      "elapsed_p95_ms": 0.015895000000014627
+    },
+    {
+      "scenario": "state-continuity",
+      "variant": "replace-all",
+      "roster_size": 500,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": 0.0,
+      "elapsed_median_ms": 0.01515000000000545,
+      "elapsed_p95_ms": 0.047760000000013694
+    },
+    {
+      "scenario": "state-continuity",
+      "variant": "replace-all",
+      "roster_size": 1000,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": 0.0,
+      "elapsed_median_ms": 0.02615000000002965,
+      "elapsed_p95_ms": 0.06663999999998964
+    },
+    {
+      "scenario": "state-continuity",
+      "variant": "state-preserving-merge",
+      "roster_size": 50,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": 1.0,
+      "elapsed_median_ms": 0.0319000000000073,
+      "elapsed_p95_ms": 0.059919999999986734
+    },
+    {
+      "scenario": "state-continuity",
+      "variant": "state-preserving-merge",
+      "roster_size": 200,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": 1.0,
+      "elapsed_median_ms": 0.12925000000001313,
+      "elapsed_p95_ms": 0.32312500000002
+    },
+    {
+      "scenario": "state-continuity",
+      "variant": "state-preserving-merge",
+      "roster_size": 500,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": 1.0,
+      "elapsed_median_ms": 0.30809999999999604,
+      "elapsed_p95_ms": 0.5547700000000162
+    },
+    {
+      "scenario": "state-continuity",
+      "variant": "state-preserving-merge",
+      "roster_size": 1000,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": 1.0,
+      "elapsed_median_ms": 0.5822000000000287,
+      "elapsed_p95_ms": 0.8225749999999236
+    },
+    {
+      "scenario": "transient-empty",
+      "variant": "empty-payload-guard",
+      "roster_size": 50,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "transient-empty",
+      "variant": "empty-payload-guard",
+      "roster_size": 200,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "transient-empty",
+      "variant": "empty-payload-guard",
+      "roster_size": 500,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "transient-empty",
+      "variant": "empty-payload-guard",
+      "roster_size": 1000,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "transient-empty",
+      "variant": "without-empty-guard",
+      "roster_size": 50,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "transient-empty",
+      "variant": "without-empty-guard",
+      "roster_size": 200,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "transient-empty",
+      "variant": "without-empty-guard",
+      "roster_size": 500,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "transient-empty",
+      "variant": "without-empty-guard",
+      "roster_size": 1000,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    }
+  ]
+}

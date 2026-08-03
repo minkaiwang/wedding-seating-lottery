@@ -1,0 +1,15 @@
+{
+  "generated_at_utc": "2026-08-03T06:44:41.950Z",
+  "baseline_commit": "e63c8d1",
+  "evaluated_commit": "e63c8d1e0093f304daa8f4e6e1e98605ed61c04c",
+  "evaluated_source_sha256": "fec3d68eec949761c14eabf3baca1f62e320f19e31c4c20c9aba27c7d36a0c43",
+  "node": "v24.15.0",
+  "roster_sizes": [
+    50,
+    200,
+    500,
+    1000
+  ],
+  "repetitions": 100,
+  "records": 3200
+}

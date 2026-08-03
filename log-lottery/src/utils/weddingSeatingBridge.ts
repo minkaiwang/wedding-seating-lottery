@@ -5,8 +5,10 @@ import useStore from '@/store'
 import { addOtherInfo } from '@/utils/index'
 import { isLogLotteryEmbedMode } from '@/utils/runtimeEmbed'
 import { clearSyncExclusions } from '@/utils/seatingSyncExclusions'
+import { deduplicateWeddingSeatingRows } from '@/utils/weddingSeatingMerge'
 import { isTrustedWindowSource } from '@/utils/weddingSeatingMessageSecurity'
 import { allowedWeddingSeatingOrigins } from '@/utils/weddingSeatingOrigins'
+import { normalizeWeddingSeatingRows } from '@/utils/weddingSeatingProtocol'
 
 type ToastApi = ReturnType<typeof useToast>
 
@@ -46,29 +48,6 @@ function readParentOriginFromQuery(): string | null {
     catch {
         return null
     }
-}
-
-function normalizeImportRows(persons: unknown): Record<string, unknown>[] {
-    if (!Array.isArray(persons))
-        return []
-    const out: Record<string, unknown>[] = []
-    for (let i = 0; i < persons.length; i++) {
-        const r = persons[i]
-        if (!r || typeof r !== 'object')
-            continue
-        const o = r as Record<string, unknown>
-        if (typeof o.name !== 'string' || !o.name.trim())
-            continue
-        out.push({
-            uid: o.uid ?? i + 1,
-            plannerGuestId: o.plannerGuestId != null ? String(o.plannerGuestId) : undefined,
-            name: String(o.name).trim(),
-            department: o.department != null ? String(o.department) : '',
-            identity: o.identity != null ? String(o.identity) : '',
-            avatar: o.avatar != null ? String(o.avatar) : '',
-        })
-    }
-    return out
 }
 
 /**
@@ -113,7 +92,9 @@ export function setupWeddingSeatingImportBridge(router: Router, toast: ToastApi)
         if (e.data?.type !== MSG_WEDDING_IMPORT)
             return
 
-        const rows = normalizeImportRows(e.data.persons)
+        const receiverStartedAt = performance.now()
+        const normalized = normalizeWeddingSeatingRows(e.data.persons)
+        const { rows, duplicateCount } = deduplicateWeddingSeatingRows(normalized)
         if (rows.length === 0) {
             emitBridge(EVT_FAILED, { reason: 'invalid-data' })
             toast.open({
@@ -128,17 +109,41 @@ export function setupWeddingSeatingImportBridge(router: Router, toast: ToastApi)
         try {
             const copy = rows.map(r => ({ ...r }))
             const processed = addOtherInfo(copy)
-            clearSyncExclusions()
-            personConfig.resetPerson()
-            personConfig.addNotPersonList(processed)
-            toast.open({
-                message: t('error.weddingSeatingBridgeSuccess'),
-                type: 'success',
-                position: 'top-right',
-            })
-            router.push({ name: 'AllPersonConfig' }).catch(() => {})
-            emitBridge(EVT_IMPORTED, { parentOrigin })
-            window.opener?.postMessage({ type: MSG_WEDDING_DONE, ok: true }, parentOrigin)
+            const replacement = personConfig.replacePersonList(processed)
+            const persistenceStartedAt = performance.now()
+            const sentAt = typeof e.data.sentAt === 'number' && Number.isFinite(e.data.sentAt)
+                ? e.data.sentAt
+                : undefined
+            replacement.persistence
+                .then(() => {
+                    clearSyncExclusions()
+                    toast.open({
+                        message: t('error.weddingSeatingBridgeSuccess'),
+                        type: 'success',
+                        position: 'top-right',
+                    })
+                    router.push({ name: 'AllPersonConfig' }).catch(() => {})
+                    emitBridge(EVT_IMPORTED, {
+                        parentOrigin,
+                        rowsAccepted: replacement.finalCount,
+                        rowsNormalized: normalized.length,
+                        duplicateRowsRemoved: duplicateCount,
+                        guestCount: typeof e.data.guestCount === 'number' ? e.data.guestCount : undefined,
+                        receiverPreparationMs: persistenceStartedAt - receiverStartedAt,
+                        receiverPersistenceMs: performance.now() - persistenceStartedAt,
+                        completionLatencyMs: sentAt !== undefined ? Date.now() - sentAt : undefined,
+                    })
+                    window.opener?.postMessage({ type: MSG_WEDDING_DONE, ok: true }, parentOrigin)
+                })
+                .catch(() => {
+                    emitBridge(EVT_FAILED, { reason: 'persistence-failed' })
+                    toast.open({
+                        message: t('error.importFail'),
+                        type: 'error',
+                        position: 'top-right',
+                    })
+                    window.opener?.postMessage({ type: MSG_WEDDING_DONE, ok: false }, parentOrigin)
+                })
         }
         catch {
             emitBridge(EVT_FAILED, { reason: 'exception' })

@@ -5,7 +5,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { computed, ref, toRaw } from 'vue'
 import { IndexDb } from '@/utils/dexie'
 import { addOtherInfo } from '@/utils/index'
-import { addSyncExclusion, clearSyncExclusions, readSyncExclusions, seatingPersonKey } from '@/utils/seatingSyncExclusions'
+import { addSyncExclusion, clearSyncExclusions, readSyncExclusions } from '@/utils/seatingSyncExclusions'
+import { mergeWeddingSeatingRoster } from '@/utils/weddingSeatingMerge'
 import { defaultPersonList } from './data'
 import { usePrizeConfig } from './prizeConfig'
 
@@ -20,6 +21,38 @@ export const usePersonConfig = defineStore('person', () => {
     })
     /** 防止 IndexedDB 异步 hydration 覆盖 merge / 导入后的内存状态 */
     let suppressDbHydration = false
+    let personDbWriteQueue: Promise<void> = Promise.resolve()
+    let lastScheduledSnapshotKey: string | null = null
+    let lastScheduledSnapshot: Promise<void> = Promise.resolve()
+
+    function clonePersonRows(rows: IPersonConfig[]): IPersonConfig[] {
+        const raw = rows.map(person => toRaw(person))
+        // Person records are JSON data; JSON serialization also unwraps nested Vue proxies.
+        return JSON.parse(JSON.stringify(raw)) as IPersonConfig[]
+    }
+
+    function replacePersonSnapshot(all: IPersonConfig[], already: IPersonConfig[]): Promise<void> {
+        const allSnapshot = clonePersonRows(all)
+        const alreadySnapshot = clonePersonRows(already)
+        const snapshotKey = JSON.stringify([allSnapshot, alreadySnapshot])
+        if (snapshotKey === lastScheduledSnapshotKey)
+            return lastScheduledSnapshot
+
+        const nextWrite = personDbWriteQueue
+            .catch(() => {})
+            .then(() => personDb.replaceDataSets({
+                allPersonList: allSnapshot,
+                alreadyPersonList: alreadySnapshot,
+            }))
+        personDbWriteQueue = nextWrite
+        lastScheduledSnapshotKey = snapshotKey
+        lastScheduledSnapshot = nextWrite
+        nextWrite.catch(() => {
+            if (lastScheduledSnapshotKey === snapshotKey)
+                lastScheduledSnapshotKey = null
+        })
+        return nextWrite
+    }
     Promise.all([
         personDb.getDataSortedByDateTime('allPersonList', 'createTime'),
         personDb.getAllData('alreadyPersonList'),
@@ -158,8 +191,17 @@ export const usePersonConfig = defineStore('person', () => {
         markPersonStoreWritten()
         personConfig.value.allPersonList = []
         personConfig.value.alreadyPersonList = []
-        personDb.deleteAll('allPersonList')
-        personDb.deleteAll('alreadyPersonList')
+        return replacePersonSnapshot([], [])
+    }
+
+    function replacePersonList(personList: IPersonConfig[]) {
+        markPersonStoreWritten()
+        personConfig.value.allPersonList = personList
+        personConfig.value.alreadyPersonList = []
+        return {
+            finalCount: personList.length,
+            persistence: replacePersonSnapshot(personList, []),
+        }
     }
     // 重置已中奖人员
     function resetAlreadyPerson() {
@@ -181,85 +223,31 @@ export const usePersonConfig = defineStore('person', () => {
     function mergeFromSeatingPlanner(incomingRows: Array<Record<string, unknown>>) {
         markPersonStoreWritten()
         const exclusions = readSyncExclusions()
-        const effective = incomingRows.filter((row) => {
-            return !exclusions.has(seatingPersonKey({
-                plannerGuestId: row.plannerGuestId,
-                uid: row.uid,
-                name: typeof row.name === 'string' ? row.name : undefined,
-                department: row.department,
-                identity: row.identity,
-            }))
-        })
+        const normalizedRows = incomingRows.map(row => ({
+            uid: row.uid,
+            plannerGuestId: row.plannerGuestId != null ? String(row.plannerGuestId) : undefined,
+            name: String(row.name).trim(),
+            department: row.department != null ? String(row.department) : '',
+            identity: row.identity != null ? String(row.identity) : '',
+            avatar: row.avatar != null ? String(row.avatar) : '',
+        }))
+        const merged = mergeWeddingSeatingRoster(
+            personConfig.value.allPersonList,
+            personConfig.value.alreadyPersonList,
+            normalizedRows,
+            exclusions,
+            row => addOtherInfo([{ ...row }])[0] as IPersonConfig,
+        )
 
-        if (effective.length === 0) {
-            if (incomingRows.length === 0)
-                resetPerson()
-            return
-        }
+        personConfig.value.allPersonList = merged.allPersonList
+        personConfig.value.alreadyPersonList = merged.alreadyPersonList
 
-        const existingByKey = new Map<string, IPersonConfig>()
-        const legacyByKey = new Map<string, IPersonConfig>()
-        for (const person of personConfig.value.allPersonList) {
-            const key = seatingPersonKey(person)
-            existingByKey.set(key, person)
-            if (person.plannerGuestId == null || String(person.plannerGuestId).trim() === '') {
-                legacyByKey.set(key, person)
-            }
-        }
-
-        const nextList: IPersonConfig[] = []
-        for (const row of effective) {
-            const name = String(row.name).trim()
-            const key = seatingPersonKey({
-                plannerGuestId: row.plannerGuestId,
-                uid: row.uid,
-                name,
-                department: row.department,
-                identity: row.identity,
-            })
-            let existing = existingByKey.get(key)
-            if (!existing && row.plannerGuestId != null && String(row.plannerGuestId).trim() !== '') {
-                const legacyKey = seatingPersonKey({
-                    name,
-                    department: row.department,
-                    identity: row.identity,
-                })
-                existing = legacyByKey.get(legacyKey)
-                if (existing) {
-                    existing.plannerGuestId = String(row.plannerGuestId)
-                    existingByKey.set(key, existing)
-                }
-            }
-            if (existing) {
-                existing.name = name
-                existing.department = row.department != null ? String(row.department) : ''
-                existing.identity = row.identity != null ? String(row.identity) : ''
-                if (row.plannerGuestId != null)
-                    existing.plannerGuestId = String(row.plannerGuestId)
-                if (row.uid != null)
-                    existing.uid = String(row.uid)
-                if (row.avatar != null)
-                    existing.avatar = String(row.avatar)
-                nextList.push(existing)
-            }
-            else {
-                const copy = [{ ...row, name }]
-                const processed = addOtherInfo(copy)[0] as IPersonConfig
-                if (row.plannerGuestId != null)
-                    processed.plannerGuestId = String(row.plannerGuestId)
-                nextList.push(processed)
-            }
-        }
-
-        personConfig.value.allPersonList = nextList
-        const nextIds = new Set(nextList.map(p => p.id))
-        personConfig.value.alreadyPersonList = personConfig.value.alreadyPersonList.filter(p => nextIds.has(p.id))
-
-        personDb.deleteAll('allPersonList')
-        personDb.setAllData('allPersonList', nextList)
-        personDb.deleteAll('alreadyPersonList')
-        for (const person of personConfig.value.alreadyPersonList) {
-            personDb.setData('alreadyPersonList', toRaw(person))
+        const persistence = replacePersonSnapshot(merged.allPersonList, merged.alreadyPersonList)
+        return {
+            ...merged.metrics,
+            finalCount: merged.allPersonList.length,
+            alreadyCount: merged.alreadyPersonList.length,
+            persistence,
         }
     }
 
@@ -298,6 +286,7 @@ export const usePersonConfig = defineStore('person', () => {
         deletePerson,
         deleteAllPerson,
         resetPerson,
+        replacePersonList,
         resetAlreadyPerson,
         mergeFromSeatingPlanner,
         setDefaultPersonList,

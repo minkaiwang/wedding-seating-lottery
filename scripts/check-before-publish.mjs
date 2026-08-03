@@ -142,6 +142,7 @@ const blockedPatterns = [
   { label: 'AWS access key', re: /AKIA[0-9A-Z]{16}/u },
   { label: 'OpenAI API key', re: /(?:sk-[A-Za-z0-9]{32,}|sk-(?:proj|svcacct)-[A-Za-z0-9_-]{20,})/u },
 ];
+const longHexTokenPattern = /(?<![A-Fa-f0-9])[A-Fa-f0-9]{32,}(?![A-Fa-f0-9])/gu;
 let hits = 0;
 for (const rel of tracked.filter(isTextSource)) {
   const file = join(root, rel);
@@ -154,7 +155,13 @@ for (const rel of tracked.filter(isTextSource)) {
     continue;
   }
   for (const { label, re } of blockedPatterns) {
-    if (re.test(content)) {
+    // Cryptographic hashes can contain 11 consecutive decimal digits by chance.
+    // Mask only long hexadecimal tokens for the phone-number check; secrets and
+    // configured project terms must still be scanned against the original text.
+    const scanContent = label === 'possible mainland China mobile number'
+      ? content.replace(longHexTokenPattern, '')
+      : content;
+    if (re.test(scanContent)) {
       err(`Possible personal data (${label}) in ${rel}`);
       hits++;
     }

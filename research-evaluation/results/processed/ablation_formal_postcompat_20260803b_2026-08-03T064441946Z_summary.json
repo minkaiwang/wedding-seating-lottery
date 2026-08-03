@@ -1,0 +1,326 @@
+{
+  "source_csv": "E:\\wedding-ec-eval\\research-evaluation\\results\\raw\\ablation_formal_postcompat_20260803b_2026-08-03T064441946Z.csv",
+  "records": 3200,
+  "groups": [
+    {
+      "scenario": "message-order",
+      "variant": "sequence-guard",
+      "roster_size": 50,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "message-order",
+      "variant": "sequence-guard",
+      "roster_size": 200,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "message-order",
+      "variant": "sequence-guard",
+      "roster_size": 500,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "message-order",
+      "variant": "sequence-guard",
+      "roster_size": 1000,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "message-order",
+      "variant": "without-sequence-guard",
+      "roster_size": 50,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "message-order",
+      "variant": "without-sequence-guard",
+      "roster_size": 200,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "message-order",
+      "variant": "without-sequence-guard",
+      "roster_size": 500,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "message-order",
+      "variant": "without-sequence-guard",
+      "roster_size": 1000,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "stable-identity",
+      "variant": "full-protocol",
+      "roster_size": 50,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": 1.0,
+      "elapsed_median_ms": 0.0987999999999971,
+      "elapsed_p95_ms": 0.20335000000000877
+    },
+    {
+      "scenario": "stable-identity",
+      "variant": "full-protocol",
+      "roster_size": 200,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": 1.0,
+      "elapsed_median_ms": 0.3976000000000113,
+      "elapsed_p95_ms": 0.7870399999999904
+    },
+    {
+      "scenario": "stable-identity",
+      "variant": "full-protocol",
+      "roster_size": 500,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": 1.0,
+      "elapsed_median_ms": 0.9559999999999604,
+      "elapsed_p95_ms": 1.5403949999999693
+    },
+    {
+      "scenario": "stable-identity",
+      "variant": "full-protocol",
+      "roster_size": 1000,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": 1.0,
+      "elapsed_median_ms": 1.8770500000000538,
+      "elapsed_p95_ms": 2.384340000000128
+    },
+    {
+      "scenario": "stable-identity",
+      "variant": "without-stable-id",
+      "roster_size": 50,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": 0.0,
+      "elapsed_median_ms": 0.10289999999999111,
+      "elapsed_p95_ms": 0.24733499999999106
+    },
+    {
+      "scenario": "stable-identity",
+      "variant": "without-stable-id",
+      "roster_size": 200,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": 0.0,
+      "elapsed_median_ms": 0.40209999999999013,
+      "elapsed_p95_ms": 0.779569999999981
+    },
+    {
+      "scenario": "stable-identity",
+      "variant": "without-stable-id",
+      "roster_size": 500,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": 0.0,
+      "elapsed_median_ms": 0.9628999999999905,
+      "elapsed_p95_ms": 1.2944000000000073
+    },
+    {
+      "scenario": "stable-identity",
+      "variant": "without-stable-id",
+      "roster_size": 1000,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": 0.0,
+      "elapsed_median_ms": 1.8693999999999846,
+      "elapsed_p95_ms": 2.4095349999999316
+    },
+    {
+      "scenario": "state-continuity",
+      "variant": "replace-all",
+      "roster_size": 50,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": 0.0,
+      "elapsed_median_ms": 0.0015000000000213,
+      "elapsed_p95_ms": 0.004109999999994235
+    },
+    {
+      "scenario": "state-continuity",
+      "variant": "replace-all",
+      "roster_size": 200,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": 0.0,
+      "elapsed_median_ms": 0.00544999999999615,
+      "elapsed_p95_ms": 0.01379000000002854
+    },
+    {
+      "scenario": "state-continuity",
+      "variant": "replace-all",
+      "roster_size": 500,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": 0.0,
+      "elapsed_median_ms": 0.0132999999999583,
+      "elapsed_p95_ms": 0.020654999999996343
+    },
+    {
+      "scenario": "state-continuity",
+      "variant": "replace-all",
+      "roster_size": 1000,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": 0.0,
+      "elapsed_median_ms": 0.025500000000022248,
+      "elapsed_p95_ms": 0.035450000000054084
+    },
+    {
+      "scenario": "state-continuity",
+      "variant": "state-preserving-merge",
+      "roster_size": 50,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": 1.0,
+      "elapsed_median_ms": 0.09534999999999624,
+      "elapsed_p95_ms": 0.23341000000001763
+    },
+    {
+      "scenario": "state-continuity",
+      "variant": "state-preserving-merge",
+      "roster_size": 200,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": 1.0,
+      "elapsed_median_ms": 0.37979999999998876,
+      "elapsed_p95_ms": 0.5778949999999639
+    },
+    {
+      "scenario": "state-continuity",
+      "variant": "state-preserving-merge",
+      "roster_size": 500,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": 1.0,
+      "elapsed_median_ms": 0.9196000000000595,
+      "elapsed_p95_ms": 1.6608400000000187
+    },
+    {
+      "scenario": "state-continuity",
+      "variant": "state-preserving-merge",
+      "roster_size": 1000,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": 1.0,
+      "elapsed_median_ms": 1.810750000000098,
+      "elapsed_p95_ms": 2.417644999999834
+    },
+    {
+      "scenario": "transient-empty",
+      "variant": "empty-payload-guard",
+      "roster_size": 50,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "transient-empty",
+      "variant": "empty-payload-guard",
+      "roster_size": 200,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "transient-empty",
+      "variant": "empty-payload-guard",
+      "roster_size": 500,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "transient-empty",
+      "variant": "empty-payload-guard",
+      "roster_size": 1000,
+      "runs": 100,
+      "outcome_success_rate": 1.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "transient-empty",
+      "variant": "without-empty-guard",
+      "roster_size": 50,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "transient-empty",
+      "variant": "without-empty-guard",
+      "roster_size": 200,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "transient-empty",
+      "variant": "without-empty-guard",
+      "roster_size": 500,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    },
+    {
+      "scenario": "transient-empty",
+      "variant": "without-empty-guard",
+      "roster_size": 1000,
+      "runs": 100,
+      "outcome_success_rate": 0.0,
+      "state_preservation_rate": NaN,
+      "elapsed_median_ms": 0.0,
+      "elapsed_p95_ms": 0.0
+    }
+  ]
+}

@@ -83,7 +83,16 @@ export function startLotteryImportBridge(
 
     if (e.data?.type === LOTTERY_MSG_READY && !sent && child && !child.closed) {
       sent = true;
-      child.postMessage({ type: LOTTERY_MSG_IMPORT, persons: buildPersonsForImport() }, lotteryOrigin);
+      const currentPersons = buildPersonsForImport();
+      child.postMessage(
+        {
+          type: LOTTERY_MSG_IMPORT,
+          persons: currentPersons,
+          guestCount: currentPersons.length,
+          sentAt: Date.now(),
+        },
+        lotteryOrigin,
+      );
       return;
     }
 

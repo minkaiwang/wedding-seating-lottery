@@ -1,0 +1,262 @@
+{
+  "source_glob": "live_sync_fault_production_postcompat_*.json",
+  "source_file_count": 90,
+  "record_count": 630,
+  "pass_count": 630,
+  "all_pass": true,
+  "evaluated_source_sha256_values": [
+    "d58eda3e36484156dc108e69a5e76ac685244618bfd52786eaaec9125f1e6607"
+  ],
+  "next_build_id_sha256_values": [
+    "99ea47c27c5ef50bdb4c94f089ee749ae5b2b2f80926203aa006dbdf1c3cf53c"
+  ],
+  "lottery_dist_index_sha256_values": [
+    "ddd9970bf403309814c4072b50a3e1ef11a9be20781faf30db41cb58ce0655c7"
+  ],
+  "browser_versions": {
+    "chromium": [
+      "149.0.7827.55"
+    ],
+    "firefox": [
+      "151.0"
+    ],
+    "webkit": [
+      "26.5"
+    ]
+  },
+  "consistent_source_and_build_fingerprints": true,
+  "summary_script_sha256": "bfc4d351a9bf79bcb36531a3dbfdbb67a8633e66ec059ad76e461e512decb9c5",
+  "groups": [
+    {
+      "browser": "chromium",
+      "scenario": "control-current-sequence",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 17.0,
+      "latency_p95_ms": 19.549999999999997
+    },
+    {
+      "browser": "chromium",
+      "scenario": "duplicate-row-last-wins",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 40.0,
+      "latency_p95_ms": 50.64999999999999
+    },
+    {
+      "browser": "chromium",
+      "scenario": "duplicate-sequence",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 9.0,
+      "latency_p95_ms": 13.0
+    },
+    {
+      "browser": "chromium",
+      "scenario": "initial-sync",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 8.0,
+      "latency_p95_ms": 10.649999999999991
+    },
+    {
+      "browser": "chromium",
+      "scenario": "intentional-clear",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 2.0,
+      "latency_p95_ms": 2.549999999999997
+    },
+    {
+      "browser": "chromium",
+      "scenario": "recovery-after-clear",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 52.0,
+      "latency_p95_ms": 63.0
+    },
+    {
+      "browser": "chromium",
+      "scenario": "transient-empty",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 2.0,
+      "latency_p95_ms": 3.0
+    },
+    {
+      "browser": "firefox",
+      "scenario": "control-current-sequence",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 22.0,
+      "latency_p95_ms": 24.549999999999997
+    },
+    {
+      "browser": "firefox",
+      "scenario": "duplicate-row-last-wins",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 55.5,
+      "latency_p95_ms": 62.0
+    },
+    {
+      "browser": "firefox",
+      "scenario": "duplicate-sequence",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 13.0,
+      "latency_p95_ms": 15.0
+    },
+    {
+      "browser": "firefox",
+      "scenario": "initial-sync",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 13.0,
+      "latency_p95_ms": 15.0
+    },
+    {
+      "browser": "firefox",
+      "scenario": "intentional-clear",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 3.0,
+      "latency_p95_ms": 3.0
+    },
+    {
+      "browser": "firefox",
+      "scenario": "recovery-after-clear",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 66.5,
+      "latency_p95_ms": 74.0
+    },
+    {
+      "browser": "firefox",
+      "scenario": "transient-empty",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 3.0,
+      "latency_p95_ms": 4.0
+    },
+    {
+      "browser": "webkit",
+      "scenario": "control-current-sequence",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 22.0,
+      "latency_p95_ms": 27.19999999999999
+    },
+    {
+      "browser": "webkit",
+      "scenario": "duplicate-row-last-wins",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 3167.0,
+      "latency_p95_ms": 3185.3
+    },
+    {
+      "browser": "webkit",
+      "scenario": "duplicate-sequence",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 15.5,
+      "latency_p95_ms": 20.549999999999997
+    },
+    {
+      "browser": "webkit",
+      "scenario": "initial-sync",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 4748.5,
+      "latency_p95_ms": 4798.0
+    },
+    {
+      "browser": "webkit",
+      "scenario": "intentional-clear",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 7.0,
+      "latency_p95_ms": 13.549999999999997
+    },
+    {
+      "browser": "webkit",
+      "scenario": "recovery-after-clear",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 3198.0,
+      "latency_p95_ms": 3214.65
+    },
+    {
+      "browser": "webkit",
+      "scenario": "transient-empty",
+      "runs": 30.0,
+      "passes": 30.0,
+      "success_rate": 1.0,
+      "wilson_95_low": 0.8864866068260312,
+      "wilson_95_high": 0.9999999999999999,
+      "latency_median_ms": 8.0,
+      "latency_p95_ms": 14.549999999999997
+    }
+  ]
+}

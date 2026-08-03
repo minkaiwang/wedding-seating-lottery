@@ -2,6 +2,7 @@ import useStore from '@/store'
 import { isLogLotteryEmbedMode } from '@/utils/runtimeEmbed'
 import { isTrustedWindowSource, readTrustedLiveSyncParentOrigin } from '@/utils/weddingSeatingMessageSecurity'
 import { allowedWeddingSeatingOrigins } from '@/utils/weddingSeatingOrigins'
+import { decideWeddingSeatingSync } from '@/utils/weddingSeatingProtocol'
 
 /** 与婚礼座位站点 `lotteryLiveSync.ts` 中常量一致 */
 export const MSG_WEDDING_LIVE_SYNC = 'WEDDING_SEATING_SYNC'
@@ -12,6 +13,20 @@ export const MSG_WEDDING_LIVE_SYNC_READY = 'WEDDING_SEATING_SYNC_READY'
  * Dev server logs stale skips without this flag; applied payloads log only when the flag is set (avoids console spam while dragging).
  */
 export const LIVE_SYNC_DEBUG_LS_KEY = 'logLottery:liveSyncDebug'
+export const LIVE_SYNC_RESULT_EVENT = 'wedding-seating-live-sync-result'
+
+function emitLiveSyncResult(action: string, detail: object): void {
+    queueMicrotask(() => {
+        try {
+            window.dispatchEvent(new CustomEvent(LIVE_SYNC_RESULT_EVENT, {
+                detail: { action, ...detail },
+            }))
+        }
+        catch {
+            // Evaluation instrumentation must never alter the runtime path.
+        }
+    })
+}
 
 function liveSyncVerboseFlag(): boolean {
     try {
@@ -36,33 +51,10 @@ function liveSyncDebugApply(...args: unknown[]): void {
     console.debug('[wedding-seating-live-sync]', ...args)
 }
 
-function liveSyncWarnMismatch(message: string, detail: Record<string, unknown>): void {
+function liveSyncWarnMismatch(message: string, detail: object): void {
     if (!liveSyncVerboseFlag())
         return
     console.warn('[wedding-seating-live-sync]', message, detail)
-}
-
-function normalizeImportRows(persons: unknown): Record<string, unknown>[] {
-    if (!Array.isArray(persons))
-        return []
-    const out: Record<string, unknown>[] = []
-    for (let i = 0; i < persons.length; i++) {
-        const r = persons[i]
-        if (!r || typeof r !== 'object')
-            continue
-        const o = r as Record<string, unknown>
-        if (typeof o.name !== 'string' || !o.name.trim())
-            continue
-        out.push({
-            uid: o.uid ?? i + 1,
-            plannerGuestId: o.plannerGuestId != null ? String(o.plannerGuestId) : undefined,
-            name: String(o.name).trim(),
-            department: o.department != null ? String(o.department) : '',
-            identity: o.identity != null ? String(o.identity) : '',
-            avatar: o.avatar != null ? String(o.avatar) : '',
-        })
-    }
-    return out
 }
 
 /**
@@ -95,30 +87,14 @@ export function setupWeddingSeatingLiveSync(): () => void {
         if (e.data?.type !== MSG_WEDDING_LIVE_SYNC)
             return
 
-        const seq = e.data?.seq
-        const hasSeq = typeof seq === 'number' && Number.isFinite(seq)
-        if (hasSeq && seq <= lastAppliedSeq) {
-            liveSyncDebugStale('skip stale message', { seq, lastAppliedSeq })
+        const decision = decideWeddingSeatingSync(e.data, lastAppliedSeq)
+        const { meta } = decision
+
+        if (decision.action === 'ignore-stale') {
+            liveSyncDebugStale('skip stale message', { seq: meta.seq, lastAppliedSeq })
+            emitLiveSyncResult('ignore-stale', { ...meta, lastAppliedSeq })
             return
         }
-
-        const metaGuestCount = e.data?.guestCount
-        const metaTableCount = e.data?.tableCount
-        const metaPlannerTotal = e.data?.plannerGuestTotal
-        const metaSentAt = e.data?.sentAt
-        const sentAtMs = typeof metaSentAt === 'number' && Number.isFinite(metaSentAt) ? metaSentAt : undefined
-        const latencyMs = sentAtMs !== undefined ? Date.now() - sentAtMs : undefined
-
-        const meta = {
-            seq: hasSeq ? seq : undefined,
-            guestCount: typeof metaGuestCount === 'number' && Number.isFinite(metaGuestCount) ? metaGuestCount : undefined,
-            plannerGuestTotal:
-                typeof metaPlannerTotal === 'number' && Number.isFinite(metaPlannerTotal) ? metaPlannerTotal : undefined,
-            tableCount: typeof metaTableCount === 'number' && Number.isFinite(metaTableCount) ? metaTableCount : undefined,
-            latencyMs: latencyMs !== undefined && Number.isFinite(latencyMs) ? latencyMs : undefined,
-        }
-
-        const rows = normalizeImportRows(e.data.persons)
 
         if (
             liveSyncVerboseFlag()
@@ -132,42 +108,67 @@ export function setupWeddingSeatingLiveSync(): () => void {
             })
         }
 
-        if (rows.length === 0) {
-            const plannerTotal = meta.plannerGuestTotal ?? 0
-            const guestCountMeta = meta.guestCount ?? 0
-            if (guestCountMeta > 0 || plannerTotal > 0) {
-                liveSyncWarnMismatch('skip empty payload while seating still has guests (bad or transient sync)', {
-                    ...meta,
-                    rawPersonsLen: Array.isArray(e.data.persons) ? e.data.persons.length : undefined,
-                })
-                return
-            }
-            personConfig.resetPerson()
-            if (hasSeq)
-                lastAppliedSeq = seq
-            liveSyncDebugApply('applied empty list (intentional clear)', meta)
+        if (decision.action === 'skip-empty') {
+            liveSyncWarnMismatch('skip empty payload while seating still has guests (bad or transient sync)', meta)
+            emitLiveSyncResult('skip-empty', meta)
             return
         }
 
+        if (decision.action === 'clear') {
+            const persistence = personConfig.resetPerson()
+            if (meta.seq !== undefined)
+                lastAppliedSeq = meta.seq
+            liveSyncDebugApply('applied empty list (intentional clear)', meta)
+            persistence
+                .then(() => emitLiveSyncResult('clear', { ...meta, rowsAccepted: 0 }))
+                .catch(err => emitLiveSyncResult('persistence-failed', {
+                    ...meta,
+                    requestedAction: 'clear',
+                    errorName: err instanceof Error ? err.name : 'unknown',
+                }))
+            return
+        }
+
+        const rows = decision.rows
         if (meta.guestCount !== undefined && meta.guestCount !== rows.length) {
             liveSyncWarnMismatch('guestCount !== normalized rows', {
                 ...meta,
                 normalizedRows: rows.length,
-                rawPersonsLen: Array.isArray(e.data.persons) ? e.data.persons.length : undefined,
             })
         }
 
         try {
             const copy = rows.map(r => ({ ...r }))
-            personConfig.mergeFromSeatingPlanner(copy)
-            if (hasSeq)
-                lastAppliedSeq = seq
+            const mergeOutcome = personConfig.mergeFromSeatingPlanner(copy)
+            if (meta.seq !== undefined)
+                lastAppliedSeq = meta.seq
             liveSyncDebugApply('applied', { ...meta, rowsAccepted: copy.length })
+            mergeOutcome.persistence
+                .then(() => emitLiveSyncResult('merge', {
+                    ...meta,
+                    rowsNormalized: copy.length,
+                    rowsAccepted: mergeOutcome.finalCount,
+                    duplicateRowsRemoved: mergeOutcome.deduplicated,
+                    excludedRows: mergeOutcome.excluded,
+                    stateMatches: mergeOutcome.matchedByStableKey,
+                    legacyUpgrades: mergeOutcome.upgradedFromLegacy,
+                    createdRows: mergeOutcome.created,
+                    completionLatencyMs: meta.sentAt !== undefined ? Date.now() - meta.sentAt : undefined,
+                }))
+                .catch(err => emitLiveSyncResult('persistence-failed', {
+                    ...meta,
+                    requestedAction: 'merge',
+                    errorName: err instanceof Error ? err.name : 'unknown',
+                }))
         }
         catch (err) {
             if (import.meta.env.DEV || liveSyncVerboseFlag()) {
                 console.warn('[wedding-seating-live-sync] merge failed', err)
             }
+            emitLiveSyncResult('merge-failed', {
+                ...meta,
+                errorName: err instanceof Error ? err.name : 'unknown',
+            })
         }
     }
 
