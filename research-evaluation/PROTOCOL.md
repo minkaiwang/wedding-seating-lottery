@@ -69,7 +69,9 @@ The controlled evaluation may support claims about software correctness, protoco
 
 ## 8. Execution record
 
-The current post-compatibility normal-path matrix was executed against production builds on 2026-08-03. It contains one warm-up and 30 measured runs in each of 12 browser-size cells. All 360 measured transfers completed with the exact expected stable-ID set and no duplicate stable IDs. The current production fault matrix contains 30 independent seven-scenario sequences per browser at 200 records; all 630 outcomes passed. The current analytical ablation contains 100 generated cases per roster size and variant (3,200 records).
+The current post-EC-007 normal-path matrix was executed against production builds on 2026-08-03 at source commit `fddac24062ecd34776dd5c4180c7a58a6ddea700`. It contains one warm-up and 30 measured runs in each of 12 browser-size cells. All 360 measured transfers completed with the exact expected stable-ID set and no duplicate stable IDs. The current production fault matrix contains 30 independent seven-scenario sequences per browser at 200 records; all 630 outcomes passed. The current analytical ablation contains 100 generated cases per roster size and variant (3,200 records).
+
+EC-007 concerns retrying the same sequence after receiver persistence rejects. It is covered by deterministic sequence-state and live-listener regression tests. The cross-browser 630-outcome matrix retains its preregistered seven-scenario definition and does not include an injected storage rejection; the aggregate must not be cited as direct EC-007 evidence.
 
 Every current fault-sequence file shares one evaluated source hash and one pair of production-build hashes. The current E2E batch records its own source and build fingerprints. The ablation records a separate hash over its pure evaluation path because each harness fingerprints a different relevant file set.
 

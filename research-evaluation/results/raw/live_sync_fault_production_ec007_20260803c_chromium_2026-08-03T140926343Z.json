@@ -1,0 +1,88 @@
+{
+  "metadata": {
+    "generated_at_utc": "2026-08-03T14:09:26.429Z",
+    "baseline_commit": "e63c8d1",
+    "evaluated_commit": "fddac24062ecd34776dd5c4180c7a58a6ddea700",
+    "evaluated_source_sha256": "4afc58b3bc7b040587c22e02f2e426197e5865bdabe71f66faa49f55b59b823c",
+    "node": "v24.15.0",
+    "browser": "chromium",
+    "browser_version": "149.0.7827.55",
+    "roster_size": 200,
+    "server_mode": "production",
+    "next_build_id_sha256": "659e0c0559170da56a38cd2dace6529c103280a1c4b8ac6a8bc29aecb7155ecd",
+    "lottery_dist_index_sha256": "60fb02188fae26696c235f7c096cfd5620cf871a1850835c6867f8c636040fbc"
+  },
+  "records": [
+    {
+      "scenario": "initial-sync",
+      "expected_action": "merge",
+      "observed_action": "merge",
+      "status": "pass",
+      "final_count": 200,
+      "unique_stable_ids": 200,
+      "duplicate_rows_removed": 0,
+      "protocol_completion_latency_ms": 5
+    },
+    {
+      "scenario": "control-current-sequence",
+      "expected_action": "merge",
+      "observed_action": "merge",
+      "status": "pass",
+      "final_count": 200,
+      "unique_stable_ids": 200,
+      "duplicate_rows_removed": 0,
+      "protocol_completion_latency_ms": 20
+    },
+    {
+      "scenario": "duplicate-sequence",
+      "expected_action": "ignore-stale",
+      "observed_action": "ignore-stale",
+      "status": "pass",
+      "final_count": 200,
+      "unique_stable_ids": 200,
+      "duplicate_rows_removed": null,
+      "protocol_completion_latency_ms": 11
+    },
+    {
+      "scenario": "transient-empty",
+      "expected_action": "skip-empty",
+      "observed_action": "skip-empty",
+      "status": "pass",
+      "final_count": 200,
+      "unique_stable_ids": 200,
+      "duplicate_rows_removed": null,
+      "protocol_completion_latency_ms": 3
+    },
+    {
+      "scenario": "duplicate-row-last-wins",
+      "expected_action": "merge",
+      "observed_action": "merge",
+      "status": "pass",
+      "final_count": 200,
+      "unique_stable_ids": 200,
+      "duplicate_rows_removed": 1,
+      "protocol_completion_latency_ms": 44,
+      "corrected_department": "Table corrected"
+    },
+    {
+      "scenario": "intentional-clear",
+      "expected_action": "clear",
+      "observed_action": "clear",
+      "status": "pass",
+      "final_count": 0,
+      "unique_stable_ids": 0,
+      "duplicate_rows_removed": null,
+      "protocol_completion_latency_ms": 3
+    },
+    {
+      "scenario": "recovery-after-clear",
+      "expected_action": "merge",
+      "observed_action": "merge",
+      "status": "pass",
+      "final_count": 200,
+      "unique_stable_ids": 200,
+      "duplicate_rows_removed": 0,
+      "protocol_completion_latency_ms": 59
+    }
+  ]
+}

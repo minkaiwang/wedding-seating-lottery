@@ -7,15 +7,15 @@ The evaluation uses synthetic records only. Do not copy wedding guest files, pho
 ## Current frozen results
 
 - `RESULTS_REPORT.md`: human-readable method, findings, incidents, and claim boundaries.
-- `results/raw/bridge_production_formal_postcompat_20260803b.json`: current production E2E batch, including environment and build fingerprints.
-- `results/processed/bridge_production_formal_postcompat_20260803b_summary.csv`: current browser-by-size summary.
-- `results/figures/bridge_production_formal_postcompat_20260803b_latency.pdf`: current publication latency figure.
-- `results/processed/live_sync_fault_production_postcompat_20260803b_summary.csv`: current production fault-sequence summary from 90 run files.
-- `results/raw/ablation_formal_postcompat_20260803b_2026-08-03T064441946Z.csv`: current analytical ablation records.
-- `results/figures/ablation_formal_postcompat_20260803b_2026-08-03T064441946Z_outcomes.pdf`: current ablation figure.
+- `results/raw/bridge_production_formal_ec007_20260803c.json`: current production E2E batch, including environment and build fingerprints.
+- `results/processed/bridge_production_formal_ec007_20260803c_summary.csv`: current browser-by-size summary.
+- `results/figures/bridge_production_formal_ec007_20260803c_latency.pdf`: current publication latency figure.
+- `results/processed/live_sync_fault_production_ec007_20260803c_summary.csv`: current production fault-sequence summary from 90 run files.
+- `results/raw/ablation_formal_ec007_20260803c_2026-08-03T132449529Z.csv`: current analytical ablation records.
+- `results/figures/ablation_formal_ec007_20260803c_2026-08-03T132449529Z_outcomes.pdf`: current ablation figure.
 - `DEFECT_LOG.md`: reproducible baseline defects and regression evidence.
 
-The earlier `20260802a` production batch and its one retained WebKit non-completion remain in `results/raw/` for historical audit. Pilot and failed setup files also remain there and are not pooled with the current frozen summaries.
+The earlier `20260802a` and `20260803b` production batches remain in `results/raw/` for historical audit. Pilot and failed setup files also remain there and are not pooled with the current frozen summaries. The current source commit is `fddac24062ecd34776dd5c4180c7a58a6ddea700`.
 
 ## Reproduction
 
