@@ -74,6 +74,8 @@ wedding-seating-plan*.json
 !/research-evaluation/results/processed/bridge_production_formal*_summary.csv
 !/research-evaluation/results/processed/live_sync_fault_production*_summary.csv
 !/research-evaluation/results/processed/ablation_formal*_summary.csv
+!/research-evaluation/results/raw/property_formal*.json
+!/research-evaluation/results/processed/property_formal*_summary.csv
 /research-evaluation/results/**/*pilot*
 /research-evaluation/results/**/*smoke*
 /research-evaluation/results/**/*precheck*
