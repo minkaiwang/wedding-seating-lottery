@@ -76,3 +76,9 @@ EC-007 concerns retrying the same sequence after receiver persistence rejects. I
 Every current fault-sequence file shares one evaluated source hash and one pair of production-build hashes. The current E2E batch records its own source and build fingerprints. The ablation records a separate hash over its pure evaluation path because each harness fingerprints a different relevant file set.
 
 The earlier `bridge_production_formal_20260802a` batch remains part of the audit trail. It was resumed once after an outer command-time limit and retained one WebKit 1,000-record non-completion whose Playwright wait substantially exceeded the requested timeout. That event was not reproduced in the later 30-run post-compatibility cell. It remains historical evidence and is not pooled into the current 360-run estimate.
+
+## 9. Property-based extension
+
+`PROPERTY_PROTOCOL.md` adds nine executable properties for semantic normalization, structured identity, deterministic stable-ID deduplication, state-preserving merge, one-to-one legacy upgrade, exclusion continuity, sequence retry, and empty-payload semantics. The clean-code formal batch `property_formal_20260804b` evaluated local code commit `a035b1fea7367466f21194c4685687d545ceecfc` with `fast-check` 3.23.2. All nine properties passed 2,000 generated cases each: 18,000/18,000 checks, with zero skips, zero failures, and no shrinking required.
+
+This extension broadens generated input coverage but does not change the execution record in Section 8. It evaluates pure functions on one machine and cannot be pooled with the 360 browser transfers, 630 browser-state outcomes, or 3,200 ablation records. Multi-operating-system CI and independent-operator/native-Safari checks remain separate validation steps.

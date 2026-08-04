@@ -14,6 +14,10 @@ The evaluation uses synthetic records only. Do not copy wedding guest files, pho
 - `results/raw/ablation_formal_ec007_20260803c_2026-08-03T132449529Z.csv`: current analytical ablation records.
 - `results/figures/ablation_formal_ec007_20260803c_2026-08-03T132449529Z_outcomes.pdf`: current ablation figure.
 - `DEFECT_LOG.md`: reproducible baseline defects and regression evidence.
+- `PROPERTY_PROTOCOL.md`: fixed-seed generated-input protocol for nine executable handoff invariants.
+- `PROPERTY_RESULTS_REPORT.md`: formal property-based result and claim boundaries.
+- `results/raw/property_formal_20260804b.json`: current clean-code property batch, with replay seeds and source hash.
+- `results/processed/property_formal_20260804b_summary.csv`: one-row-per-property summary for the current batch.
 
 The earlier `20260802a` and `20260803b` production batches remain in `results/raw/` for historical audit. Pilot and failed setup files also remain there and are not pooled with the current frozen summaries. The current source commit is `fddac24062ecd34776dd5c4180c7a58a6ddea700`.
 
@@ -50,3 +54,14 @@ python research-evaluation/scripts/summarize_bridge.py research-evaluation/resul
 python research-evaluation/scripts/summarize_faults.py 'live_sync_fault_production_postcompat_*.json' live_sync_fault_production_postcompat_local
 python research-evaluation/scripts/summarize_ablation.py research-evaluation/results/raw/ablation_formal_<timestamp>.csv
 ```
+
+Run the property-based handoff invariants:
+
+```powershell
+$env:EVAL_PROPERTY_RUNS='2000'
+$env:EVAL_PROPERTY_SEED='20260804'
+$env:EVAL_PROPERTY_RUN_ID='property_local_reproduction'
+npm run evaluate:properties
+```
+
+The runner refuses to overwrite an existing run ID. Generated property cases exercise pure protocol and merge functions; they are not browser, device, participant, or field observations.

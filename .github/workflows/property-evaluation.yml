@@ -1,0 +1,60 @@
+name: Property-based handoff evaluation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - research/ec-property-evaluation
+    paths:
+      - package.json
+      - package-lock.json
+      - log-lottery/src/utils/weddingSeatingProtocol.ts
+      - log-lottery/src/utils/weddingSeatingMerge.ts
+      - log-lottery/src/utils/seatingSyncExclusions.ts
+      - research-evaluation/PROPERTY_PROTOCOL.md
+      - research-evaluation/scripts/run-property-evaluation.ts
+      - .github/workflows/property-evaluation.yml
+
+permissions:
+  contents: read
+
+jobs:
+  property-evaluation:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run fixed-seed properties
+        run: npm run evaluate:properties
+        env:
+          EVAL_PROPERTY_RUNS: '2000'
+          EVAL_PROPERTY_SEED: '20260804'
+          EVAL_PROPERTY_RUN_ID: property_ci_${{ runner.os }}_${{ github.run_id }}_${{ github.run_attempt }}
+
+      - name: Upload property results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: property-results-${{ runner.os }}
+          path: |
+            research-evaluation/results/raw/property_ci_*.json
+            research-evaluation/results/processed/property_ci_*_summary.csv
+          if-no-files-found: error
