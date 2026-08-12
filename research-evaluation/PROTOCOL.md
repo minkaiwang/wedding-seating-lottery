@@ -16,7 +16,7 @@ A completed handoff must satisfy four coupled clauses:
 
 1. **Semantic identity (I1):** the destination contains the expected stable-ID set, no duplicates, and exact normalized values for `name`, `department`, `identity`, and `avatar`.
 2. **Destination-state continuity (I2):** updates preserve destination-owned identifiers, winning state, prize history, and exclusions for the same person.
-3. **Message order and empty-payload semantics (I3):** the receiver accepts messages only from the bound peer and allowed origin, rejects duplicate or stale sequences, protects a valid nonempty roster from malformed transient empties, and permits an explicit zero-roster clear.
+3. **Message eligibility, order, and empty-payload semantics (I3):** the receiver accepts messages only from the bound peer and allowed origin, rejects duplicate or stale sequences, protects a valid nonempty roster from malformed transient empties, and permits an explicit zero-roster clear.
 4. **Post-commit completion (I4):** completion is emitted only after the accepted snapshot has reached durable storage; a failed unsuperseded commit remains retryable.
 
 For message sequence `n`, completion is sound only when `H(n) = I1 and I2 and I3 and I4` holds for the accepted and persisted snapshot.
@@ -55,7 +55,7 @@ The property unit is one generated pure-function case. Nine properties receive 2
 | Latency | Monotonic elapsed time from sender dispatch to receiver completion |
 | Ablation outcome | The targeted contract clause holds under the enabled or removed mechanism |
 
-Success rates use Wilson 95% confidence intervals. Latency is reported with median, interquartile range, and 95th percentile.
+Deterministic matrices report pass counts against their executable oracles. Latency is reported with median, interquartile range, and 95th percentile.
 
 ## 6. Defect-to-evidence trace
 

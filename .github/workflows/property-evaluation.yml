@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - research/ec-property-evaluation
+      - research/jss-evidence-alignment
     paths:
       - package.json
       - package-lock.json

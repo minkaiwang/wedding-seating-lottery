@@ -58,12 +58,16 @@ describe('wedding seating live-sync persistence retry', () => {
 
     it('rejects a duplicate while pending and accepts the same sequence after persistence fails', async () => {
         let rejectPersistence!: (reason: Error) => void
+        let resolveRetryPersistence!: () => void
         const firstPersistence = new Promise<void>((_resolve, reject) => {
             rejectPersistence = reject
         })
+        const retryPersistence = new Promise<void>((resolve) => {
+            resolveRetryPersistence = resolve
+        })
         mocks.mergeFromSeatingPlanner
             .mockReturnValueOnce(mergeOutcome(firstPersistence))
-            .mockReturnValueOnce(mergeOutcome(Promise.resolve()))
+            .mockReturnValueOnce(mergeOutcome(retryPersistence))
 
         const events: Array<Record<string, unknown>> = []
         const onResult = (event: Event) => {
@@ -96,6 +100,9 @@ describe('wedding seating live-sync persistence retry', () => {
 
         dispatch()
         await vi.waitFor(() => expect(mocks.mergeFromSeatingPlanner).toHaveBeenCalledTimes(2))
+        expect(events.filter(event => event.action === 'merge')).toHaveLength(0)
+
+        resolveRetryPersistence()
         await vi.waitFor(() => expect(events.filter(event => event.action === 'merge')).toHaveLength(1))
 
         dispose()
