@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-This protocol extends the frozen post-EC-007 evaluation with generated-input checks of the handoff invariants. It does not replace the production-build browser matrix, the fault-sequence matrix, or the analytical ablation. Its purpose is to test whether the corrected pure protocol and merge functions continue to satisfy their stated properties across diverse synthetic inputs, including Unicode, whitespace, delimiters, duplicate stable identifiers, duplicate public identities, historical exclusion keys, and sequence failures.
+This protocol adds generated-input checks to the browser, fault-sequence, and analytical-ablation evidence. It tests whether the pure protocol and merge functions satisfy their stated properties across synthetic Unicode, whitespace, delimiter, duplicate-identity, exclusion, and sequence-failure inputs.
 
 The evaluation uses `fast-check` 3.23.2. A fixed seed and a fixed run count are recorded for every property. On failure, the raw JSON retains the seed, shrink count, replay path, and minimized counterexample.
 
@@ -35,7 +35,7 @@ The runner records the parent Git commit, dirty-worktree state, relevant-source 
 ```powershell
 $env:EVAL_PROPERTY_RUNS='2000'
 $env:EVAL_PROPERTY_SEED='20260804'
-$env:EVAL_PROPERTY_RUN_ID='property_formal_20260804a'
+$env:EVAL_PROPERTY_RUN_ID='property_local_reproduction'
 npm run evaluate:properties
 ```
 
@@ -46,4 +46,4 @@ The runner refuses to overwrite an existing run ID. Successful execution writes:
 
 ## 5. Interpretation boundary
 
-A passing property evaluation supports the listed invariants for the generated input domains and the recorded implementation. It does not establish exhaustive correctness, browser or device portability, native Safari behavior, storage-failure incidence, organizer workload, usability, guest experience, perceived fairness, or wedding-day performance. Generated cases are property checks, not independent participants or real event observations.
+A passing property evaluation supports the listed invariants for the generated input domains and recorded implementation. It is not exhaustive proof and does not establish browser behavior, native Safari behavior, storage-failure incidence, usability, or field reliability. Generated cases are property checks rather than participants or event observations.

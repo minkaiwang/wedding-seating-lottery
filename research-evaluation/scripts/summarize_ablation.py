@@ -41,14 +41,16 @@ def main() -> None:
     summary_csv = processed_dir / f"{stem}_summary.csv"
     summary_json = processed_dir / f"{stem}_summary.json"
     summary.to_csv(summary_csv, index=False, float_format="%.6f")
+    json_ready = summary.astype(object).where(pd.notna(summary), None)
     summary_json.write_text(
         json.dumps(
             {
                 "source_csv": str(source),
                 "records": int(len(data)),
-                "groups": summary.to_dict(orient="records"),
+                "groups": json_ready.to_dict(orient="records"),
             },
             ensure_ascii=True,
+            allow_nan=False,
             indent=2,
         )
         + "\n",

@@ -1,84 +1,75 @@
-# Seating-Lottery Integration Evaluation Protocol
+# Seating-Lottery Handoff Evaluation Protocol
 
-## 1. Evaluation status
+## 1. Scope and versioning
 
-- Baseline commit: `e63c8d1`
-- Evaluation branch: `research/ec-evaluation`
-- System under evaluation: the repository's integration layer between the seating planner and the vendored lottery application
-- Out of scope: upstream seating algorithms, 3D rendering, prize-selection UI, and claims about guest satisfaction or organizer workload
-- Data: deterministic synthetic guest records only; no real guest names or contact details
+- Reproducible baseline: `e63c8d1e0093f304daa8f4e6e1e98605ed61c04c`
+- Evaluation branch: `research/jss-evidence-alignment`
+- Peer-binding correction: `9ef774080125d6d0d7ae99701f2e27283e49ea51`
+- System under evaluation: the integration layer between the seating planner and the vendored lottery application
+- Data: deterministic synthetic records only
 
-This protocol is fixed before changing integration behavior. Any defect discovered after the baseline run must be retained as a failing regression case. Results must distinguish the baseline from the corrected implementation.
+The evaluation covers roster normalization, identity construction, peer and origin binding, message sequencing, state-preserving merge, IndexedDB commit, and completion acknowledgement. Seating quality, random prize selection, visual presentation, audience experience, and operator workload are outside the evaluated software surface.
 
-## 2. Research questions
+## 2. Executable handoff contract
 
-**RQ1 Correctness.** Does the integration produce the intended normalized lottery roster without loss, duplication, or unintended identity changes under nominal transfers?
+A completed handoff must satisfy four coupled clauses:
 
-**RQ2 State continuity.** When seating records change, does the integration preserve lottery-side state for the same guest, including the internal identifier, winning state, and prize history, while respecting intentional lottery-side exclusions?
+1. **Semantic identity (I1):** the destination contains the expected stable-ID set, no duplicates, and exact normalized values for `name`, `department`, `identity`, and `avatar`.
+2. **Destination-state continuity (I2):** updates preserve destination-owned identifiers, winning state, prize history, and exclusions for the same person.
+3. **Message order and empty-payload semantics (I3):** the receiver accepts messages only from the bound peer and allowed origin, rejects duplicate or stale sequences, protects a valid nonempty roster from malformed transient empties, and permits an explicit zero-roster clear.
+4. **Post-commit completion (I4):** completion is emitted only after the accepted snapshot has reached durable storage; a failed unsuperseded commit remains retryable.
 
-**RQ3 Fault tolerance.** How does the protocol respond to delayed readiness, duplicate or reordered messages, malformed records, transient empty payloads, closed windows, and untrusted origins?
+For message sequence `n`, completion is sound only when `H(n) = I1 and I2 and I3 and I4` holds for the accepted and persisted snapshot.
 
-**RQ4 Scalability and portability.** How do completion time and correctness change with roster size and browser engine?
+## 3. Research questions
 
-**RQ5 Safeguard contribution.** Which outcomes change when stable guest identifiers, monotonic sequence checks, transient-empty protection, or state-preserving merge are removed one at a time?
+**RQ1 Defect structure.** Which failure conditions break the handoff contract across source construction, channel binding, receiver eligibility, merge, persistence, and completion?
 
-## 3. Units and conditions
+**RQ2 Correctness.** Does the corrected production handoff satisfy semantic identity and exact public-field equality across roster sizes and browser engines?
 
-The primary unit is one transfer or synchronization run. Deterministic datasets use fixed seeds and roster sizes of 50, 200, 500, and 1,000 records. The 200-record condition approximates the field case without reproducing its private data.
+**RQ3 Fault behavior.** Do the protocol and persistence safeguards preserve the expected state under duplicate messages, transient empty payloads, duplicate rows, explicit clearing, recovery, storage rejection, and same-origin sibling-window messages?
 
-Browser runs cover Chromium, Firefox, and WebKit when the installed Playwright runtime supports them. Every browser-size-condition cell is repeated at least 30 times after one warm-up run. Failed or unsupported browser launches are reported rather than silently dropped.
+**RQ4 Safeguard contribution.** Does removing stable identity, state-preserving merge, sequence checking, or transient-empty protection produce the corresponding targeted failure?
 
-## 4. Outcomes
+**RQ5 Generated-domain robustness.** Do the nine pure-function properties hold over fixed-seed generated inputs and replay across hosted operating systems?
+
+## 4. Units, matrices, and oracles
+
+The normal-path unit is one production-build browser transfer. Roster sizes are 50, 200, 500, and 1,000 records. Each browser-size cell contains one warm-up and 30 measured transfers in Chromium, Firefox, and Playwright WebKit. The exact oracle compares stable IDs and all four normalized public fields; count equality alone is not sufficient.
+
+The fault unit is one state checkpoint within a seven-step sequence at 200 records: initial synchronization, accepted current sequence, duplicate-sequence rejection, transient-empty protection, duplicate-row last-wins correction, explicit clear, and recovery after clear. Thirty independent sequences per browser yield 630 checkpoints. Exact IDs and public fields are checked after every step. Storage-failure retry and sibling-window rejection are deterministic regressions because they require a different injection boundary from the seven-step browser sequence.
+
+The ablation unit is one generated outcome under a safeguard-enabled or safeguard-removed analytical variant. Four safeguards, two variants, four roster sizes, and 100 repetitions yield 3,200 records. Each ablation changes one mechanism and retains its targeted fault condition.
+
+The property unit is one generated pure-function case. Nine properties receive 2,000 cases each from recorded seeds, yielding 18,000 cases. Property checks complement the browser and ablation matrices; their denominators are not pooled.
+
+## 5. Outcomes
 
 | Outcome | Operational definition |
 |---|---|
-| Transfer correctness | Final stable-ID set and normalized public fields exactly match the expected roster |
-| Duplicate count | Number of repeated stable IDs or repeated fallback identity keys in the final roster |
-| State preservation | Proportion of matched existing guests retaining internal ID, winning state, and prize arrays |
-| Exclusion preservation | Proportion of explicitly excluded records not restored by merge synchronization |
-| Stale rejection | Reordered or repeated sequence number leaves the accepted state unchanged |
-| Empty-payload safety | A malformed empty payload cannot clear a non-empty authoritative roster |
-| Intentional clear | A valid zero-roster payload clears the lottery roster |
-| Completion latency | Monotonic elapsed time from sender dispatch to receiver acceptance event |
-| Recovery success | Expected state is reached after the injected transient fault and documented recovery action |
+| Exact semantic state | Stable-ID set and normalized public fields equal the expected snapshot |
+| Duplicate count | Repeated stable IDs or repeated fallback identities in the final roster |
+| State continuity | Destination-owned ID, winning state, prize history, and exclusions remain attached to the same semantic identity |
+| Protocol decision | The expected message is accepted, rejected, skipped, cleared, or made retryable |
+| Durable completion | Completion follows successful persistence of the accepted snapshot |
+| Latency | Monotonic elapsed time from sender dispatch to receiver completion |
+| Ablation outcome | The targeted contract clause holds under the enabled or removed mechanism |
 
-Success rates are reported with binomial confidence intervals. Latencies are reported with median, interquartile range, and 95th percentile; means may be included only as supplementary descriptors.
+Success rates use Wilson 95% confidence intervals. Latency is reported with median, interquartile range, and 95th percentile.
 
-## 5. Scenario matrix
+## 6. Defect-to-evidence trace
 
-Nominal scenarios include initial full import, unchanged repeat import, name/table/tag update with stable ID, add/remove, and an intentional zero-roster clear.
+Every retained defect records the triggering condition, observable failure, safeguard, protected invariant, and executable evidence. `DEFECT_LOG.md` contains the eight current defects and regression anchors. A defect is not counted from a failed environment setup or an expected safeguard rejection.
 
-Continuity scenarios include a winning guest updated by stable ID, an Excel-origin legacy row upgraded to stable ID, a lottery-side deletion protected by the exclusion list, and duplicate display names belonging to different stable IDs.
+## 7. Reproducibility controls
 
-Fault scenarios include duplicate sequence, stale sequence, delayed receiver readiness, invalid origin, wrong window identity, partially malformed rows, declared nonzero source with an empty normalized payload, closed popup, and receiver storage delay or rejection where reproducible.
-
-Ablations disable exactly one safeguard per run while retaining the same dataset and fault schedule. They are analytical variants in the evaluation harness, not recommended production configurations.
-
-## 6. Reproducibility and audit trail
-
-- Machine-readable scenario definitions and seeds are versioned with the harness.
-- Raw run-level records are written as CSV or JSON Lines and never edited manually.
+- Raw records are generated by versioned runners and are not edited manually.
+- Every formal batch records source hashes, runtime versions, timestamps, and relevant build hashes.
 - Summary tables and figures are generated from raw records by scripts.
-- Runtime versions, browser versions, commit hashes, operating system, and timestamps are captured with each run batch.
-- A failed run remains in the raw data with an explicit status and error class.
-- Defect fixes require a regression test and a short entry in `DEFECT_LOG.md`.
+- Failed runs remain in the historical audit trail with explicit status.
+- Formal batches use synthetic values and fixed dimensions; no private event roster is read.
+- Hosted operating-system jobs replay the same property seeds and remain portability checks rather than independent inputs.
 
-## 7. Claim boundaries
+## 8. Interpretation boundary
 
-The controlled evaluation may support claims about software correctness, protocol robustness, state continuity, and measured execution latency in the tested environments. It cannot establish reduced human workload, improved satisfaction, improved perceived fairness, or universal reliability in all live-event settings. The wedding remains a field demonstration of use, not a controlled causal comparison.
-
-## 8. Execution record
-
-The current post-EC-007 normal-path matrix was executed against production builds on 2026-08-03 at source commit `fddac24062ecd34776dd5c4180c7a58a6ddea700`. It contains one warm-up and 30 measured runs in each of 12 browser-size cells. All 360 measured transfers completed with the exact expected stable-ID set and no duplicate stable IDs. The current production fault matrix contains 30 independent seven-scenario sequences per browser at 200 records; all 630 outcomes passed. The current analytical ablation contains 100 generated cases per roster size and variant (3,200 records).
-
-EC-007 concerns retrying the same sequence after receiver persistence rejects. It is covered by deterministic sequence-state and live-listener regression tests. The cross-browser 630-outcome matrix retains its preregistered seven-scenario definition and does not include an injected storage rejection; the aggregate must not be cited as direct EC-007 evidence.
-
-Every current fault-sequence file shares one evaluated source hash and one pair of production-build hashes. The current E2E batch records its own source and build fingerprints. The ablation records a separate hash over its pure evaluation path because each harness fingerprints a different relevant file set.
-
-The earlier `bridge_production_formal_20260802a` batch remains part of the audit trail. It was resumed once after an outer command-time limit and retained one WebKit 1,000-record non-completion whose Playwright wait substantially exceeded the requested timeout. That event was not reproduced in the later 30-run post-compatibility cell. It remains historical evidence and is not pooled into the current 360-run estimate.
-
-## 9. Property-based extension
-
-`PROPERTY_PROTOCOL.md` adds nine executable properties for semantic normalization, structured identity, deterministic stable-ID deduplication, state-preserving merge, one-to-one legacy upgrade, exclusion continuity, sequence retry, and empty-payload semantics. The clean-code formal batch `property_formal_20260804b` evaluated local code commit `a035b1fea7367466f21194c4685687d545ceecfc` with `fast-check` 3.23.2. All nine properties passed 2,000 generated cases each: 18,000/18,000 checks, with zero skips, zero failures, and no shrinking required.
-
-This extension broadens generated input coverage but does not change the execution record in Section 8. It evaluates pure functions on one machine and cannot be pooled with the 360 browser transfers, 630 browser-state outcomes, or 3,200 ablation records. Multi-operating-system CI and independent-operator/native-Safari checks remain separate validation steps.
+The protocol supports claims about the tested handoff contract, safeguards, and runtime distributions in the recorded environments. It does not measure defect incidence in other systems, native Safari behavior, cross-device storage, malicious input, audience outcomes, perceived fairness, or operator workload. Generalization rests on the reusable failure conditions and executable contract, which require replication in other application pairs.

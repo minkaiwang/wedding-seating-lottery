@@ -1,82 +1,96 @@
-# Seating-Lottery Integration: Frozen Evaluation Report
+# Seating-Lottery Handoff: JSS Evaluation Report
 
-## 1. Evaluated system and evidence boundary
+## 1. Evaluated surface
 
-This evaluation covers the integration between the seating planner and the vendored lottery application: normalization, stable identity, transfer completion, state-preserving synchronization, duplicate/stale-message safeguards, and IndexedDB persistence. It does not evaluate seating quality, random prize selection, guest satisfaction, perceived fairness, or organizer workload.
+The evaluation follows the handoff from source roster construction through peer-bound message exchange, receiver eligibility, normalization, state-preserving merge, IndexedDB commit, and completion acknowledgement. All rosters are synthetic. The evidence addresses the four-clause contract in `PROTOCOL.md` and does not evaluate seating quality, prize randomness, audience response, or operator workload.
 
-All evaluation rosters are deterministic synthetic records. The 200-record condition approximates the field deployment scale without reproducing any private wedding data.
-
-Baseline commit: `e63c8d1e0093f304daa8f4e6e1e98605ed61c04c`. The current corrected source commit is `fddac24062ecd34776dd5c4180c7a58a6ddea700`. Every formal batch records both that commit and a SHA-256 fingerprint over the relevant source files and production builds.
+The reproducible baseline is `e63c8d1e0093f304daa8f4e6e1e98605ed61c04c`. The peer-binding correction is `9ef774080125d6d0d7ae99701f2e27283e49ea51`. Each result batch records its own evaluated commit and source/build fingerprints.
 
 ## 2. Defect-guided hardening
 
-Six baseline or compatibility defects and one post-publication audit defect were reproduced and converted into regression evidence:
+Eight reproducible defects define the evaluated failure surface:
 
-1. A legacy Excel-origin row with a `uid` could fail to upgrade to the planner's stable guest ID, risking identity and lottery-state discontinuity.
-2. Repeated stable-ID rows in one payload could create duplicate lottery people.
-3. Overlapping live-sync retries could interleave IndexedDB clear/add operations and leave the persisted roster empty after an in-memory success.
-4. Two legacy rows sharing the same public identity fields could reuse one internal lottery person during stable-ID upgrade.
-5. A historical `uid`-based deletion exclusion could stop matching after the same row gained a stable planner ID.
-6. Delimiter-based fallback keys could collide, and equivalent Unicode or outer-whitespace variants could fail to match consistently.
-7. A live-sync sequence could be marked applied before persistence completed, causing a same-sequence retry to be rejected after storage failure.
+1. legacy identity upgrade could recreate a person and detach destination state;
+2. repeated stable IDs could create duplicate destination rows;
+3. overlapping persistence operations could leave durable state behind in-memory state;
+4. non-unique legacy identities could reuse one destination object during upgrade;
+5. historical deletion exclusions could be lost after stable-ID introduction;
+6. delimiter and Unicode variation could collide or fragment fallback identity;
+7. a sequence could be marked applied before its snapshot committed, blocking safe retry; and
+8. the sender could accept handshake messages from a same-origin window other than the popup opened for the handoff.
 
-The corrected integration uses structured fallback identities, backward-compatible exclusion candidates, one-to-one legacy upgrade queues, trimmed NFC scalar normalization, deterministic last-row-wins deduplication, immutable serialized snapshots, atomic replacement of both person stores, completion events emitted only after persistence resolves, and separate accepted/persisted sequence watermarks. See `DEFECT_LOG.md` and the 34-test lottery suite. EC-007 is directly supported by deterministic sequence-state and live-listener regression tests; it is not counted as an injected scenario in the 630-outcome cross-browser matrix.
+The safeguards use structured normalized identities, deterministic stable-ID deduplication, one-to-one legacy upgrade queues, backward-compatible exclusion candidates, serialized atomic persistence, separate accepted and persisted sequence watermarks, and two-way binding to origin plus `WindowProxy`. The planner suite passed 13/13 tests and the lottery suite passed 34/34 tests after the corrections. `DEFECT_LOG.md` provides the defect-to-regression trace.
 
-## 3. Production normal-path evaluation
+## 3. Production normal-path matrix
 
-The primary batch used production builds, Chromium 149.0.7827.55, Firefox 151.0, and Playwright WebKit 26.5 on Windows 10.0.26200 with Node 24.15.0 and Playwright 1.61.1. Four roster sizes (50, 200, 500, and 1,000) were tested with one warm-up and 30 measured runs per browser-size cell.
+The formal batch used production builds on Windows 10.0.26200 with Node 24.15.0, Playwright 1.61.1, Chromium 149.0.7827.55, Firefox 151.0, and Playwright WebKit 26.5. It contains 30 measured transfers in each of 12 browser-size cells after one warm-up per cell.
 
-Across 360 measured runs, all 360 completed end to end (100%; Wilson 95% CI 98.94%-100%). Every transfer produced the exact expected stable-ID set, the requested final count, and zero duplicate stable IDs.
+All 360 measured transfers completed successfully (100%; Wilson 95% CI 98.94%-100%). Every transfer had the exact expected stable-ID set and exact normalized `name`, `department`, `identity`, and `avatar` fields, with no duplicate IDs or field mismatches.
 
-| Engine | Records | E2E passes | Median protocol latency (ms) | IQR (ms) | P95 (ms) |
+| Engine | Records | Exact transfers | Median (ms) | IQR (ms) | P95 (ms) |
 |---|---:|---:|---:|---:|---:|
-| Chromium | 50 | 30/30 | 56.5 | 53.3-61.0 | 65.6 |
-| Chromium | 200 | 30/30 | 92.0 | 84.3-99.5 | 113.3 |
-| Chromium | 500 | 30/30 | 146.5 | 141.3-152.8 | 168.2 |
-| Chromium | 1,000 | 30/30 | 252.0 | 236.5-272.3 | 328.1 |
-| Firefox | 50 | 30/30 | 94.0 | 69.0-105.8 | 117.2 |
-| Firefox | 200 | 30/30 | 137.0 | 125.3-146.8 | 158.7 |
-| Firefox | 500 | 30/30 | 223.5 | 208.3-235.8 | 255.5 |
-| Firefox | 1,000 | 30/30 | 307.0 | 282.3-352.8 | 407.7 |
-| WebKit | 50 | 30/30 | 1,206.0 | 1,190.3-1,223.5 | 1,245.1 |
-| WebKit | 200 | 30/30 | 4,137.5 | 4,115.3-4,153.3 | 4,190.0 |
-| WebKit | 500 | 30/30 | 9,846.0 | 8,594.5-9,975.5 | 10,095.9 |
-| WebKit | 1,000 | 30/30 | 19,732.5 | 19,685.5-19,784.8 | 20,012.2 |
+| Chromium | 50 | 30/30 | 53.5 | 51.3-56.0 | 61.6 |
+| Chromium | 200 | 30/30 | 81.0 | 76.0-84.0 | 89.6 |
+| Chromium | 500 | 30/30 | 140.5 | 135.3-152.5 | 174.6 |
+| Chromium | 1,000 | 30/30 | 216.0 | 209.3-222.0 | 255.8 |
+| Firefox | 50 | 30/30 | 87.0 | 83.3-91.0 | 94.1 |
+| Firefox | 200 | 30/30 | 118.0 | 113.0-121.8 | 132.2 |
+| Firefox | 500 | 30/30 | 192.0 | 178.5-206.8 | 232.6 |
+| Firefox | 1,000 | 30/30 | 289.5 | 272.3-301.8 | 321.3 |
+| WebKit | 50 | 30/30 | 234.0 | 223.8-256.5 | 281.9 |
+| WebKit | 200 | 30/30 | 573.0 | 561.8-596.5 | 622.6 |
+| WebKit | 500 | 30/30 | 1,269.5 | 1,242.8-1,303.8 | 1,380.0 |
+| WebKit | 1,000 | 30/30 | 2,352.0 | 2,288.0-2,397.0 | 2,474.2 |
 
-Preparation medians remained at or below 14.0 ms in every cell. Persistence dominated receiver time, rising from 52.6 to 232.1 ms in Chromium, 89.5 to 290.0 ms in Firefox, and 1,188.5 to 19,704.5 ms in WebKit from 50 to 1,000 records. This is evidence for the tested Playwright runtimes, not a native Safari benchmark.
+The maximum readiness median was 12 ms. Persistence dominated the WebKit distribution and reached a median of 2,324.5 ms at 1,000 records. These measurements characterize the recorded Playwright engines and production builds; they are not native Safari measurements.
 
-An earlier production batch (`bridge_production_formal_20260802a`) retained one WebKit 1,000-record non-completion, during which Playwright remained blocked for approximately 1,804 seconds despite a nominal 30-second wait timeout. The event did not recur in the later post-compatibility batch and is not pooled into the current estimate. It remains an auditable historical runtime incident rather than being reclassified as a proven application defect.
+## 4. Fault-directed browser matrix
 
-## 4. Production fault sequences
+Each browser executed 30 seven-step sequences at 200 records, yielding 630 state checkpoints. All 630 checkpoints satisfied the expected protocol action and the exact semantic-state oracle. The batch recorded zero duplicate IDs, missing IDs, unexpected IDs, or public-field mismatches. Every browser-scenario cell passed 30/30, with a Wilson lower bound of 88.65% per cell.
 
-At 200 synthetic records, each browser executed 30 independent seven-step sequences: initial synchronization, accepted current sequence, duplicate sequence rejection, transient empty-payload protection, duplicate-row last-wins correction, intentional clear, and recovery after clear. All 630 scenario outcomes passed (aggregate Wilson 95% CI 99.39%-100%). Every browser-scenario cell was 30/30 (Wilson lower bound 88.65% for run-level repetition), and all 90 raw files shared one source fingerprint and one pair of production-build fingerprints.
+Chromium and Firefox changed nonempty snapshots with medians between 45 and 62 ms. Playwright WebKit showed a heavier tail: duplicate-row correction had a median of 270 ms and P95 of 3,156.1 ms; recovery after clear had a median of 302.5 ms and P95 of 3,177.0 ms. Duplicate-sequence rejection, transient-empty protection, and explicit clearing had WebKit medians at or below 10 ms. The contrast localizes most of the runtime cost to persistence of changed nonempty snapshots.
 
-The WebKit runs again localized cost to changed non-empty snapshots: duplicate-row correction and recovery medians were approximately 3.1 seconds, while stale-sequence rejection, transient-empty protection, and intentional clear completed in milliseconds. This supports snapshot reuse for unchanged state and the distinction between protocol decisions and persistence work.
+The storage-failure retry defect (EC-007) and same-origin sibling-window defect (EC-008) are covered by deterministic regressions at their injection boundaries. They are not retroactively counted among the 630 browser checkpoints.
 
 ## 5. Analytical ablation
 
-The formal ablation generated 3,200 records across four roster sizes, 100 repetitions, four safeguards, and enabled/removed variants. Under each safeguard's targeted fault condition:
+The formal ablation contains 3,200 records: four contract mechanisms, enabled and removed variants, four roster sizes, and 100 repetitions. Under each targeted fault condition, every enabled mechanism produced the correct outcome and every removed mechanism produced the corresponding failure:
 
-- Stable identity preserved identity/state in 100% of generated cases; removing stable IDs preserved it in 0%.
-- State-preserving merge retained lottery-side state in 100%; replace-all retained it in 0%.
-- Monotonic sequence checking rejected the stale message in 100%; removing it failed the targeted outcome in 100%.
-- Transient-empty protection retained the authoritative non-empty roster in 100%; removing it cleared the roster in 100%.
+| Targeted clause | Enabled mechanism | Enabled | Removed variant | Removed |
+|---|---|---:|---|---:|
+| Semantic identity | stable identity | 400/400 | without stable identity | 0/400 |
+| State continuity | state-preserving merge | 400/400 | replace all | 0/400 |
+| Message order | monotonic sequence guard | 400/400 | without sequence guard | 0/400 |
+| Empty-payload semantics | transient-empty guard | 400/400 | without empty guard | 0/400 |
 
-These are constructed condition outcomes, not estimates of real-world fault incidence or universal effect sizes.
+The 100%-versus-0% separation verifies that each mechanism controls its constructed failure condition. It does not estimate real-world fault frequency or comparative effect size.
 
-## 6. Interpretation and limits
+## 6. Fixed-seed property contract
 
-The evidence supports a bounded technical claim: the corrected integration preserved roster identity and lottery-side state, rejected the tested stale/transient inputs, and completed accurately across the current tested production engines and scales. It also shows that technical transformation time was small relative to browser-specific persistence time, especially in Playwright WebKit. The earlier single WebKit non-completion remains a reason not to claim universal reliability.
+Nine executable properties each passed 2,000 generated cases: 18,000/18,000 cases, zero skips, zero failures, and zero shrinks. The properties cover normalization idempotence, Unicode and trim equivalence, delimiter-collision resistance, deterministic stable-ID deduplication, state-preserving merge, one-to-one legacy upgrade, exclusion continuity, persistence-failure retry, and transient-empty versus explicit-clear semantics.
 
-The evidence does not establish that the system reduced labor, improved experience, increased fairness, or outperformed commercial event platforms. The field wedding demonstrates situated use and accountable human verification; the controlled evaluation supplies software evidence for the integration protocol. Transfer to other one-off events should be argued from shared operating conditions, not from wedding-category similarity alone.
+Hosted Linux, Windows, and macOS jobs replayed the same seeds successfully. These jobs test portability of one generated corpus and are not pooled as independent cases.
 
-## 7. Frozen artifacts
+## 7. Software-engineering implications
 
-- Primary raw batch: `results/raw/bridge_production_formal_ec007_20260803c.json`
-- Primary summary: `results/processed/bridge_production_formal_ec007_20260803c_summary.csv`
-- Primary figure: `results/figures/bridge_production_formal_ec007_20260803c_latency.pdf`
-- Fault summary: `results/processed/live_sync_fault_production_ec007_20260803c_summary.csv`
-- Ablation raw data: `results/raw/ablation_formal_ec007_20260803c_2026-08-03T132449529Z.csv`
-- Ablation figure: `results/figures/ablation_formal_ec007_20260803c_2026-08-03T132449529Z_outcomes.pdf`
+The evidence supports three reusable practices for browser-based cross-application handoffs. First, define completion as a conjunction of semantic, historical-state, protocol, and persistence clauses; a count match covers only part of semantic identity. Second, place oracles at the irreversible boundary: the final assertion must inspect the persisted semantic state after the commit acknowledgement. Third, derive tests from failure conditions across the complete boundary chain, including peer identity and retry state, rather than from nominal UI steps alone.
 
-The earlier `20260802a` production batch, pilot, development-mode, interrupted, and defect-discovery runs remain under `results/raw/` and are excluded from the current frozen summaries unless explicitly named.
+The defect trace also separates responsibilities that are often collapsed into one import function. Identity construction, state ownership, channel eligibility, sequence transition, and durable completion require distinct safeguards and evidence. This decomposition can be applied to other browser application pairs that move authoritative state into a destination with local history.
+
+## 8. Evidence boundary
+
+The results establish the recorded behavior of the evaluated application pair, commits, synthetic domains, browser engines, and production builds. Replication is still needed for other application pairs, native Safari, cross-device persistence, external file formats, malicious inputs, storage quotas, and independent test teams. Field experience and audience outcomes require separate study designs.
+
+## 9. Current artifacts
+
+- Normal path: `results/raw/bridge_production_formal_jss_field_oracle_20260812b.json`
+- Normal summary: `results/processed/bridge_production_formal_jss_field_oracle_20260812b_summary.csv`
+- Normal latency figure: `results/figures/bridge_production_formal_jss_field_oracle_20260812b_latency.pdf`
+- Fault raw files: `results/raw/live_sync_fault_production_formal_jss_field_oracle_20260812c_*.json`
+- Fault summary: `results/processed/live_sync_fault_production_formal_jss_field_oracle_20260812c_summary.csv`
+- Ablation raw data: `results/raw/ablation_formal_jss_contract_20260812e_2026-08-12T140833483Z.csv`
+- Ablation summary: `results/processed/ablation_formal_jss_contract_20260812e_2026-08-12T140833483Z_summary.csv`
+- Property raw data: `results/raw/property_formal_jss_contract_20260812d.json`
+- Property summary: `results/processed/property_formal_jss_contract_20260812d_summary.csv`
+
+Earlier formal batches, pilots, interruptions, and setup records remain in `results/` for audit and are excluded from the current estimates unless explicitly named.

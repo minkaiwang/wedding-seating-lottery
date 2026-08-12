@@ -1,25 +1,31 @@
 # Research evaluation
 
-This directory contains the reproducible evaluation of the seating-to-lottery integration layer. Start with `PROTOCOL.md`. Generated raw data and summaries will be kept separate from source scenarios and will identify the evaluated commit.
+This directory contains the reproducible evaluation of the browser-based seating-to-lottery handoff. The current study treats the handoff as a four-clause correctness contract: semantic identity, destination-state continuity, message order and empty-payload semantics, and post-commit completion. All datasets are synthetic.
 
-The evaluation uses synthetic records only. Do not copy wedding guest files, photographs, contact details, or private event exports into this directory.
+Start with `PROTOCOL.md`, then read `RESULTS_REPORT.md` and `DEFECT_LOG.md`. Raw records, processed summaries, and figures are kept separately. Each formal batch records the evaluated commit, source fingerprint, runtime, and relevant build fingerprints.
 
-## Current frozen results
+Do not copy wedding guest files, photographs, contact details, questionnaires, or private event exports into this directory.
 
-- `RESULTS_REPORT.md`: human-readable method, findings, incidents, and claim boundaries.
-- `results/raw/bridge_production_formal_ec007_20260803c.json`: current production E2E batch, including environment and build fingerprints.
-- `results/processed/bridge_production_formal_ec007_20260803c_summary.csv`: current browser-by-size summary.
-- `results/figures/bridge_production_formal_ec007_20260803c_latency.pdf`: current publication latency figure.
-- `results/processed/live_sync_fault_production_ec007_20260803c_summary.csv`: current production fault-sequence summary from 90 run files.
-- `results/raw/ablation_formal_ec007_20260803c_2026-08-03T132449529Z.csv`: current analytical ablation records.
-- `results/figures/ablation_formal_ec007_20260803c_2026-08-03T132449529Z_outcomes.pdf`: current ablation figure.
-- `DEFECT_LOG.md`: reproducible baseline defects and regression evidence.
-- `PROPERTY_PROTOCOL.md`: fixed-seed generated-input protocol for nine executable handoff invariants.
-- `PROPERTY_RESULTS_REPORT.md`: formal property-based result and claim boundaries.
-- `results/raw/property_formal_20260804b.json`: current clean-code property batch, with replay seeds and source hash.
-- `results/processed/property_formal_20260804b_summary.csv`: one-row-per-property summary for the current batch.
+## Current JSS evidence set
 
-The earlier `20260802a` and `20260803b` production batches remain in `results/raw/` for historical audit. Pilot and failed setup files also remain there and are not pooled with the current frozen summaries. The current source commit is `fddac24062ecd34776dd5c4180c7a58a6ddea700`.
+- Normal-path raw batch: `results/raw/bridge_production_formal_jss_field_oracle_20260812b.json`
+- Normal-path summary: `results/processed/bridge_production_formal_jss_field_oracle_20260812b_summary.csv`
+- Normal-path latency figure: `results/figures/bridge_production_formal_jss_field_oracle_20260812b_latency.pdf`
+- Fault-sequence raw files: `results/raw/live_sync_fault_production_formal_jss_field_oracle_20260812c_*.json`
+- Fault-sequence summary: `results/processed/live_sync_fault_production_formal_jss_field_oracle_20260812c_summary.csv`
+- Ablation raw data: `results/raw/ablation_formal_jss_contract_20260812e_2026-08-12T140833483Z.csv`
+- Ablation summary: `results/processed/ablation_formal_jss_contract_20260812e_2026-08-12T140833483Z_summary.csv`
+- Property raw batch: `results/raw/property_formal_jss_contract_20260812d.json`
+- Property summary: `results/processed/property_formal_jss_contract_20260812d_summary.csv`
+
+The four evidence units remain separate:
+
+- 360 production-build browser transfers;
+- 630 fault-directed state checkpoints;
+- 3,200 analytical ablation records; and
+- 18,000 fixed-seed generated property cases.
+
+Hosted Linux, Windows, and macOS jobs replay the same fixed-seed property cases. They are portability replays, not an additional 54,000 independent cases.
 
 ## Reproduction
 
@@ -28,40 +34,51 @@ Install root and lottery dependencies, then build both applications with the eva
 ```powershell
 $env:NEXT_PUBLIC_LOTTERY_IMPORT_URL='http://localhost:6721/log-lottery/config/person/all'
 npm run build
-$env:VITE_WEDDING_SEATING_ORIGINS='http://localhost:3101'
+$env:VITE_WEDDING_SEATING_ORIGINS='http://localhost:3201'
 npm run build --prefix ./log-lottery
 ```
 
-Run the primary E2E matrix:
+Start the production servers on ports 3201 and 6721, then run the normal-path matrix:
 
 ```powershell
+$env:EVAL_SEATING_ORIGIN='http://localhost:3201'
+$env:EVAL_LOTTERY_ORIGIN='http://localhost:6721'
 $env:EVAL_SIZES='50,200,500,1000'
 $env:EVAL_REPETITIONS='30'
 $env:EVAL_WARMUPS='1'
 $env:EVAL_BROWSERS='chromium,firefox,webkit'
 $env:EVAL_SERVER_MODE='production'
-$env:EVAL_BATCH_LABEL='bridge_production_formal'
+$env:EVAL_BATCH_LABEL='bridge_production_reproduction'
 $env:EVAL_RUN_ID='local-run'
 npm run evaluate:bridge:pilot
 ```
 
-If an outer process limit interrupts the batch, repeat the same command with `$env:EVAL_RESUME='1'`. The runner verifies source, environment, build, and design metadata before skipping completed cells.
-
-Generate summaries and figures:
+Run the fault matrix against the same production servers:
 
 ```powershell
-python research-evaluation/scripts/summarize_bridge.py research-evaluation/results/raw/bridge_production_formal_local-run.csv
-python research-evaluation/scripts/summarize_faults.py 'live_sync_fault_production_postcompat_*.json' live_sync_fault_production_postcompat_local
-python research-evaluation/scripts/summarize_ablation.py research-evaluation/results/raw/ablation_formal_<timestamp>.csv
+$env:EVAL_SEATING_ORIGIN='http://localhost:3201'
+$env:EVAL_LOTTERY_ORIGIN='http://localhost:6721'
+$env:EVAL_SERVER_MODE='production'
+$env:EVAL_FAULT_ROSTER_SIZE='200'
+$env:EVAL_FAULT_BATCH_LABEL='live_sync_fault_reproduction'
+foreach ($browser in 'chromium','firefox','webkit') {
+  $env:EVAL_FAULT_BROWSER=$browser
+  1..30 | ForEach-Object { npm run evaluate:faults:pilot }
+}
 ```
 
-Run the property-based handoff invariants:
+Run the analytical ablation and property contract:
 
 ```powershell
+$env:EVAL_ABLATION_SIZES='50,200,500,1000'
+$env:EVAL_ABLATION_REPETITIONS='100'
+$env:EVAL_ABLATION_BATCH_LABEL='ablation_reproduction'
+npm run evaluate:ablation:pilot
+
 $env:EVAL_PROPERTY_RUNS='2000'
 $env:EVAL_PROPERTY_SEED='20260804'
 $env:EVAL_PROPERTY_RUN_ID='property_local_reproduction'
 npm run evaluate:properties
 ```
 
-The runner refuses to overwrite an existing run ID. Generated property cases exercise pure protocol and merge functions; they are not browser, device, participant, or field observations.
+Generate processed outputs with the scripts in `scripts/`. The runners refuse to overwrite an existing run ID where one is required. Pilot, interrupted, and earlier formal batches remain under `results/` for audit and are excluded from current estimates unless explicitly named.
