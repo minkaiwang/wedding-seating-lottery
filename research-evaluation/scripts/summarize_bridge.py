@@ -50,7 +50,9 @@ def summarize(group: pd.DataFrame) -> pd.Series:
             "protocol_wilson_95_high": protocol_ci_high,
             "precompletion_failures": total - int(len(attempted)),
             "identity_set_success_rate_among_completions": float(attempted["exact_identity_set"].fillna(False).mean()) if len(attempted) else math.nan,
+            "public_field_success_rate_among_completions": float(attempted["exact_public_fields"].fillna(False).mean()) if len(attempted) else math.nan,
             "duplicate_stable_ids_total": int(group["duplicate_stable_ids"].fillna(0).sum()),
+            "public_field_mismatches_total": int(group["public_field_mismatch_count"].fillna(0).sum()),
             "protocol_latency_median_ms": float(latency.median()),
             "protocol_latency_q1_ms": float(latency.quantile(0.25)),
             "protocol_latency_q3_ms": float(latency.quantile(0.75)),
@@ -84,7 +86,9 @@ def main() -> None:
         "roster_size",
         "status",
         "exact_identity_set",
+        "exact_public_fields",
         "duplicate_stable_ids",
+        "public_field_mismatch_count",
         "protocol_completion_latency_ms",
         "observed_wall_time_ms",
     }
@@ -120,7 +124,9 @@ def main() -> None:
                 "warmup_runs": int(len(warmup)),
                 "warmup_passes": int((warmup["status"] == "pass").sum()),
                 "all_measurement_identity_sets_exact": bool(measurement["exact_identity_set"].fillna(False).all()),
+                "all_measurement_public_fields_exact": bool(measurement["exact_public_fields"].fillna(False).all()),
                 "measurement_duplicate_stable_ids_total": int(measurement["duplicate_stable_ids"].fillna(0).sum()),
+                "measurement_public_field_mismatches_total": int(measurement["public_field_mismatch_count"].fillna(0).sum()),
                 "nonpass_measurement_records": measurement.loc[
                     measurement["status"] != "pass"
                 ].to_dict(orient="records"),

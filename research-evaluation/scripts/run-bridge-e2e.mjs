@@ -12,6 +12,10 @@ const lotteryDir = join(root, 'log-lottery');
 const rawDir = join(evaluationDir, 'results', 'raw');
 const seatingOrigin = process.env.EVAL_SEATING_ORIGIN ?? 'http://localhost:3101';
 const lotteryOrigin = process.env.EVAL_LOTTERY_ORIGIN ?? 'http://localhost:6721';
+const seatingUrl = new URL(seatingOrigin);
+const lotteryUrl = new URL(lotteryOrigin);
+const seatingPort = seatingUrl.port || (seatingUrl.protocol === 'https:' ? '443' : '80');
+const lotteryPort = lotteryUrl.port || (lotteryUrl.protocol === 'https:' ? '443' : '80');
 const serverMode = process.env.EVAL_SERVER_MODE ?? 'development';
 if (!['development', 'production'].includes(serverMode))
   throw new Error(`Unsupported EVAL_SERVER_MODE: ${serverMode}`);
@@ -52,6 +56,35 @@ function makePlan(size) {
     return guest;
   });
   return { guests, tables, lastUpdated: '2026-08-02T00:00:00.000Z' };
+}
+
+function expectedPublicRows(plan) {
+  const tableNames = new Map(plan.tables.map(table => [table.id, table.name]));
+  return new Map(plan.guests.map(guest => [guest.id, {
+    name: guest.name.normalize('NFC').trim(),
+    department: tableNames.get(guest.tableId) ?? '',
+    identity: guest.tags.join(', ').normalize('NFC').trim(),
+    avatar: '',
+  }]));
+}
+
+function comparePublicRows(rows, expectedRows) {
+  const fields = ['name', 'department', 'identity', 'avatar'];
+  const mismatches = [];
+  for (const row of rows) {
+    const stableId = typeof row.plannerGuestId === 'string' ? row.plannerGuestId : '';
+    const expected = expectedRows.get(stableId);
+    if (!expected) {
+      mismatches.push({ stableId, field: 'plannerGuestId', expected: 'known stable ID', actual: stableId });
+      continue;
+    }
+    for (const field of fields) {
+      const actual = typeof row[field] === 'string' ? row[field] : '';
+      if (actual !== expected[field])
+        mismatches.push({ stableId, field, expected: expected[field], actual });
+    }
+  }
+  return mismatches;
 }
 
 function startServer(name, executable, args, cwd, env) {
@@ -137,6 +170,7 @@ async function waitForRoster(page, expectedCount, timeoutMs = 60_000) {
 
 async function runCase(browserName, browserVersion, browser, size, repetition, phase) {
   const plan = makePlan(size);
+  const expectedRows = expectedPublicRows(plan);
   const context = await browser.newContext({ locale: 'zh-CN', viewport: { width: 1280, height: 800 } });
   await context.addInitScript(({ plannerOrigin, receiverOrigin, seatingPlan }) => {
     if (window.location.origin === plannerOrigin)
@@ -170,6 +204,8 @@ async function runCase(browserName, browserVersion, browser, size, repetition, p
     const expectedIds = new Set(plan.guests.map(guest => guest.id));
     const exactIdentitySet = stableIdSet.size === expectedIds.size
       && [...expectedIds].every(id => stableIdSet.has(id));
+    const publicFieldMismatches = comparePublicRows(rows, expectedRows);
+    const exactPublicFields = exactIdentitySet && publicFieldMismatches.length === 0;
 
     return {
       browser: browserName,
@@ -177,11 +213,14 @@ async function runCase(browserName, browserVersion, browser, size, repetition, p
       roster_size: size,
       repetition,
       phase,
-      status: rows.length === size && exactIdentitySet ? 'pass' : 'fail',
+      status: rows.length === size && exactIdentitySet && exactPublicFields ? 'pass' : 'fail',
       final_count: rows.length,
       unique_stable_ids: stableIdSet.size,
       duplicate_stable_ids: stableIds.length - stableIdSet.size,
       exact_identity_set: exactIdentitySet,
+      exact_public_fields: exactPublicFields,
+      public_field_mismatch_count: publicFieldMismatches.length,
+      public_field_mismatch_examples: JSON.stringify(publicFieldMismatches.slice(0, 3)),
       receiver_rows_accepted: event?.rowsAccepted ?? null,
       receiver_preparation_ms: event?.receiverPreparationMs ?? null,
       receiver_persistence_ms: event?.receiverPersistenceMs ?? null,
@@ -203,6 +242,9 @@ async function runCase(browserName, browserVersion, browser, size, repetition, p
       unique_stable_ids: null,
       duplicate_stable_ids: null,
       exact_identity_set: false,
+      exact_public_fields: false,
+      public_field_mismatch_count: null,
+      public_field_mismatch_examples: '[]',
       receiver_rows_accepted: null,
       protocol_completion_latency_ms: null,
       observed_wall_time_ms: Date.now() - startedAt,
@@ -331,7 +373,7 @@ if (serverMode === 'production') {
 const nextServer = startServer(
   'seating',
   process.execPath,
-  [join(root, 'node_modules', 'next', 'dist', 'bin', 'next'), serverMode === 'production' ? 'start' : 'dev', '-p', '3101'],
+  [join(root, 'node_modules', 'next', 'dist', 'bin', 'next'), serverMode === 'production' ? 'start' : 'dev', '-p', seatingPort],
   root,
   { NEXT_PUBLIC_LOTTERY_IMPORT_URL: `${lotteryOrigin}/log-lottery/config/person/all` },
 );
@@ -341,8 +383,8 @@ const lotteryServer = startServer(
   [
     join(lotteryDir, 'node_modules', 'vite', 'bin', 'vite.js'),
     ...(serverMode === 'production' ? ['preview'] : []),
-    '--host', 'localhost',
-    '--port', '6721',
+    '--host', lotteryUrl.hostname,
+    '--port', lotteryPort,
     '--strictPort',
   ],
   lotteryDir,
