@@ -80,6 +80,7 @@ export function startLotteryImportBridge(
   function onMessage(e: MessageEvent) {
     if (completed) return;
     if (e.origin !== lotteryOrigin) return;
+    if (e.source !== child) return;
 
     if (e.data?.type === LOTTERY_MSG_READY && !sent && child && !child.closed) {
       sent = true;
@@ -96,7 +97,7 @@ export function startLotteryImportBridge(
       return;
     }
 
-    if (e.data?.type === LOTTERY_MSG_DONE) {
+    if (e.data?.type === LOTTERY_MSG_DONE && sent) {
       finish();
       if (e.data?.ok) {
         options.onDone();
