@@ -49,6 +49,14 @@ def main() -> None:
                     "browser_version": meta["browser_version"],
                     "scenario": record["scenario"],
                     "status": record["status"],
+                    "identity_set_match": record.get("identity_set_match"),
+                    "public_field_match": record.get("public_field_match"),
+                    "duplicate_stable_ids": record.get("duplicate_stable_ids", 0),
+                    "missing_id_count": record.get("missing_id_count", 0),
+                    "unexpected_id_count": record.get("unexpected_id_count", 0),
+                    "public_field_mismatch_count": record.get(
+                        "public_field_mismatch_count", 0
+                    ),
                     "protocol_completion_latency_ms": record.get(
                         "protocol_completion_latency_ms"
                     ),
@@ -62,6 +70,8 @@ def main() -> None:
         runs = int(len(group))
         ci_low, ci_high = wilson_interval(passes, runs)
         latency = group["protocol_completion_latency_ms"].dropna()
+        identity = group["identity_set_match"].dropna()
+        fields = group["public_field_match"].dropna()
         return pd.Series(
             {
                 "runs": runs,
@@ -69,6 +79,14 @@ def main() -> None:
                 "success_rate": passes / runs,
                 "wilson_95_low": ci_low,
                 "wilson_95_high": ci_high,
+                "exact_identity_rate": float(identity.astype(bool).mean()),
+                "exact_public_field_rate": float(fields.astype(bool).mean()),
+                "duplicate_stable_ids": int(group["duplicate_stable_ids"].sum()),
+                "missing_ids": int(group["missing_id_count"].sum()),
+                "unexpected_ids": int(group["unexpected_id_count"].sum()),
+                "public_field_mismatches": int(
+                    group["public_field_mismatch_count"].sum()
+                ),
                 "latency_median_ms": float(latency.median()),
                 "latency_p95_ms": float(latency.quantile(0.95)),
             }
@@ -99,6 +117,12 @@ def main() -> None:
         "record_count": len(data),
         "pass_count": int((data["status"] == "pass").sum()),
         "all_pass": bool((data["status"] == "pass").all()),
+        "all_exact_identity": bool(data["identity_set_match"].fillna(False).all()),
+        "all_exact_public_fields": bool(data["public_field_match"].fillna(False).all()),
+        "duplicate_stable_ids": int(data["duplicate_stable_ids"].sum()),
+        "missing_ids": int(data["missing_id_count"].sum()),
+        "unexpected_ids": int(data["unexpected_id_count"].sum()),
+        "public_field_mismatches": int(data["public_field_mismatch_count"].sum()),
         "evaluated_source_sha256_values": source_hashes,
         "next_build_id_sha256_values": next_hashes,
         "lottery_dist_index_sha256_values": lottery_hashes,

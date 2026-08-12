@@ -9,8 +9,14 @@ const evaluationDir = dirname(dirname(fileURLToPath(import.meta.url)));
 const root = dirname(evaluationDir);
 const lotteryDir = join(root, 'log-lottery');
 const rawDir = join(evaluationDir, 'results', 'raw');
-const seatingOrigin = 'http://localhost:3101';
-const lotteryOrigin = 'http://localhost:6721';
+const seatingOrigin = process.env.EVAL_SEATING_ORIGIN ?? 'http://localhost:3101';
+const lotteryOrigin = process.env.EVAL_LOTTERY_ORIGIN ?? 'http://localhost:6721';
+const seatingUrl = new URL(seatingOrigin);
+const lotteryUrl = new URL(lotteryOrigin);
+const seatingPort = Number(seatingUrl.port);
+const lotteryPort = Number(lotteryUrl.port);
+if (!seatingPort || !lotteryPort)
+  throw new Error('Evaluation origins must include explicit ports');
 const serverMode = process.env.EVAL_SERVER_MODE ?? 'development';
 if (!['development', 'production'].includes(serverMode))
   throw new Error(`Unsupported EVAL_SERVER_MODE: ${serverMode}`);
@@ -78,6 +84,50 @@ function personRows(plan) {
     identity: guest.tags.join(', '),
     avatar: '',
   }));
+}
+
+const publicFields = ['name', 'department', 'identity', 'avatar'];
+
+function normalizedValue(value) {
+  return value == null ? '' : String(value);
+}
+
+function exactPublicState(actualRows, expectedRows) {
+  const actualIds = actualRows.map(row => normalizedValue(row.plannerGuestId));
+  const expectedIds = expectedRows.map(row => normalizedValue(row.plannerGuestId));
+  const actualById = new Map(actualRows.map(row => [normalizedValue(row.plannerGuestId), row]));
+  const expectedById = new Map(expectedRows.map(row => [normalizedValue(row.plannerGuestId), row]));
+  const missingIds = expectedIds.filter(id => !actualById.has(id));
+  const unexpectedIds = actualIds.filter(id => !expectedById.has(id));
+  const duplicateStableIds = actualIds.length - new Set(actualIds).size;
+  const fieldMismatches = [];
+  for (const id of expectedIds) {
+    const actual = actualById.get(id);
+    const expected = expectedById.get(id);
+    if (!actual || !expected)
+      continue;
+    for (const field of publicFields) {
+      const observed = normalizedValue(actual[field]);
+      const wanted = normalizedValue(expected[field]);
+      if (observed !== wanted)
+        fieldMismatches.push({ plannerGuestId: id, field, expected: wanted, observed });
+    }
+  }
+  const identitySetMatch = missingIds.length === 0
+    && unexpectedIds.length === 0
+    && duplicateStableIds === 0
+    && actualRows.length === expectedRows.length;
+  const publicFieldMatch = fieldMismatches.length === 0;
+  return {
+    pass: identitySetMatch && publicFieldMatch,
+    identity_set_match: identitySetMatch,
+    public_field_match: publicFieldMatch,
+    duplicate_stable_ids: duplicateStableIds,
+    missing_id_count: missingIds.length,
+    unexpected_id_count: unexpectedIds.length,
+    public_field_mismatch_count: fieldMismatches.length,
+    mismatch_examples: fieldMismatches.slice(0, 5),
+  };
 }
 
 function startServer(executable, args, cwd, env) {
@@ -195,7 +245,7 @@ if (serverMode === 'production') {
 }
 const nextServer = startServer(
   process.execPath,
-  [join(root, 'node_modules', 'next', 'dist', 'bin', 'next'), serverMode === 'production' ? 'start' : 'dev', '-p', '3101'],
+  [join(root, 'node_modules', 'next', 'dist', 'bin', 'next'), serverMode === 'production' ? 'start' : 'dev', '-p', String(seatingPort), '-H', seatingUrl.hostname],
   root,
   { NEXT_PUBLIC_LOTTERY_IMPORT_URL: `${lotteryOrigin}/log-lottery/config/person/all` },
 );
@@ -204,8 +254,8 @@ const lotteryServer = startServer(
   [
     join(lotteryDir, 'node_modules', 'vite', 'bin', 'vite.js'),
     ...(serverMode === 'production' ? ['preview'] : []),
-    '--host', 'localhost',
-    '--port', '6721',
+    '--host', lotteryUrl.hostname,
+    '--port', String(lotteryPort),
     '--strictPort',
   ],
   lotteryDir,
@@ -249,28 +299,32 @@ try {
   await page.waitForTimeout(3_500);
   let roster = await waitForRoster(frame, rosterSize);
   let events = await frame.evaluate(() => window.__ecLiveSyncEvents);
-  record(records, 'initial-sync', 'merge', events.at(-1), roster, roster.length === rosterSize);
+  let oracle = exactPublicState(roster, rows);
+  record(records, 'initial-sync', 'merge', events.at(-1), roster, oracle.pass, oracle);
 
   let seq = 10_000;
   let eventCount = events.length;
   await inject(page, { persons: rows, seq, guestCount: rosterSize, plannerGuestTotal: rosterSize, tableCount: plan.tables.length, sentAt: Date.now() });
   let event = await waitForAction(frame, eventCount, 'merge');
   roster = await waitForRoster(frame, rosterSize);
-  record(records, 'control-current-sequence', 'merge', event, roster, roster.length === rosterSize);
+  oracle = exactPublicState(roster, rows);
+  record(records, 'control-current-sequence', 'merge', event, roster, oracle.pass, oracle);
 
   events = await frame.evaluate(() => window.__ecLiveSyncEvents);
   eventCount = events.length;
   await inject(page, { persons: rows, seq, guestCount: rosterSize, plannerGuestTotal: rosterSize, tableCount: plan.tables.length, sentAt: Date.now() });
   event = await waitForAction(frame, eventCount, 'ignore-stale');
   roster = await waitForRoster(frame, rosterSize);
-  record(records, 'duplicate-sequence', 'ignore-stale', event, roster, roster.length === rosterSize);
+  oracle = exactPublicState(roster, rows);
+  record(records, 'duplicate-sequence', 'ignore-stale', event, roster, oracle.pass, oracle);
 
   events = await frame.evaluate(() => window.__ecLiveSyncEvents);
   eventCount = events.length;
   await inject(page, { persons: [], seq: ++seq, guestCount: rosterSize, plannerGuestTotal: rosterSize, tableCount: plan.tables.length, sentAt: Date.now() });
   event = await waitForAction(frame, eventCount, 'skip-empty');
   roster = await waitForRoster(frame, rosterSize);
-  record(records, 'transient-empty', 'skip-empty', event, roster, roster.length === rosterSize);
+  oracle = exactPublicState(roster, rows);
+  record(records, 'transient-empty', 'skip-empty', event, roster, oracle.pass, oracle);
 
   events = await frame.evaluate(() => window.__ecLiveSyncEvents);
   eventCount = events.length;
@@ -279,14 +333,16 @@ try {
   event = await waitForAction(frame, eventCount, 'merge');
   roster = await waitForRoster(frame, rosterSize);
   const corrected = roster.find(row => row.plannerGuestId === rows[0].plannerGuestId);
+  const correctedRows = rows.map((row, index) => index === 0 ? { ...row, department: 'Table corrected' } : row);
+  oracle = exactPublicState(roster, correctedRows);
   record(
     records,
     'duplicate-row-last-wins',
     'merge',
     event,
     roster,
-    roster.length === rosterSize && corrected?.department === 'Table corrected' && event?.duplicateRowsRemoved === 1,
-    { corrected_department: corrected?.department ?? '' },
+    oracle.pass && corrected?.department === 'Table corrected' && event?.duplicateRowsRemoved === 1,
+    { ...oracle, corrected_department: corrected?.department ?? '' },
   );
 
   events = await frame.evaluate(() => window.__ecLiveSyncEvents);
@@ -294,14 +350,16 @@ try {
   await inject(page, { persons: [], seq: ++seq, guestCount: 0, plannerGuestTotal: 0, tableCount: 0, sentAt: Date.now() });
   event = await waitForAction(frame, eventCount, 'clear');
   roster = await waitForRoster(frame, 0);
-  record(records, 'intentional-clear', 'clear', event, roster, roster.length === 0);
+  oracle = exactPublicState(roster, []);
+  record(records, 'intentional-clear', 'clear', event, roster, oracle.pass, oracle);
 
   events = await frame.evaluate(() => window.__ecLiveSyncEvents);
   eventCount = events.length;
   await inject(page, { persons: rows, seq: ++seq, guestCount: rosterSize, plannerGuestTotal: rosterSize, tableCount: plan.tables.length, sentAt: Date.now() });
   event = await waitForAction(frame, eventCount, 'merge');
   roster = await waitForRoster(frame, rosterSize);
-  record(records, 'recovery-after-clear', 'merge', event, roster, roster.length === rosterSize);
+  oracle = exactPublicState(roster, rows);
+  record(records, 'recovery-after-clear', 'merge', event, roster, oracle.pass, oracle);
 
   await context.close();
 }
@@ -324,6 +382,8 @@ const output = {
     browser_version: browserVersion,
     roster_size: rosterSize,
     server_mode: serverMode,
+    seating_origin: seatingOrigin,
+    lottery_origin: lotteryOrigin,
     next_build_id_sha256: serverMode === 'production' ? fileSha256(join(root, '.next', 'BUILD_ID')) : null,
     lottery_dist_index_sha256: serverMode === 'production' ? fileSha256(join(lotteryDir, 'dist', 'index.html')) : null,
   },
