@@ -1,0 +1,10 @@
+property_id,invariant,boundary,passed,generated_cases,skipped_cases,shrinks,seed,counterexample_path,counterexample,error,elapsed_ms
+PB-01,normalization is idempotent,semantic normalization,true,2000,0,0,20260805,,,,21.41609999999997
+PB-02,NFC-equivalent and trim-equivalent records share one normalized identity,semantic normalization,true,2000,0,0,20260806,,,,20.999199999999973
+PB-03,structured identity keys avoid delimiter-concatenation collisions,semantic identity,true,2000,0,0,20260807,,,,9.049199999999985
+PB-04,duplicate stable identifiers are deterministically deduplicated with last-row precedence,semantic identity,true,2000,0,0,20260808,,,,20.55880000000002
+PB-05,stable-ID merge preserves lottery-side state while updating public fields,historical state,true,2000,0,0,20260809,,,,110.96719999999999
+PB-06,identical legacy identities are upgraded one-to-one when stable IDs arrive,identity upgrade and historical state,true,2000,0,0,20260810,,,,106.9837
+PB-07,historical UID exclusions survive stable-ID introduction,exclusion continuity,true,2000,0,0,20260811,,,,13.264200000000073
+PB-08,sequence watermarks permit only safe retry and never roll back past a newer accepted sequence,message order and retry,true,2000,0,0,20260812,,,,4.13250000000005
+PB-09,transient invalid empties are skipped while explicit zero rosters clear,empty-payload semantics,true,2000,0,0,20260813,,,,8.090200000000095
