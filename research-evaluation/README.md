@@ -8,6 +8,8 @@ Do not copy wedding guest files, photographs, contact details, questionnaires, o
 
 ## Current JSS evidence set
 
+The manuscript uses the two research questions stated in `PROTOCOL.md`. The reported evaluation is selected by the exact commit and artifact anchors listed in the manuscript and supplementary appendix; later branch-tip maintenance commits do not retroactively change the measured batches. `PROPERTY_MANIFEST_SHA256.txt` is the historical property-evaluation snapshot created at commit `978d43e55e6b4fcaae1356c94fdea688dbc84a42`. Use `JSS_EVIDENCE_MANIFEST_SHA256.txt` and `scripts/verify-evidence-manifest.py` to verify the current JSS evidence set.
+
 - Normal-path raw batch: `results/raw/bridge_production_formal_jss_field_oracle_20260812b.json`
 - Normal-path summary: `results/processed/bridge_production_formal_jss_field_oracle_20260812b_summary.csv`
 - Normal-path latency figure: `results/figures/bridge_production_formal_jss_field_oracle_20260812b_latency.pdf`

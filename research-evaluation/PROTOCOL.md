@@ -23,15 +23,11 @@ For message sequence `n`, completion is sound only when `H(n) = I1 and I2 and I3
 
 ## 3. Research questions
 
-**RQ1 Defect structure.** Which failure conditions break the handoff contract across source construction, channel binding, receiver eligibility, merge, persistence, and completion?
+**RQ1.** Which reproduced identity, state, peer, order, and persistence failure modes are retained by the defect audit, and which handoff properties do they violate?
 
-**RQ2 Correctness.** Does the corrected production handoff satisfy semantic identity and exact public-field equality across roster sizes and browser engines?
+**RQ2.** To what extent do the corrected safeguards maintain the nominated handoff properties across production-build browser runs, injected state sequences, targeted ablations, and generated inputs?
 
-**RQ3 Fault behavior.** Do the protocol and persistence safeguards preserve the expected state under duplicate messages, transient empty payloads, duplicate rows, explicit clearing, recovery, storage rejection, and same-origin sibling-window messages?
-
-**RQ4 Safeguard contribution.** Does removing stable identity, state-preserving merge, sequence checking, or transient-empty protection produce the corresponding targeted failure?
-
-**RQ5 Generated-domain robustness.** Do the nine pure-function properties hold over fixed-seed generated inputs and replay across hosted operating systems?
+RQ2 is evaluated through four complementary evidence layers: normal-path browser execution, fault-directed state sequences, safeguard ablation, and fixed-seed property checks. Their denominators remain separate because they use different experimental units and oracles.
 
 ## 4. Units, matrices, and oracles
 
