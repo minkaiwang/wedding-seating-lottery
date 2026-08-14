@@ -143,6 +143,7 @@ const blockedPatterns = [
   { label: 'OpenAI API key', re: /(?:sk-[A-Za-z0-9]{32,}|sk-(?:proj|svcacct)-[A-Za-z0-9_-]{20,})/u },
 ];
 const longHexTokenPattern = /(?<![A-Fa-f0-9])[A-Fa-f0-9]{32,}(?![A-Fa-f0-9])/gu;
+const memoryTelemetryPattern = /"(?:total_memory_bytes|free_memory_bytes_at_summary)"\s*:\s*\d+/gu;
 let hits = 0;
 for (const rel of tracked.filter(isTextSource)) {
   const file = join(root, rel);
@@ -155,11 +156,13 @@ for (const rel of tracked.filter(isTextSource)) {
     continue;
   }
   for (const { label, re } of blockedPatterns) {
-    // Cryptographic hashes can contain 11 consecutive decimal digits by chance.
-    // Mask only long hexadecimal tokens for the phone-number check; secrets and
-    // configured project terms must still be scanned against the original text.
+    // Hashes and numeric runner-memory telemetry can resemble an 11-digit phone
+    // number. Mask only those machine-generated values for the phone check;
+    // strings, secrets, and configured project terms remain fully scanned.
     const scanContent = label === 'possible mainland China mobile number'
-      ? content.replace(longHexTokenPattern, '')
+      ? content
+          .replace(longHexTokenPattern, '')
+          .replace(memoryTelemetryPattern, '')
       : content;
     if (re.test(scanContent)) {
       err(`Possible personal data (${label}) in ${rel}`);
