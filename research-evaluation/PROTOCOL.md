@@ -10,16 +10,25 @@
 
 The evaluation covers roster normalization, identity construction, peer and origin binding, message sequencing, state-preserving merge, IndexedDB commit, and completion acknowledgement. Seating quality, random prize selection, visual presentation, audience experience, and operator workload are outside the evaluated software surface.
 
-## 2. Executable handoff contract
+## 2. Mode-aware executable handoff contract
 
-A completed handoff must satisfy four coupled clauses:
+The integration exposes two ingress modes with different destination semantics:
 
-1. **Semantic identity (I1):** the destination contains the expected stable-ID set, no duplicates, and exact normalized values for `name`, `department`, `identity`, and `avatar`.
-2. **Destination-state continuity (I2):** updates preserve destination-owned identifiers, winning state, prize history, and exclusions for the same person.
-3. **Message eligibility, order, and empty-payload semantics (I3):** the receiver accepts messages only from the bound peer and allowed origin, rejects duplicate or stale sequences, protects a valid nonempty roster from malformed transient empties, and permits an explicit zero-roster clear.
-4. **Post-commit completion (I4):** completion is emitted only after the accepted snapshot has reached durable storage; a failed unsuperseded commit remains retryable.
+- **Final-snapshot replacement:** `P(S)` atomically initializes both destination person stores from a normalized, deduplicated, nonempty final snapshot `S`. A normalized empty input is rejected before `P(S)`.
+- **State-preserving live synchronization:** message `n` applies `M(D_pre, S_n)` to update source-owned fields while retaining destination-owned state. `D_pre` is the persisted state before the message and `D_post` is the committed state afterward.
 
-For message sequence `n`, completion is sound only when `H(n) = I1 and I2 and I3 and I4` holds for the accepted and persisted snapshot.
+The contract has four clauses with mode-specific applicability:
+
+1. **Semantic identity (I1):** both modes require one destination person per stable source identifier, deterministic duplicate handling, and normalized structured identities. Live synchronization additionally applies one-to-one migration when an existing destination record lacks the stable identifier.
+2. **Destination-state continuity (I2):** live synchronization preserves destination-owned identifiers, winning state, prize history, and exclusions for the same person. Replacement initializes the two person stores and does not invoke this history-preservation clause.
+3. **Message eligibility, order, and empty-payload semantics (I3):** replacement binds READY and DONE to the configured origin and opened child window and enforces READY-IMPORT-DONE phase order. Live synchronization binds the configured origin and parent window, rejects duplicate or stale sequences, protects a valid nonempty roster from malformed transient empties, permits an explicit zero-roster clear, and restores retry eligibility after an unsuperseded failed write.
+4. **Post-commit completion (I4):** replacement reports successful DONE only after `P(S)` commits both stores. Live synchronization emits completion only after `M(D_pre, S_n)` commits `D_post` and the accepted and persisted sequence watermarks both equal `n`.
+
+The two success predicates are:
+
+`H_replace(S) = I1_replace(S) and I3_replace(S) and I4_replace(S)`
+
+`H_sync(n) = I1_sync(S_n) and I2(D_pre, S_n, D_post) and I3_sync(n) and I4_sync(n)`
 
 ## 3. Research questions
 
@@ -31,9 +40,9 @@ RQ2 is evaluated through four complementary evidence layers: normal-path browser
 
 ## 4. Units, matrices, and oracles
 
-The normal-path unit is one production-build browser transfer. Roster sizes are 50, 200, 500, and 1,000 records. Each browser-size cell contains one warm-up and 30 measured transfers in Chromium, Firefox, and Playwright WebKit. The exact oracle compares stable IDs and all four normalized public fields; count equality alone is not sufficient.
+The replacement-mode normal-path unit is one production-build browser transfer. Roster sizes are 50, 200, 500, and 1,000 records. Each browser-size cell contains one warm-up and 30 measured transfers in Chromium, Firefox, and Playwright WebKit. The exact oracle compares stable IDs and all four normalized public fields; count equality alone is not sufficient.
 
-The fault unit is one state checkpoint within a seven-step sequence at 200 records: initial synchronization, accepted current sequence, duplicate-sequence rejection, transient-empty protection, duplicate-row last-wins correction, explicit clear, and recovery after clear. Thirty independent sequences per browser yield 630 checkpoints. Exact IDs and public fields are checked after every step. Storage-failure retry and sibling-window rejection are deterministic regressions because they require a different injection boundary from the seven-step browser sequence.
+The live-sync fault unit is one state checkpoint within a seven-step sequence at 200 records: initial synchronization, accepted current sequence, duplicate-sequence rejection, transient-empty protection, duplicate-row last-wins correction, explicit clear, and recovery after clear. Thirty independent sequences per browser yield 630 checkpoints. Exact IDs and public fields are checked after every step. Live-sync storage-failure retry and parent-window checks are deterministic regressions because they require a different injection boundary from the seven-step browser sequence. Replacement child-window binding, handshake order, and premature closure are separate sender-side regressions.
 
 The ablation unit is one generated outcome under a safeguard-enabled or safeguard-removed analytical variant. Four safeguards, two variants, four roster sizes, and 100 repetitions yield 3,200 records. Each ablation changes one mechanism and retains its targeted fault condition.
 
