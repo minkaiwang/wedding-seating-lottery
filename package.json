@@ -36,6 +36,7 @@
     "evaluate:properties": "tsx ./research-evaluation/scripts/run-property-evaluation.ts",
     "evaluate:jsep:oracles": "tsx ./research-evaluation/scripts/run-jsep-oracle-evaluation.ts",
     "evaluate:jsep:cost": "tsx ./research-evaluation/scripts/run-jsep-contract-cost.ts",
+    "evaluate:jsep:counterexamples": "tsx ./research-evaluation/scripts/run-jsep-counterexamples.ts",
     "postinstall": "prisma generate",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",

@@ -90,6 +90,8 @@ Primary summaries are fault-detection rate, unique detections, shared detections
 
 For property-based counterexample generation, each retained generative fault operator uses a preset seed list and fixed maximum case budget. Results report detection/no detection, cases to first counterexample, shrink count, and minimized counterexample. Passing generated cases are not counted as independent faults.
 
+The formal-candidate counterexample subset is `JSEP-M01`, `JSEP-M02`, `JSEP-M07`, `JSEP-M09`, `JSEP-M13`, `JSEP-M14`, `JSEP-M15`, `JSEP-M16`, `JSEP-M18`, `JSEP-M19`, and `JSEP-M20`. Each O0/O1/O2 comparison uses seeds `2026082601` through `2026082610` and a maximum of 200 generated cases per seed. Seeds are repeated search runs; the fault remains the analysis unit.
+
 Cost measurements compare the unkeyed surface oracle and the full contract checker on the same prepared synthetic observations. Planned sizes are 50, 200, 500, and 1,000 records, with warm-up and repeated measurements fixed in the runner before formal execution. The paired operations alternate execution order. Report median, IQR, P95, and the incremental share of full contract time. Browser persistence latency remains a separate system measure and is not attributed to the pure checker.
 
 ## 7. Reproducibility and privacy
