@@ -1,7 +1,8 @@
 {
   "catalogue_version": "jsep-holdout-v1-2026-08-26",
-  "status": "selection-frozen-before-harness-results-and-before-holdout-execution",
+  "status": "selection-amended-by-static-observability-review-and-refrozen-before-holdout-execution",
   "application_base_commit": "e7373e212d711103f0822c9928200289b0adb5c4",
+  "selection_amendment": "Before any holdout execution, static review found that H04 originally moved only an evaluation trace event. H04 was corrected to move the actual successful DONE message and its matching trace before persistence; the fault ID, stratum, operator class, trigger, and expected clause remain unchanged.",
   "selection_rule": "Two reachable, build-preserving operators were selected in each of four implementation strata. Within every stratum, one operator changes record or state handling and one changes a guard, order, or persistence action. Selection used source inspection and designated-path reachability only; no holdout O2 result was available.",
   "unit_of_analysis": "fault",
   "browser_repetitions": [
@@ -85,17 +86,21 @@
       "project": "lottery",
       "scenario": "replace-normal-200",
       "existing_test_command": ["npm", "test"],
-      "expected_external_consequence": "The receiver emits successful completion before the persistence promise settles, although the eventual destination state is correct.",
+      "expected_external_consequence": "The receiver sends the actual successful DONE message and matching completion trace before the persistence promise settles, although the eventual destination state is correct.",
       "expected_b_state": "miss",
       "expected_o2_clause": "I4",
       "edits": [
         {
           "search": "            emitWeddingSeatingHandoffTrace('replace', 'commit-started')\n            const replacement = personConfig.replacePersonList(processed)\n",
-          "replacement": "            emitWeddingSeatingHandoffTrace('replace', 'commit-started')\n            emitWeddingSeatingHandoffTrace('replace', 'completion-success')\n            const replacement = personConfig.replacePersonList(processed)\n"
+          "replacement": "            emitWeddingSeatingHandoffTrace('replace', 'commit-started')\n            emitWeddingSeatingHandoffTrace('replace', 'completion-success')\n            window.opener?.postMessage({ type: MSG_WEDDING_DONE, ok: true }, parentOrigin)\n            const replacement = personConfig.replacePersonList(processed)\n"
         },
         {
           "search": "                    emitWeddingSeatingHandoffTrace('replace', 'commit-succeeded')\n                    emitWeddingSeatingHandoffTrace('replace', 'completion-success')\n",
           "replacement": "                    emitWeddingSeatingHandoffTrace('replace', 'commit-succeeded')\n"
+        },
+        {
+          "search": "                    window.opener?.postMessage({ type: MSG_WEDDING_DONE, ok: true }, parentOrigin)\n",
+          "replacement": ""
         }
       ]
     },
