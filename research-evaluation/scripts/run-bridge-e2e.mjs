@@ -5,6 +5,7 @@ import { cpus, release, totalmem } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium, firefox, webkit } from 'playwright';
+import { checkWeddingSeatingHandoff } from '../../log-lottery/src/utils/weddingSeatingContractAdapter.ts';
 
 const evaluationDir = dirname(dirname(fileURLToPath(import.meta.url)));
 const root = dirname(evaluationDir);
@@ -66,6 +67,18 @@ function expectedPublicRows(plan) {
     identity: guest.tags.join(', ').normalize('NFC').trim(),
     avatar: '',
   }]));
+}
+
+function contractSourceRows(plan) {
+  const tableNames = new Map(plan.tables.map(table => [table.id, table.name]));
+  return plan.guests.map((guest, index) => ({
+    uid: index + 1,
+    plannerGuestId: guest.id,
+    name: guest.name,
+    department: tableNames.get(guest.tableId) ?? '',
+    identity: guest.tags.join(', '),
+    avatar: '',
+  }));
 }
 
 function comparePublicRows(rows, expectedRows) {
@@ -171,14 +184,19 @@ async function waitForRoster(page, expectedCount, timeoutMs = 60_000) {
 async function runCase(browserName, browserVersion, browser, size, repetition, phase) {
   const plan = makePlan(size);
   const expectedRows = expectedPublicRows(plan);
+  const sourceRows = contractSourceRows(plan);
   const context = await browser.newContext({ locale: 'zh-CN', viewport: { width: 1280, height: 800 } });
   await context.addInitScript(({ plannerOrigin, receiverOrigin, seatingPlan }) => {
     if (window.location.origin === plannerOrigin)
       localStorage.setItem('wedding-seating-plan', JSON.stringify(seatingPlan));
     if (window.location.origin === receiverOrigin) {
       window.__ecBridgeEvents = [];
+      window.__jsepHandoffTrace = [];
       window.addEventListener('wedding-seating-bridge-imported', event => {
         window.__ecBridgeEvents.push(event.detail);
+      });
+      window.addEventListener('wedding-seating-handoff-trace', event => {
+        window.__jsepHandoffTrace.push(event.detail);
       });
     }
   }, { plannerOrigin: seatingOrigin, receiverOrigin: lotteryOrigin, seatingPlan: plan });
@@ -198,6 +216,11 @@ async function runCase(browserName, browserVersion, browser, size, repetition, p
       timeout: 30_000,
     });
     const event = await popup.evaluate(() => window.__ecBridgeEvents.at(-1));
+    const traceEvents = await popup.evaluate(() => window.__jsepHandoffTrace);
+    const receiverPhases = traceEvents
+      .filter(item => item.mode === 'replace')
+      .sort((left, right) => left.traceSequence - right.traceSequence)
+      .map(item => item.phase);
     const rows = await waitForRoster(popup, size);
     const stableIds = rows.map(row => row.plannerGuestId).filter(Boolean);
     const stableIdSet = new Set(stableIds);
@@ -206,6 +229,28 @@ async function runCase(browserName, browserVersion, browser, size, repetition, p
       && [...expectedIds].every(id => stableIdSet.has(id));
     const publicFieldMismatches = comparePublicRows(rows, expectedRows);
     const exactPublicFields = exactIdentitySet && publicFieldMismatches.length === 0;
+    const contractStartedAt = performance.now();
+    const contractReport = checkWeddingSeatingHandoff({
+      mode: 'replace',
+      sourcePersons: sourceRows,
+      destinationBefore: [],
+      destinationAfter: rows,
+      completedBefore: [],
+      completedAfter: rows.filter(row => row.isWin === true),
+      scenario: {
+        expectedOrigin: seatingOrigin,
+        expectedPeer: 'opened-child',
+        persistenceOutcome: 'success',
+      },
+      execution: {
+        observedOrigin: seatingOrigin,
+        observedPeer: 'opened-child',
+        decision: 'replace',
+        phases: ['ready-received', 'transfer-sent', ...receiverPhases],
+        atomicCommit: true,
+      },
+    });
+    const contractCheckMs = performance.now() - contractStartedAt;
 
     return {
       browser: browserName,
@@ -213,7 +258,7 @@ async function runCase(browserName, browserVersion, browser, size, repetition, p
       roster_size: size,
       repetition,
       phase,
-      status: rows.length === size && exactIdentitySet && exactPublicFields ? 'pass' : 'fail',
+      status: rows.length === size && exactIdentitySet && exactPublicFields && contractReport.oracles.O2.passed ? 'pass' : 'fail',
       final_count: rows.length,
       unique_stable_ids: stableIdSet.size,
       duplicate_stable_ids: stableIds.length - stableIdSet.size,
@@ -221,6 +266,13 @@ async function runCase(browserName, browserVersion, browser, size, repetition, p
       exact_public_fields: exactPublicFields,
       public_field_mismatch_count: publicFieldMismatches.length,
       public_field_mismatch_examples: JSON.stringify(publicFieldMismatches.slice(0, 3)),
+      contract_o0_pass: contractReport.oracles.O0.passed,
+      contract_o1_pass: contractReport.oracles.O1.passed,
+      contract_o1k_pass: contractReport.oracles.O1K.passed,
+      contract_o2_pass: contractReport.oracles.O2.passed,
+      contract_failure_codes: contractReport.oracles.O2.failures.map(item => item.code).join('|'),
+      contract_check_ms: contractCheckMs,
+      receiver_trace_phases: receiverPhases.join('|'),
       receiver_rows_accepted: event?.rowsAccepted ?? null,
       receiver_preparation_ms: event?.receiverPreparationMs ?? null,
       receiver_persistence_ms: event?.receiverPersistenceMs ?? null,
@@ -245,6 +297,13 @@ async function runCase(browserName, browserVersion, browser, size, repetition, p
       exact_public_fields: false,
       public_field_mismatch_count: null,
       public_field_mismatch_examples: '[]',
+      contract_o0_pass: null,
+      contract_o1_pass: null,
+      contract_o1k_pass: null,
+      contract_o2_pass: null,
+      contract_failure_codes: '',
+      contract_check_ms: null,
+      receiver_trace_phases: '',
       receiver_rows_accepted: null,
       protocol_completion_latency_ms: null,
       observed_wall_time_ms: Date.now() - startedAt,
@@ -272,6 +331,9 @@ function sourceHash() {
     'log-lottery/src/utils/dexie/index.ts',
     'log-lottery/src/utils/seatingSyncExclusions.ts',
     'log-lottery/src/utils/weddingSeatingBridge.ts',
+    'log-lottery/src/utils/weddingSeatingHandoffTrace.ts',
+    'log-lottery/src/utils/stateHandoffContract.ts',
+    'log-lottery/src/utils/weddingSeatingContractAdapter.ts',
     'log-lottery/src/utils/weddingSeatingLiveSync.ts',
     'log-lottery/src/utils/weddingSeatingMerge.ts',
     'log-lottery/src/utils/weddingSeatingProtocol.ts',
@@ -333,6 +395,7 @@ const metadata = {
   roster_sizes: sizes,
   repetitions,
   warmups_per_browser_size_cell: warmups,
+  contract_observation_boundary: 'Offline O0/O1/O1K/O2 evaluation over the synthetic source snapshot, metadata-only receiver phase events, and IndexedDB post-state after persistence; replacement pre-state is empty in each fresh browser context.',
 };
 if (prior) {
   const comparable = ['evaluated_commit', 'evaluated_source_sha256', 'node', 'playwright', 'platform', 'seating_origin', 'lottery_origin', 'server_mode', 'next_build_id_sha256', 'lottery_dist_index_sha256', 'repetitions', 'warmups_per_browser_size_cell'];

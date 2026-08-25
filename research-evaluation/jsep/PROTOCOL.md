@@ -135,3 +135,17 @@ Internal review identified that O0 and O1 are useful lower bounds but do not rep
 - `O1K Keyed post-state`: applies O0, then requires the exact semantic-identity set and source-owned public fields to match by stable identity after a successful handoff. It inspects neither destination-owned pre-state nor message, sequence, persistence, or completion order.
 
 All post-amendment runs report O1K beside O0, O1, and O2. The primary comparison for incremental contract detection becomes O2 versus O1K; O0 and O1 remain descriptive lower baselines. Cost runs add a standalone keyed post-state implementation and report O2 increment over both O1 and O1K. This amendment strengthens the comparator without adding, removing, or relabeling faults after seeing O1K results.
+
+## 11. Protocol amendment A3: production-browser observation replay
+
+Amendment freeze date: 2026-08-26
+
+Status: frozen after implementation and static checks, before browser pilot and formal execution
+
+The production-browser evaluation connects the frozen checker to observations from the deployed replacement and synchronization paths without placing the checker in the application decision loop. Receiver code emits metadata-only phase events (`mode`, `phase`, optional sequence, local trace order, and time); it emits no roster fields or identities. The runners combine these phases with synthetic source payloads and IndexedDB destination snapshots read before and after persistence, then execute O0, O1, O1K, and O2 offline.
+
+Replacement uses a fresh browser context for each transfer, so its destination pre-state is empty. Formal dimensions are Chromium, Firefox, and Playwright WebKit; 50, 200, 500, and 1,000 records; one warm-up and ten measured transfers per browser-size cell. This yields 120 measured replacement observations. The handshake phases are supplied by the accepted source path, while message receipt, commit start, commit success, and completion are taken from receiver trace events.
+
+Synchronization runs one fixed seven-step sequence per browser-size cell: startup merge, current-sequence merge, duplicate-sequence rejection, transient-empty protection, duplicate-row last-write merge, explicit clear, and recovery merge. The startup row verifies deployment readiness but is excluded from contract replay because retry messages may establish more than one destination pre-state before its final event. The remaining six steps yield 72 contract-replayed checkpoints across three browser engines and four sizes. Each step records the actual receiver phase sequence and IndexedDB states; accepted and persisted watermarks are derived from the injected sequence and the receiver action event.
+
+Checker execution time is measured in the runner after the browser state is observed. It describes offline replay cost and is not added to, or subtracted from, application completion latency. Browser findings establish observation availability and correct-path contract passage in the tested production builds; the 28-fault matrix remains the evidence for fault discrimination.

@@ -5,6 +5,7 @@ import useStore from '@/store'
 import { addOtherInfo } from '@/utils/index'
 import { isLogLotteryEmbedMode } from '@/utils/runtimeEmbed'
 import { clearSyncExclusions } from '@/utils/seatingSyncExclusions'
+import { emitWeddingSeatingHandoffTrace } from '@/utils/weddingSeatingHandoffTrace'
 import { deduplicateWeddingSeatingRows } from '@/utils/weddingSeatingMerge'
 import { isTrustedWindowSource } from '@/utils/weddingSeatingMessageSecurity'
 import { allowedWeddingSeatingOrigins } from '@/utils/weddingSeatingOrigins'
@@ -92,6 +93,7 @@ export function setupWeddingSeatingImportBridge(router: Router, toast: ToastApi)
         if (e.data?.type !== MSG_WEDDING_IMPORT)
             return
 
+        emitWeddingSeatingHandoffTrace('replace', 'message-received')
         const receiverStartedAt = performance.now()
         const normalized = normalizeWeddingSeatingRows(e.data.persons)
         const { rows, duplicateCount } = deduplicateWeddingSeatingRows(normalized)
@@ -109,6 +111,7 @@ export function setupWeddingSeatingImportBridge(router: Router, toast: ToastApi)
         try {
             const copy = rows.map(r => ({ ...r }))
             const processed = addOtherInfo(copy)
+            emitWeddingSeatingHandoffTrace('replace', 'commit-started')
             const replacement = personConfig.replacePersonList(processed)
             const persistenceStartedAt = performance.now()
             const sentAt = typeof e.data.sentAt === 'number' && Number.isFinite(e.data.sentAt)
@@ -116,6 +119,8 @@ export function setupWeddingSeatingImportBridge(router: Router, toast: ToastApi)
                 : undefined
             replacement.persistence
                 .then(() => {
+                    emitWeddingSeatingHandoffTrace('replace', 'commit-succeeded')
+                    emitWeddingSeatingHandoffTrace('replace', 'completion-success')
                     clearSyncExclusions()
                     toast.open({
                         message: t('error.weddingSeatingBridgeSuccess'),
@@ -136,6 +141,8 @@ export function setupWeddingSeatingImportBridge(router: Router, toast: ToastApi)
                     window.opener?.postMessage({ type: MSG_WEDDING_DONE, ok: true }, parentOrigin)
                 })
                 .catch(() => {
+                    emitWeddingSeatingHandoffTrace('replace', 'commit-failed')
+                    emitWeddingSeatingHandoffTrace('replace', 'completion-failure')
                     emitBridge(EVT_FAILED, { reason: 'persistence-failed' })
                     toast.open({
                         message: t('error.importFail'),
@@ -146,6 +153,8 @@ export function setupWeddingSeatingImportBridge(router: Router, toast: ToastApi)
                 })
         }
         catch {
+            emitWeddingSeatingHandoffTrace('replace', 'commit-failed')
+            emitWeddingSeatingHandoffTrace('replace', 'completion-failure')
             emitBridge(EVT_FAILED, { reason: 'exception' })
             toast.open({
                 message: t('error.importFail'),

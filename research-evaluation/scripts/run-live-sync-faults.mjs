@@ -4,6 +4,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium, firefox, webkit } from 'playwright';
+import { checkWeddingSeatingHandoff } from '../../log-lottery/src/utils/weddingSeatingContractAdapter.ts';
 
 const evaluationDir = dirname(dirname(fileURLToPath(import.meta.url)));
 const root = dirname(evaluationDir);
@@ -38,6 +39,9 @@ function sourceHash() {
     'log-lottery/src/store/personConfig.ts',
     'log-lottery/src/utils/dexie/index.ts',
     'log-lottery/src/utils/seatingSyncExclusions.ts',
+    'log-lottery/src/utils/stateHandoffContract.ts',
+    'log-lottery/src/utils/weddingSeatingContractAdapter.ts',
+    'log-lottery/src/utils/weddingSeatingHandoffTrace.ts',
     'log-lottery/src/utils/weddingSeatingLiveSync.ts',
     'log-lottery/src/utils/weddingSeatingMerge.ts',
     'log-lottery/src/utils/weddingSeatingProtocol.ts',
@@ -220,6 +224,16 @@ async function waitForAction(frame, previousCount, action) {
   }, { count: previousCount, expected: action });
 }
 
+async function readTracePhases(frame, previousCount, incomingSequence) {
+  return frame.evaluate(({ count, sequence }) => {
+    return window.__jsepHandoffTrace
+      .slice(count)
+      .filter(item => item.mode === 'synchronize' && item.incomingSequence === sequence)
+      .sort((left, right) => left.traceSequence - right.traceSequence)
+      .map(item => item.phase);
+  }, { count: previousCount, sequence: incomingSequence });
+}
+
 function record(records, scenario, expectedAction, event, roster, pass, detail = {}) {
   records.push({
     scenario,
@@ -232,6 +246,58 @@ function record(records, scenario, expectedAction, event, roster, pass, detail =
     protocol_completion_latency_ms: event?.completionLatencyMs ?? event?.latencyMs ?? null,
     ...detail,
   });
+}
+
+function evaluateBrowserContract({
+  source,
+  before,
+  after,
+  decision,
+  incomingSequence,
+  watermarkBefore,
+  watermarkAfter,
+  authoritativeSourceCount,
+  phases,
+}) {
+  const startedAt = performance.now();
+  const report = checkWeddingSeatingHandoff({
+    mode: 'synchronize',
+    sourcePersons: source,
+    destinationBefore: before,
+    destinationAfter: after,
+    completedBefore: before.filter(row => row.isWin === true),
+    completedAfter: after.filter(row => row.isWin === true),
+    scenario: {
+      expectedOrigin: seatingOrigin,
+      expectedPeer: 'bound-parent',
+      authoritativeSourceCount,
+      incomingSequence,
+      acceptedSequenceBefore: watermarkBefore,
+      persistedSequenceBefore: watermarkBefore,
+      persistenceOutcome: 'success',
+    },
+    execution: {
+      observedOrigin: seatingOrigin,
+      observedPeer: 'bound-parent',
+      decision,
+      phases,
+      acceptedSequenceAfter: watermarkAfter,
+      persistedSequenceAfter: watermarkAfter,
+      atomicCommit: true,
+    },
+  });
+  return {
+    passed: report.oracles.O2.passed,
+    fields: {
+      contract_o0_pass: report.oracles.O0.passed,
+      contract_o1_pass: report.oracles.O1.passed,
+      contract_o1k_pass: report.oracles.O1K.passed,
+      contract_o2_pass: report.oracles.O2.passed,
+      contract_failure_codes: report.oracles.O2.failures.map(item => item.code).join('|'),
+      contract_check_ms: performance.now() - startedAt,
+      receiver_trace_phases: phases.join('|'),
+    },
+  };
 }
 
 const plan = makePlan(rosterSize);
@@ -279,8 +345,12 @@ try {
     }
     if (window.location.origin === receiverOrigin) {
       window.__ecLiveSyncEvents = [];
+      window.__jsepHandoffTrace = [];
       window.addEventListener('wedding-seating-live-sync-result', event => {
         window.__ecLiveSyncEvents.push(event.detail);
+      });
+      window.addEventListener('wedding-seating-handoff-trace', event => {
+        window.__jsepHandoffTrace.push(event.detail);
       });
     }
   }, { plannerOrigin: seatingOrigin, receiverOrigin: lotteryOrigin, seatingPlan: plan });
@@ -300,66 +370,161 @@ try {
   let roster = await waitForRoster(frame, rosterSize);
   let events = await frame.evaluate(() => window.__ecLiveSyncEvents);
   let oracle = exactPublicState(roster, rows);
-  record(records, 'initial-sync', 'merge', events.at(-1), roster, oracle.pass, oracle);
+  record(records, 'initial-sync', 'merge', events.at(-1), roster, oracle.pass, {
+    ...oracle,
+    contract_o0_pass: null,
+    contract_o1_pass: null,
+    contract_o1k_pass: null,
+    contract_o2_pass: null,
+    contract_failure_codes: '',
+    contract_check_ms: null,
+    receiver_trace_phases: '',
+    contract_boundary: 'Excluded from contract replay because startup retries can create multiple accepted pre-states before the final observed event.',
+  });
 
   let seq = 10_000;
+  const initialWatermark = Math.max(0, ...events.map(item => Number(item.seq)).filter(Number.isFinite));
   let eventCount = events.length;
+  let traceCount = await frame.evaluate(() => window.__jsepHandoffTrace.length);
+  let before = roster.map(row => ({ ...row }));
   await inject(page, { persons: rows, seq, guestCount: rosterSize, plannerGuestTotal: rosterSize, tableCount: plan.tables.length, sentAt: Date.now() });
   let event = await waitForAction(frame, eventCount, 'merge');
+  let phases = await readTracePhases(frame, traceCount, seq);
   roster = await waitForRoster(frame, rosterSize);
   oracle = exactPublicState(roster, rows);
-  record(records, 'control-current-sequence', 'merge', event, roster, oracle.pass, oracle);
+  let contract = evaluateBrowserContract({
+    source: rows,
+    before,
+    after: roster,
+    decision: 'merge',
+    incomingSequence: seq,
+    watermarkBefore: initialWatermark,
+    watermarkAfter: seq,
+    authoritativeSourceCount: rosterSize,
+    phases,
+  });
+  record(records, 'control-current-sequence', 'merge', event, roster, oracle.pass && contract.passed, { ...oracle, ...contract.fields });
 
   events = await frame.evaluate(() => window.__ecLiveSyncEvents);
   eventCount = events.length;
+  traceCount = await frame.evaluate(() => window.__jsepHandoffTrace.length);
+  before = roster.map(row => ({ ...row }));
   await inject(page, { persons: rows, seq, guestCount: rosterSize, plannerGuestTotal: rosterSize, tableCount: plan.tables.length, sentAt: Date.now() });
   event = await waitForAction(frame, eventCount, 'ignore-stale');
+  phases = await readTracePhases(frame, traceCount, seq);
   roster = await waitForRoster(frame, rosterSize);
   oracle = exactPublicState(roster, rows);
-  record(records, 'duplicate-sequence', 'ignore-stale', event, roster, oracle.pass, oracle);
+  contract = evaluateBrowserContract({
+    source: rows,
+    before,
+    after: roster,
+    decision: 'ignore-stale',
+    incomingSequence: seq,
+    watermarkBefore: seq,
+    watermarkAfter: seq,
+    authoritativeSourceCount: rosterSize,
+    phases,
+  });
+  record(records, 'duplicate-sequence', 'ignore-stale', event, roster, oracle.pass && contract.passed, { ...oracle, ...contract.fields });
 
   events = await frame.evaluate(() => window.__ecLiveSyncEvents);
   eventCount = events.length;
+  traceCount = await frame.evaluate(() => window.__jsepHandoffTrace.length);
+  before = roster.map(row => ({ ...row }));
   await inject(page, { persons: [], seq: ++seq, guestCount: rosterSize, plannerGuestTotal: rosterSize, tableCount: plan.tables.length, sentAt: Date.now() });
   event = await waitForAction(frame, eventCount, 'skip-empty');
+  phases = await readTracePhases(frame, traceCount, seq);
   roster = await waitForRoster(frame, rosterSize);
   oracle = exactPublicState(roster, rows);
-  record(records, 'transient-empty', 'skip-empty', event, roster, oracle.pass, oracle);
+  contract = evaluateBrowserContract({
+    source: [],
+    before,
+    after: roster,
+    decision: 'skip-empty',
+    incomingSequence: seq,
+    watermarkBefore: seq - 1,
+    watermarkAfter: seq - 1,
+    authoritativeSourceCount: rosterSize,
+    phases,
+  });
+  record(records, 'transient-empty', 'skip-empty', event, roster, oracle.pass && contract.passed, { ...oracle, ...contract.fields });
 
   events = await frame.evaluate(() => window.__ecLiveSyncEvents);
   eventCount = events.length;
+  traceCount = await frame.evaluate(() => window.__jsepHandoffTrace.length);
+  before = roster.map(row => ({ ...row }));
   const duplicateRows = [...rows, { ...rows[0], department: 'Table corrected' }];
   await inject(page, { persons: duplicateRows, seq: ++seq, guestCount: duplicateRows.length, plannerGuestTotal: rosterSize, tableCount: plan.tables.length, sentAt: Date.now() });
   event = await waitForAction(frame, eventCount, 'merge');
+  phases = await readTracePhases(frame, traceCount, seq);
   roster = await waitForRoster(frame, rosterSize);
   const corrected = roster.find(row => row.plannerGuestId === rows[0].plannerGuestId);
   const correctedRows = rows.map((row, index) => index === 0 ? { ...row, department: 'Table corrected' } : row);
   oracle = exactPublicState(roster, correctedRows);
+  contract = evaluateBrowserContract({
+    source: duplicateRows,
+    before,
+    after: roster,
+    decision: 'merge',
+    incomingSequence: seq,
+    watermarkBefore: seq - 2,
+    watermarkAfter: seq,
+    authoritativeSourceCount: duplicateRows.length,
+    phases,
+  });
   record(
     records,
     'duplicate-row-last-wins',
     'merge',
     event,
     roster,
-    oracle.pass && corrected?.department === 'Table corrected' && event?.duplicateRowsRemoved === 1,
-    { ...oracle, corrected_department: corrected?.department ?? '' },
+    oracle.pass && corrected?.department === 'Table corrected' && event?.duplicateRowsRemoved === 1 && contract.passed,
+    { ...oracle, ...contract.fields, corrected_department: corrected?.department ?? '' },
   );
 
   events = await frame.evaluate(() => window.__ecLiveSyncEvents);
   eventCount = events.length;
+  traceCount = await frame.evaluate(() => window.__jsepHandoffTrace.length);
+  before = roster.map(row => ({ ...row }));
   await inject(page, { persons: [], seq: ++seq, guestCount: 0, plannerGuestTotal: 0, tableCount: 0, sentAt: Date.now() });
   event = await waitForAction(frame, eventCount, 'clear');
+  phases = await readTracePhases(frame, traceCount, seq);
   roster = await waitForRoster(frame, 0);
   oracle = exactPublicState(roster, []);
-  record(records, 'intentional-clear', 'clear', event, roster, oracle.pass, oracle);
+  contract = evaluateBrowserContract({
+    source: [],
+    before,
+    after: roster,
+    decision: 'clear',
+    incomingSequence: seq,
+    watermarkBefore: seq - 1,
+    watermarkAfter: seq,
+    authoritativeSourceCount: 0,
+    phases,
+  });
+  record(records, 'intentional-clear', 'clear', event, roster, oracle.pass && contract.passed, { ...oracle, ...contract.fields });
 
   events = await frame.evaluate(() => window.__ecLiveSyncEvents);
   eventCount = events.length;
+  traceCount = await frame.evaluate(() => window.__jsepHandoffTrace.length);
+  before = roster.map(row => ({ ...row }));
   await inject(page, { persons: rows, seq: ++seq, guestCount: rosterSize, plannerGuestTotal: rosterSize, tableCount: plan.tables.length, sentAt: Date.now() });
   event = await waitForAction(frame, eventCount, 'merge');
+  phases = await readTracePhases(frame, traceCount, seq);
   roster = await waitForRoster(frame, rosterSize);
   oracle = exactPublicState(roster, rows);
-  record(records, 'recovery-after-clear', 'merge', event, roster, oracle.pass, oracle);
+  contract = evaluateBrowserContract({
+    source: rows,
+    before,
+    after: roster,
+    decision: 'merge',
+    incomingSequence: seq,
+    watermarkBefore: seq - 1,
+    watermarkAfter: seq,
+    authoritativeSourceCount: rosterSize,
+    phases,
+  });
+  record(records, 'recovery-after-clear', 'merge', event, roster, oracle.pass && contract.passed, { ...oracle, ...contract.fields });
 
   await context.close();
 }
@@ -386,6 +551,7 @@ const output = {
     lottery_origin: lotteryOrigin,
     next_build_id_sha256: serverMode === 'production' ? fileSha256(join(root, '.next', 'BUILD_ID')) : null,
     lottery_dist_index_sha256: serverMode === 'production' ? fileSha256(join(lotteryDir, 'dist', 'index.html')) : null,
+    contract_observation_boundary: 'Offline O0/O1/O1K/O2 evaluation over synthetic source payloads, metadata-only receiver phase events, and IndexedDB pre/post states after production-path live-sync results. The startup retry row is excluded from contract replay.',
   },
   records,
 };

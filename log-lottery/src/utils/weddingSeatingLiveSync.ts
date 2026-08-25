@@ -1,5 +1,6 @@
 import useStore from '@/store'
 import { isLogLotteryEmbedMode } from '@/utils/runtimeEmbed'
+import { emitWeddingSeatingHandoffTrace } from '@/utils/weddingSeatingHandoffTrace'
 import { isTrustedWindowSource, readTrustedLiveSyncParentOrigin } from '@/utils/weddingSeatingMessageSecurity'
 import { allowedWeddingSeatingOrigins } from '@/utils/weddingSeatingOrigins'
 import {
@@ -93,6 +94,10 @@ export function setupWeddingSeatingLiveSync(): () => void {
         if (e.data?.type !== MSG_WEDDING_LIVE_SYNC)
             return
 
+        const traceSequence = typeof e.data.seq === 'number' && Number.isFinite(e.data.seq)
+            ? e.data.seq
+            : undefined
+        emitWeddingSeatingHandoffTrace('synchronize', 'message-received', { incomingSequence: traceSequence })
         const decision = decideWeddingSeatingSync(e.data, sequenceWatermark.acceptedSeq)
         const { meta } = decision
 
@@ -127,16 +132,21 @@ export function setupWeddingSeatingLiveSync(): () => void {
         }
 
         if (decision.action === 'clear') {
+            emitWeddingSeatingHandoffTrace('synchronize', 'commit-started', { incomingSequence: traceSequence })
             const persistence = personConfig.resetPerson()
             sequenceWatermark = reserveWeddingSeatingSequence(sequenceWatermark, meta.seq)
             liveSyncDebugApply('accepted empty list (intentional clear)', meta)
             persistence
                 .then(() => {
                     sequenceWatermark = settleWeddingSeatingSequence(sequenceWatermark, meta.seq, 'persisted')
+                    emitWeddingSeatingHandoffTrace('synchronize', 'commit-succeeded', { incomingSequence: traceSequence })
+                    emitWeddingSeatingHandoffTrace('synchronize', 'completion-success', { incomingSequence: traceSequence })
                     emitLiveSyncResult('clear', { ...meta, rowsAccepted: 0 })
                 })
                 .catch((err) => {
                     sequenceWatermark = settleWeddingSeatingSequence(sequenceWatermark, meta.seq, 'failed')
+                    emitWeddingSeatingHandoffTrace('synchronize', 'commit-failed', { incomingSequence: traceSequence })
+                    emitWeddingSeatingHandoffTrace('synchronize', 'completion-failure', { incomingSequence: traceSequence })
                     emitLiveSyncResult('persistence-failed', {
                         ...meta,
                         requestedAction: 'clear',
@@ -157,12 +167,15 @@ export function setupWeddingSeatingLiveSync(): () => void {
 
         try {
             const copy = rows.map(r => ({ ...r }))
+            emitWeddingSeatingHandoffTrace('synchronize', 'commit-started', { incomingSequence: traceSequence })
             const mergeOutcome = personConfig.mergeFromSeatingPlanner(copy)
             sequenceWatermark = reserveWeddingSeatingSequence(sequenceWatermark, meta.seq)
             liveSyncDebugApply('accepted', { ...meta, rowsAccepted: copy.length })
             mergeOutcome.persistence
                 .then(() => {
                     sequenceWatermark = settleWeddingSeatingSequence(sequenceWatermark, meta.seq, 'persisted')
+                    emitWeddingSeatingHandoffTrace('synchronize', 'commit-succeeded', { incomingSequence: traceSequence })
+                    emitWeddingSeatingHandoffTrace('synchronize', 'completion-success', { incomingSequence: traceSequence })
                     emitLiveSyncResult('merge', {
                         ...meta,
                         rowsNormalized: copy.length,
@@ -177,6 +190,8 @@ export function setupWeddingSeatingLiveSync(): () => void {
                 })
                 .catch((err) => {
                     sequenceWatermark = settleWeddingSeatingSequence(sequenceWatermark, meta.seq, 'failed')
+                    emitWeddingSeatingHandoffTrace('synchronize', 'commit-failed', { incomingSequence: traceSequence })
+                    emitWeddingSeatingHandoffTrace('synchronize', 'completion-failure', { incomingSequence: traceSequence })
                     emitLiveSyncResult('persistence-failed', {
                         ...meta,
                         requestedAction: 'merge',
@@ -186,6 +201,8 @@ export function setupWeddingSeatingLiveSync(): () => void {
                 })
         }
         catch (err) {
+            emitWeddingSeatingHandoffTrace('synchronize', 'commit-failed', { incomingSequence: traceSequence })
+            emitWeddingSeatingHandoffTrace('synchronize', 'completion-failure', { incomingSequence: traceSequence })
             if (import.meta.env.DEV || liveSyncVerboseFlag()) {
                 console.warn('[wedding-seating-live-sync] merge failed', err)
             }
