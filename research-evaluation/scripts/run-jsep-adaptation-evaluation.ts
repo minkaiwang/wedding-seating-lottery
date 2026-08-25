@@ -141,25 +141,33 @@ function failedSynchronization(): CheckInRosterContractObservation {
 }
 
 const identitySwap = validSynchronization()
-const swappedAfter = clone(identitySwap.destinationAfter)
+const firstAfter = identitySwap.destinationAfter[0]
+const secondAfter = identitySwap.destinationAfter[1]
 const firstPublic = {
-    email: swappedAfter[0].email,
-    username: swappedAfter[0].username,
-    teamName: swappedAfter[0].teamName,
-    tShirt: swappedAfter[0].tShirt,
+    email: firstAfter.email,
+    username: firstAfter.username,
+    teamName: firstAfter.teamName,
+    tShirt: firstAfter.tShirt,
 }
-swappedAfter[0] = {
-    ...swappedAfter[0],
-    email: swappedAfter[1].email,
-    username: swappedAfter[1].username,
-    teamName: swappedAfter[1].teamName,
-    tShirt: swappedAfter[1].tShirt,
-}
-swappedAfter[1] = { ...swappedAfter[1], ...firstPublic }
+const swappedAfter: CheckInRosterDestinationRecord[] = [
+    {
+        ...firstAfter,
+        email: secondAfter.email,
+        username: secondAfter.username,
+        teamName: secondAfter.teamName,
+        tShirt: secondAfter.tShirt,
+    },
+    { ...secondAfter, ...firstPublic },
+]
 
 const duplicateInstance = validReplacement()
-const duplicateInstanceAfter = clone(duplicateInstance.destinationAfter)
-duplicateInstanceAfter[1] = { ...duplicateInstanceAfter[1], id: duplicateInstanceAfter[0].id }
+const duplicateInstanceAfter: CheckInRosterDestinationRecord[] = [
+    duplicateInstance.destinationAfter[0],
+    {
+        ...duplicateInstance.destinationAfter[1],
+        id: duplicateInstance.destinationAfter[0].id,
+    },
+]
 
 const regeneratedIds = validSynchronization()
 const regeneratedAfter = regeneratedIds.destinationAfter.map((record, index) => ({
