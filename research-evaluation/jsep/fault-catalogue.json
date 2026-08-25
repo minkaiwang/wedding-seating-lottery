@@ -1,0 +1,147 @@
+{
+  "catalogue_version": "jsep-g1-2026-08-26",
+  "status": "design-frozen-after-pilot-debugging-before-formal-run",
+  "parent_commit": "4210c83b06b31e325acdb67adc35fa8ae51c0526",
+  "seeded_faults": [
+    {
+      "id": "JSEP-M01",
+      "clause": "I1",
+      "operator": "drop-stable-identity",
+      "trigger": "A source-owned public field changes for an existing stable identity.",
+      "expected_failure": "The destination record is recreated or associated by mutable public fields."
+    },
+    {
+      "id": "JSEP-M02",
+      "clause": "I1",
+      "operator": "delimiter-concatenated-fallback",
+      "trigger": "Two fallback identities contain delimiter-bearing fields with the same concatenated text.",
+      "expected_failure": "Distinct source identities collide."
+    },
+    {
+      "id": "JSEP-M03",
+      "clause": "I1",
+      "operator": "skip-canonical-normalization",
+      "trigger": "Equivalent source and destination text uses composed/decomposed Unicode or outer whitespace.",
+      "expected_failure": "Equivalent identities fragment."
+    },
+    {
+      "id": "JSEP-M04",
+      "clause": "I1",
+      "operator": "retain-repeated-source-identity",
+      "trigger": "One payload repeats a stable identity with a later corrected row.",
+      "expected_failure": "The destination contains duplicate identities or ignores deterministic last-row precedence."
+    },
+    {
+      "id": "JSEP-M05",
+      "clause": "I1",
+      "operator": "reuse-legacy-migration-candidate",
+      "trigger": "Two legacy destination records share fallback fields and receive two distinct stable identities.",
+      "expected_failure": "One destination instance is assigned to more than one stable identity."
+    },
+    {
+      "id": "JSEP-M06",
+      "clause": "I1",
+      "operator": "drop-historical-exclusion-candidate",
+      "trigger": "An excluded legacy row later receives a stable identity.",
+      "expected_failure": "The excluded identity reappears."
+    },
+    {
+      "id": "JSEP-M07",
+      "clause": "I2",
+      "operator": "replace-during-synchronization",
+      "trigger": "A live update changes source-owned fields for records with destination history.",
+      "expected_failure": "Destination-owned identifiers and history are reset."
+    },
+    {
+      "id": "JSEP-M08",
+      "clause": "I2",
+      "operator": "regenerate-destination-instance-id",
+      "trigger": "A stable source identity is synchronized into an existing destination record.",
+      "expected_failure": "The destination instance identity changes."
+    },
+    {
+      "id": "JSEP-M09",
+      "clause": "I2",
+      "operator": "reset-destination-status",
+      "trigger": "A destination record has a completed or winning state before synchronization.",
+      "expected_failure": "The destination status is reset while visible fields remain correct."
+    },
+    {
+      "id": "JSEP-M10",
+      "clause": "I2",
+      "operator": "drop-destination-history",
+      "trigger": "A destination record has material history before synchronization.",
+      "expected_failure": "History arrays are emptied or reassigned."
+    },
+    {
+      "id": "JSEP-M11",
+      "clause": "I2",
+      "operator": "detach-secondary-state-index",
+      "trigger": "The destination maintains a secondary collection of completed records.",
+      "expected_failure": "The primary record remains but its secondary-list membership is lost."
+    },
+    {
+      "id": "JSEP-M12",
+      "clause": "I3",
+      "operator": "remove-origin-binding",
+      "trigger": "A message arrives from an unconfigured origin with otherwise valid content.",
+      "expected_failure": "The message enters the handoff path."
+    },
+    {
+      "id": "JSEP-M13",
+      "clause": "I3",
+      "operator": "remove-peer-binding",
+      "trigger": "A same-origin sibling window sends a valid-looking message.",
+      "expected_failure": "A message from the wrong window peer enters the handoff path."
+    },
+    {
+      "id": "JSEP-M14",
+      "clause": "I3",
+      "operator": "remove-replacement-phase-guard",
+      "trigger": "Replacement completion is received before READY and transfer.",
+      "expected_failure": "The sender accepts out-of-phase completion."
+    },
+    {
+      "id": "JSEP-M15",
+      "clause": "I3",
+      "operator": "remove-monotonic-sequence-guard",
+      "trigger": "A duplicate or reordered synchronization sequence arrives.",
+      "expected_failure": "Older state is accepted."
+    },
+    {
+      "id": "JSEP-M16",
+      "clause": "I3",
+      "operator": "clear-on-transient-empty",
+      "trigger": "Normalization yields no rows while the authoritative source still declares records.",
+      "expected_failure": "A malformed or transient payload clears valid destination state."
+    },
+    {
+      "id": "JSEP-M17",
+      "clause": "I3",
+      "operator": "skip-explicit-zero-clear",
+      "trigger": "The authoritative source intentionally reaches zero records.",
+      "expected_failure": "Obsolete destination records remain."
+    },
+    {
+      "id": "JSEP-M18",
+      "clause": "I3",
+      "operator": "retain-failed-accepted-watermark",
+      "trigger": "Persistence rejects an accepted sequence and the same sequence is retried.",
+      "expected_failure": "The safe retry is classified as stale."
+    },
+    {
+      "id": "JSEP-M19",
+      "clause": "I4",
+      "operator": "complete-before-commit",
+      "trigger": "The application emits success while persistence is still pending.",
+      "expected_failure": "Public completion precedes durable state."
+    },
+    {
+      "id": "JSEP-M20",
+      "clause": "I4",
+      "operator": "complete-after-rejected-commit",
+      "trigger": "Persistence rejects after the in-memory state was prepared.",
+      "expected_failure": "The application reports success for an uncommitted state."
+    }
+  ]
+}
