@@ -19,7 +19,7 @@ export type HandoffPhase
       | 'completion-failure'
 
 export type HandoffClauseId = 'I1' | 'I2' | 'I3' | 'I4'
-export type HandoffOracleId = 'O0' | 'O1' | 'O2'
+export type HandoffOracleId = 'O0' | 'O1' | 'O1K' | 'O2'
 
 export interface HandoffRecordModel<S, D> {
     sourceIdentity: (record: S) => string | undefined
@@ -533,6 +533,58 @@ function checkSurfaceOracle<S, D>(
     return { oracle: 'O1', passed: failures.length === 0, failures }
 }
 
+function checkKeyedPostStateOracle<S, D>(
+    observation: StateHandoffObservation<S, D>,
+    expectedSource: IndexedRecords<S>,
+    after: IndexedRecords<D>,
+    expected: HandoffDecision,
+    completion: HandoffOracleResult,
+): HandoffOracleResult {
+    const failures = [...completion.failures]
+    const shouldComplete = isAcceptedDecision(expected)
+      && (observation.scenario.persistenceOutcome ?? 'success') === 'success'
+    if (shouldComplete) {
+        if (after.missingIdentityCount > 0) {
+            failures.push(failure(
+                'O1K_DESTINATION_IDENTITY_MISSING',
+                `${after.missingIdentityCount} destination record(s) lacked semantic identity`,
+            ))
+        }
+        for (const identity of after.duplicateIdentities) {
+            failures.push(failure(
+                'O1K_DUPLICATE_DESTINATION_IDENTITY',
+                'Destination contained more than one record for a semantic identity',
+                identity,
+            ))
+        }
+        for (const [identity, sourceRecord] of expectedSource.byIdentity) {
+            const destinationRecord = after.byIdentity.get(identity)
+            if (!destinationRecord) {
+                failures.push(failure('O1K_MISSING_DESTINATION_IDENTITY', 'Expected identity was absent after handoff', identity))
+                continue
+            }
+            if (stableValue(observation.model.sourcePublicState(sourceRecord))
+              !== stableValue(observation.model.destinationPublicState(destinationRecord))) {
+                failures.push(failure(
+                    'O1K_PUBLIC_STATE_MISMATCH',
+                    'Source-owned public state did not match by semantic identity',
+                    identity,
+                ))
+            }
+        }
+        for (const identity of after.byIdentity.keys()) {
+            if (!expectedSource.byIdentity.has(identity)) {
+                failures.push(failure(
+                    'O1K_UNEXPECTED_DESTINATION_IDENTITY',
+                    'Destination retained an identity absent from the eligible source snapshot',
+                    identity,
+                ))
+            }
+        }
+    }
+    return { oracle: 'O1K', passed: failures.length === 0, failures }
+}
+
 export function checkStateHandoffContract<S, D>(
     observation: StateHandoffObservation<S, D>,
 ): StateHandoffContractReport {
@@ -549,6 +601,7 @@ export function checkStateHandoffContract<S, D>(
     const i4 = checkCompletion(observation, expected)
     const o0 = checkCompletionOracle(observation, expected)
     const o1 = checkSurfaceOracle(observation, sourceIndex, expected, o0)
+    const o1k = checkKeyedPostStateOracle(observation, sourceIndex, afterIndex, expected, o0)
     const o2Failures = [i1, i2, i3, i4]
         .filter(result => result.applicable)
         .flatMap(result => result.failures)
@@ -558,7 +611,7 @@ export function checkStateHandoffContract<S, D>(
         mode: observation.mode,
         expectedDecision: expected,
         clauses: { I1: i1, I2: i2, I3: i3, I4: i4 },
-        oracles: { O0: o0, O1: o1, O2: o2 },
+        oracles: { O0: o0, O1: o1, O1K: o1k, O2: o2 },
         metrics: {
             sourceRecords: observation.source.length,
             eligibleSourceRecords: eligibleSource.length,

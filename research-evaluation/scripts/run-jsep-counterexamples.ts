@@ -435,7 +435,7 @@ function percentile(sorted: readonly number[], probability: number): number {
 
 const records: CounterexampleRecord[] = []
 for (const fault of faults) {
-    for (const oracle of ['O0', 'O1', 'O2'] as const) {
+    for (const oracle of ['O0', 'O1', 'O1K', 'O2'] as const) {
         for (const seed of seeds) {
             const started = performance.now()
             const details = fc.check(fc.property(inputArbitrary, (input) => {
@@ -471,7 +471,7 @@ for (const fault of faults) {
 
 const summaries: CounterexampleSummary[] = []
 for (const fault of faults) {
-    for (const oracle of ['O0', 'O1', 'O2'] as const) {
+    for (const oracle of ['O0', 'O1', 'O1K', 'O2'] as const) {
         const subset = records.filter(record => record.fault_id === fault.id && record.oracle === oracle)
         const detected = subset.filter(record => record.detected)
         const cases = detected
@@ -549,7 +549,7 @@ const metadata = {
     total_memory_bytes: totalmem(),
     free_memory_bytes_at_summary: freemem(),
     faults: faults.length,
-    oracles: ['O0', 'O1', 'O2'],
+    oracles: ['O0', 'O1', 'O1K', 'O2'],
     seeds,
     maximum_cases_per_seed: maxCases,
     executions: records.length,

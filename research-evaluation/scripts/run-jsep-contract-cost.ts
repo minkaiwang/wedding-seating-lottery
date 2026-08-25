@@ -14,10 +14,14 @@ interface CostRecord {
     roster_size: number
     repetition: number
     surface_ms: number
+    keyed_ms: number
     contract_ms: number
     incremental_ms: number
+    incremental_over_keyed_ms: number
     contract_to_surface_ratio: number | null
+    contract_to_keyed_ratio: number | null
     incremental_share_of_contract: number | null
+    incremental_over_keyed_share_of_contract: number | null
 }
 
 interface SummaryRecord {
@@ -27,13 +31,20 @@ interface SummaryRecord {
     surface_median_ms: number
     surface_iqr_ms: number
     surface_p95_ms: number
+    keyed_median_ms: number
+    keyed_iqr_ms: number
+    keyed_p95_ms: number
     contract_median_ms: number
     contract_iqr_ms: number
     incremental_median_ms: number
     incremental_iqr_ms: number
+    incremental_over_keyed_median_ms: number
+    incremental_over_keyed_iqr_ms: number
     contract_p95_ms: number
     incremental_p95_ms: number
+    incremental_over_keyed_p95_ms: number
     incremental_share_median: number
+    incremental_over_keyed_share_median: number
 }
 
 const evaluationDir = dirname(dirname(fileURLToPath(import.meta.url)))
@@ -127,6 +138,38 @@ function surfaceOracle(source: unknown, destination: readonly WeddingSeatingCont
     return JSON.stringify(expected) === JSON.stringify(actual)
 }
 
+function keyedPostStateOracle(source: unknown, destination: readonly WeddingSeatingContractPerson[]): boolean {
+    const normalized = normalizeWeddingSeatingRows(source)
+    const sourceByIdentity = new Map<string, (typeof normalized)[number]>()
+    for (const row of normalized) {
+        const identity = row.plannerGuestId ?? String(row.uid)
+        if (!identity)
+            return false
+        sourceByIdentity.set(identity, row)
+    }
+
+    const destinationByIdentity = new Map<string, WeddingSeatingContractPerson>()
+    for (const record of destination) {
+        const identity = record.plannerGuestId ?? String(record.uid ?? '')
+        if (!identity || destinationByIdentity.has(identity))
+            return false
+        destinationByIdentity.set(identity, record)
+    }
+    if (sourceByIdentity.size !== destinationByIdentity.size)
+        return false
+    for (const [identity, row] of sourceByIdentity) {
+        const record = destinationByIdentity.get(identity)
+        if (!record || publicState(row) !== publicState({
+            name: record.name,
+            department: record.department,
+            identity: record.identity,
+            avatar: record.avatar,
+        }))
+            return false
+    }
+    return true
+}
+
 function percentile(sorted: readonly number[], probability: number): number {
     if (sorted.length === 0)
         return Number.NaN
@@ -190,17 +233,27 @@ for (const mode of ['replace', 'synchronize'] as const) {
 
         for (let repetition = -warmups; repetition < repetitions; repetition++) {
             let surface
+            let keyed
             let contract
-            if (repetition % 2 === 0) {
+            if (repetition % 3 === 0) {
                 surface = measure(() => surfaceOracle(source, after))
+                keyed = measure(() => keyedPostStateOracle(source, after))
                 contract = measure(() => checkWeddingSeatingHandoff(observation))
+            }
+            else if (repetition % 3 === 1) {
+                keyed = measure(() => keyedPostStateOracle(source, after))
+                contract = measure(() => checkWeddingSeatingHandoff(observation))
+                surface = measure(() => surfaceOracle(source, after))
             }
             else {
                 contract = measure(() => checkWeddingSeatingHandoff(observation))
                 surface = measure(() => surfaceOracle(source, after))
+                keyed = measure(() => keyedPostStateOracle(source, after))
             }
             if (!surface.value)
                 throw new Error(`Surface baseline failed for ${mode} size ${size}`)
+            if (!keyed.value)
+                throw new Error(`Keyed baseline failed for ${mode} size ${size}`)
             if (!contract.value.oracles.O2.passed)
                 throw new Error(`Contract failed for ${mode} size ${size}: ${contract.value.oracles.O2.failures.map(item => item.code).join(',')}`)
             if (repetition >= 0) {
@@ -209,11 +262,17 @@ for (const mode of ['replace', 'synchronize'] as const) {
                     roster_size: size,
                     repetition: repetition + 1,
                     surface_ms: round(surface.elapsed),
+                    keyed_ms: round(keyed.elapsed),
                     contract_ms: round(contract.elapsed),
                     incremental_ms: round(contract.elapsed - surface.elapsed),
+                    incremental_over_keyed_ms: round(contract.elapsed - keyed.elapsed),
                     contract_to_surface_ratio: surface.elapsed > 0 ? round(contract.elapsed / surface.elapsed) : null,
+                    contract_to_keyed_ratio: keyed.elapsed > 0 ? round(contract.elapsed / keyed.elapsed) : null,
                     incremental_share_of_contract: contract.elapsed > 0
                         ? round((contract.elapsed - surface.elapsed) / contract.elapsed)
+                        : null,
+                    incremental_over_keyed_share_of_contract: contract.elapsed > 0
+                        ? round((contract.elapsed - keyed.elapsed) / contract.elapsed)
                         : null,
                 })
             }
@@ -226,10 +285,16 @@ for (const mode of ['replace', 'synchronize'] as const) {
     for (const size of sizes) {
         const cell = records.filter(record => record.mode === mode && record.roster_size === size)
         const surface = cell.map(record => record.surface_ms).sort((left, right) => left - right)
+        const keyed = cell.map(record => record.keyed_ms).sort((left, right) => left - right)
         const contract = cell.map(record => record.contract_ms).sort((left, right) => left - right)
         const incremental = cell.map(record => record.incremental_ms).sort((left, right) => left - right)
+        const incrementalOverKeyed = cell.map(record => record.incremental_over_keyed_ms).sort((left, right) => left - right)
         const incrementalShare = cell
             .map(record => record.incremental_share_of_contract)
+            .filter((value): value is number => value !== null)
+            .sort((left, right) => left - right)
+        const incrementalOverKeyedShare = cell
+            .map(record => record.incremental_over_keyed_share_of_contract)
             .filter((value): value is number => value !== null)
             .sort((left, right) => left - right)
         summaries.push({
@@ -239,13 +304,20 @@ for (const mode of ['replace', 'synchronize'] as const) {
             surface_median_ms: round(percentile(surface, 0.5)),
             surface_iqr_ms: round(interquartileRange(surface)),
             surface_p95_ms: round(percentile(surface, 0.95)),
+            keyed_median_ms: round(percentile(keyed, 0.5)),
+            keyed_iqr_ms: round(interquartileRange(keyed)),
+            keyed_p95_ms: round(percentile(keyed, 0.95)),
             contract_median_ms: round(percentile(contract, 0.5)),
             contract_iqr_ms: round(interquartileRange(contract)),
             incremental_median_ms: round(percentile(incremental, 0.5)),
             incremental_iqr_ms: round(interquartileRange(incremental)),
+            incremental_over_keyed_median_ms: round(percentile(incrementalOverKeyed, 0.5)),
+            incremental_over_keyed_iqr_ms: round(interquartileRange(incrementalOverKeyed)),
             contract_p95_ms: round(percentile(contract, 0.95)),
             incremental_p95_ms: round(percentile(incremental, 0.95)),
+            incremental_over_keyed_p95_ms: round(percentile(incrementalOverKeyed, 0.95)),
             incremental_share_median: round(percentile(incrementalShare, 0.5)),
+            incremental_over_keyed_share_median: round(percentile(incrementalOverKeyedShare, 0.5)),
         })
     }
 }
@@ -298,7 +370,7 @@ const metadata = {
     warmups_per_cell: warmups,
     repetitions_per_cell: repetitions,
     measured_records: records.length,
-    boundary: 'Pure in-process adapter and oracle cost. Excludes browser messaging, rendering, persistence, network, and operator time.',
+    boundary: 'Pure in-process adapter and oracle cost. Compares unkeyed surface, keyed post-state, and full contract checks; excludes browser messaging, rendering, persistence, network, and operator time.',
 }
 
 mkdirSync(rawDir, { recursive: true })

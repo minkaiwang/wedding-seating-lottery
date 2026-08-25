@@ -92,6 +92,7 @@ describe('mode-aware state handoff contract', () => {
         expect(report.expectedDecision).toBe('merge')
         expect(report.oracles.O0.passed).toBe(true)
         expect(report.oracles.O1.passed).toBe(true)
+        expect(report.oracles.O1K.passed).toBe(true)
         expect(report.oracles.O2.passed).toBe(true)
         expect(Object.values(report.clauses).every(result => result.passed)).toBe(true)
     })
@@ -105,6 +106,7 @@ describe('mode-aware state handoff contract', () => {
 
         expect(report.oracles.O0.passed).toBe(true)
         expect(report.oracles.O1.passed).toBe(true)
+        expect(report.oracles.O1K.passed).toBe(false)
         expect(report.oracles.O2.passed).toBe(false)
         expect(report.clauses.I1.failures.map(item => item.code)).toContain('I1_PUBLIC_STATE_MISMATCH')
     })
@@ -115,6 +117,7 @@ describe('mode-aware state handoff contract', () => {
 
         expect(report.oracles.O0.passed).toBe(true)
         expect(report.oracles.O1.passed).toBe(true)
+        expect(report.oracles.O1K.passed).toBe(true)
         expect(report.oracles.O2.passed).toBe(false)
         expect(report.clauses.I2.failures.map(item => item.code)).toContain('I2_DESTINATION_STATE_CHANGED')
     })
@@ -127,6 +130,7 @@ describe('mode-aware state handoff contract', () => {
         expect(report.expectedDecision).toBe('reject')
         expect(report.oracles.O0.passed).toBe(false)
         expect(report.oracles.O1.passed).toBe(false)
+        expect(report.oracles.O1K.passed).toBe(false)
         expect(report.oracles.O2.passed).toBe(false)
         expect(report.clauses.I3.failures.map(item => item.code)).toContain('I3_UNBOUND_PEER_ACCEPTED')
     })
@@ -146,6 +150,7 @@ describe('mode-aware state handoff contract', () => {
         expect(report.expectedDecision).toBe('reject')
         expect(report.oracles.O0.passed).toBe(true)
         expect(report.oracles.O1.passed).toBe(true)
+        expect(report.oracles.O1K.passed).toBe(true)
         expect(report.oracles.O2.passed).toBe(true)
     })
 
@@ -158,6 +163,7 @@ describe('mode-aware state handoff contract', () => {
 
         expect(report.oracles.O0.passed).toBe(true)
         expect(report.oracles.O1.passed).toBe(true)
+        expect(report.oracles.O1K.passed).toBe(true)
         expect(report.oracles.O2.passed).toBe(false)
         expect(report.clauses.I4.failures.map(item => item.code)).toContain('I4_COMMIT_COMPLETION_ORDER')
     })
@@ -177,6 +183,7 @@ describe('mode-aware state handoff contract', () => {
         expect(report.expectedDecision).toBe('ignore-stale')
         expect(report.oracles.O0.passed).toBe(true)
         expect(report.oracles.O1.passed).toBe(true)
+        expect(report.oracles.O1K.passed).toBe(true)
         expect(report.oracles.O2.passed).toBe(true)
         expect(report.clauses.I1.applicable).toBe(false)
         expect(report.clauses.I2.applicable).toBe(false)
@@ -195,6 +202,7 @@ describe('mode-aware state handoff contract', () => {
 
         expect(report.oracles.O0.passed).toBe(true)
         expect(report.oracles.O1.passed).toBe(true)
+        expect(report.oracles.O1K.passed).toBe(true)
         expect(report.oracles.O2.passed).toBe(true)
         expect(report.clauses.I4.passed).toBe(true)
     })
@@ -218,6 +226,7 @@ describe('mode-aware state handoff contract', () => {
             }),
         }))
 
+        expect(report.oracles.O1K.passed).toBe(true)
         expect(report.oracles.O2.passed).toBe(true)
         expect(report.clauses.I2.applicable).toBe(false)
     })

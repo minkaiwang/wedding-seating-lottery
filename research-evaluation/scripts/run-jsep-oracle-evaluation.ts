@@ -43,8 +43,10 @@ interface OracleRecord {
     correct_o2_pass: boolean
     faulty_o0_detected: boolean
     faulty_o1_detected: boolean
+    faulty_o1k_detected: boolean
     faulty_o2_detected: boolean
     o2_unique_over_o1: boolean
+    o2_unique_over_o1k: boolean
     target_clause_detected: boolean
     first_failed_assertion: string | null
     failed_assertions: string
@@ -605,8 +607,10 @@ const records: OracleRecord[] = cases.map((item) => {
         correct_o2_pass: correct.oracles.O2.passed,
         faulty_o0_detected: !faulty.oracles.O0.passed,
         faulty_o1_detected: !faulty.oracles.O1.passed,
+        faulty_o1k_detected: !faulty.oracles.O1K.passed,
         faulty_o2_detected: !faulty.oracles.O2.passed,
         o2_unique_over_o1: faulty.oracles.O1.passed && !faulty.oracles.O2.passed,
+        o2_unique_over_o1k: faulty.oracles.O1K.passed && !faulty.oracles.O2.passed,
         target_clause_detected: targetClauseDetected,
         first_failed_assertion: targetCodes[0] ?? codes[0] ?? null,
         failed_assertions: codes.join('|'),
@@ -620,8 +624,10 @@ function summarize(origin: FaultCase['origin']) {
         retained_faults: subset.length,
         o0_detected: subset.filter(record => record.faulty_o0_detected).length,
         o1_detected: subset.filter(record => record.faulty_o1_detected).length,
+        o1k_detected: subset.filter(record => record.faulty_o1k_detected).length,
         o2_detected: subset.filter(record => record.faulty_o2_detected).length,
         o2_unique_over_o1: subset.filter(record => record.o2_unique_over_o1).length,
+        o2_unique_over_o1k: subset.filter(record => record.o2_unique_over_o1k).length,
     }
 }
 

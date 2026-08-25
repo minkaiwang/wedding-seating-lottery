@@ -29,6 +29,7 @@ interface AdaptationRecord {
     correct_o2_passed: boolean
     o0_detected: boolean
     o1_detected: boolean
+    o1k_detected: boolean
     o2_detected: boolean
     target_clause_detected: boolean
     o2_failure_codes: string
@@ -318,6 +319,7 @@ const records: AdaptationRecord[] = scenarios.map((scenario) => {
         correct_o2_passed: correct.oracles.O2.passed,
         o0_detected: !faulty.oracles.O0.passed,
         o1_detected: !faulty.oracles.O1.passed,
+        o1k_detected: !faulty.oracles.O1K.passed,
         o2_detected: !faulty.oracles.O2.passed,
         target_clause_detected: !faulty.clauses[scenario.clause].passed,
         o2_failure_codes: faulty.oracles.O2.failures.map(item => item.code).join('|'),
@@ -330,7 +332,7 @@ if (invalidControls.length > 0 || missedFaults.length > 0) {
     throw new Error(JSON.stringify({ invalidControls, missedFaults }, null, 2))
 }
 
-const oracleSummary = (['O0', 'O1', 'O2'] as HandoffOracleId[]).map((oracle) => {
+const oracleSummary = (['O0', 'O1', 'O1K', 'O2'] as HandoffOracleId[]).map((oracle) => {
     const field = `${oracle.toLocaleLowerCase('en-US')}_detected` as keyof AdaptationRecord
     const detected = records.filter(record => record[field] === true).length
     return {

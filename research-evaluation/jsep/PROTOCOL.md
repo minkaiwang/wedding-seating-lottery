@@ -16,7 +16,7 @@ The paper's intended value has three evidence-linked levels:
 | Contribution | Claim | Required evidence |
 |---|---|---|
 | Conceptual | Handoff correctness is a relation among the source snapshot, destination pre-state, message trace, and committed post-state, not a record count or success signal. | Reproducible failure classes spanning identity, destination-owned state, protocol eligibility, and completion. |
-| Methodological | The relation can be encoded as executable, mode-aware contract oracles. | Incremental fault detection and minimal counterexamples relative to O0 and O1. |
+| Methodological | The relation can be encoded as executable, mode-aware contract oracles. | Incremental fault detection and shrunk counterexamples relative to O0, O1, and the keyed O1K baseline. |
 | Engineering | The checker can guide mode selection, observation placement, and regression-test construction at acceptable cost. | Runtime overhead, adapter scope, executable reports, and reproducible examples. |
 
 No contribution is promoted to the abstract or conclusion unless its required evidence is produced by the frozen design.
@@ -25,7 +25,7 @@ No contribution is promoted to the abstract or conclusion unless its required ev
 
 **RQ1.** Which identity, state-ownership, message-eligibility, and persistence defects allow a browser handoff to appear complete while producing an incorrect or non-durable destination state?
 
-**RQ2.** How much additional fault detection do mode-aware contract oracles provide over completion-only and unkeyed surface-state oracles on the same fixed fault corpus?
+**RQ2.** How much additional fault detection do mode-aware contract oracles provide over completion-only, unkeyed surface-state, and keyed post-state oracles on the same fixed fault corpus?
 
 **RQ3.** What execution cost does contract checking add across handoff modes and roster sizes?
 
@@ -50,13 +50,14 @@ The checker returns clause-level `pass/fail/not-applicable`, stable failure code
 
 ## 4. Frozen oracle regimes
 
-All three oracles inspect the same execution observation. A faulty observation is detected when an oracle returns `fail`.
+All four oracles inspect the same execution observation. A faulty observation is detected when an oracle returns `fail`.
 
 - `O0 Completion`: checks only whether successful completion is present when the scenario expects a successful commit, and absent otherwise.
 - `O1 Surface`: applies O0, then compares destination count and the unkeyed multiset of visible source-owned fields. It does not bind public fields to stable identities and does not inspect destination-owned history, peer identity, message order, sequence watermarks, or commit order.
+- `O1K Keyed post-state`: applies O0, then compares the exact semantic-identity set and source-owned public fields by identity. It does not inspect destination-owned pre-state, peer identity, message order, sequence watermarks, or commit order. This stronger baseline was added through amendment A2 before the post-amendment formal runs.
 - `O2 Mode-aware contract`: applies all applicable I1-I4 clauses, including identity-keyed state, destination continuity, origin and peer binding, decision semantics, watermarks, and commit-before-completion order.
 
-These definitions will not be changed after the implementation pilots. A reproduced or seeded fault is the analysis unit. Generated cases, repetitions, browsers, and operating-system replays are search or execution budgets and are not additional independent faults.
+The original O0, O1, and O2 definitions remain unchanged after their implementation pilots; O1K is frozen by amendment A2. A reproduced or seeded fault is the analysis unit. Generated cases, repetitions, browsers, and operating-system replays are search or execution budgets and are not additional independent faults.
 
 ## 5. Fixed fault corpus
 
@@ -80,7 +81,7 @@ Equivalent, unreachable, duplicate, and invalid variants remain in the audit fil
 
 The primary table has one row per retained reproduced or seeded fault and one column per oracle:
 
-- detected by O0, O1, and O2;
+- detected by O0, O1, O1K, and O2;
 - first failed assertion and contract clause;
 - reproduced defect or systematically seeded boundary fault;
 - mode and trigger;
@@ -88,11 +89,11 @@ The primary table has one row per retained reproduced or seeded fault and one co
 
 Primary summaries are fault-detection rate, unique detections, shared detections, and misses by clause. The fixed corpus is described rather than treated as a random sample from all browser defects. No significance test will be added merely to decorate the comparison.
 
-For property-based counterexample generation, each retained generative fault operator uses a preset seed list and fixed maximum case budget. Results report detection/no detection, cases to first counterexample, shrink count, and minimized counterexample. Passing generated cases are not counted as independent faults.
+For property-based counterexample generation, each retained generative fault operator uses a preset seed list and fixed maximum case budget. Results report detection/no detection, cases to first counterexample, shrink count, and the shrunk counterexample returned by the generator. Passing generated cases are not counted as independent faults.
 
-The formal-candidate counterexample subset is `JSEP-M01`, `JSEP-M02`, `JSEP-M07`, `JSEP-M09`, `JSEP-M13`, `JSEP-M14`, `JSEP-M15`, `JSEP-M16`, `JSEP-M18`, `JSEP-M19`, and `JSEP-M20`. Each O0/O1/O2 comparison uses seeds `2026082601` through `2026082610` and a maximum of 200 generated cases per seed. Seeds are repeated search runs; the fault remains the analysis unit.
+The formal-candidate counterexample subset is `JSEP-M01`, `JSEP-M02`, `JSEP-M07`, `JSEP-M09`, `JSEP-M13`, `JSEP-M14`, `JSEP-M15`, `JSEP-M16`, `JSEP-M18`, `JSEP-M19`, and `JSEP-M20`. Each O0/O1/O1K/O2 comparison uses seeds `2026082601` through `2026082610` and a maximum of 200 generated cases per seed. Seeds are repeated search runs; the fault remains the analysis unit.
 
-Cost measurements compare the unkeyed surface oracle and the full contract checker on the same prepared synthetic observations. Planned sizes are 50, 200, 500, and 1,000 records, with warm-up and repeated measurements fixed in the runner before formal execution. The paired operations alternate execution order. Report median, IQR, P95, and the incremental share of full contract time. Browser persistence latency remains a separate system measure and is not attributed to the pure checker.
+Cost measurements compare the unkeyed surface oracle, the keyed post-state baseline, and the full contract checker on the same prepared synthetic observations. Planned sizes are 50, 200, 500, and 1,000 records, with warm-up and repeated measurements fixed in the runner before formal execution. The three operations rotate execution order. Report median, IQR, P95, and the full contract increment over both baselines. Browser persistence latency remains a separate system measure and is not attributed to the pure checker.
 
 ## 7. Reproducibility and privacy
 
@@ -121,4 +122,16 @@ The adapter models initial import as replacement and a later roster-correction f
 - I3: retained failed-sequence watermark and acceptance from an unbound import peer;
 - I4: completion before durable commit and durable-state change after failed commit.
 
-Each faulty scenario is paired with a correct control using the same synthetic source and destination pre-state. The primary measures are correct-control passage, target-clause detection, O0/O1/O2 detection, adapter physical lines, and whether the generic checker core changes after the first-subject freeze. These nine scenarios remain separate from the 28-fault primary corpus and cannot increase its denominator. Because the adapter and scenarios are authored by the research team and the upstream runtime is not executed, the result supports schema-level adaptability, not independent external validation or upstream product correctness.
+Each faulty scenario is paired with a correct control using the same synthetic source and destination pre-state. The primary measures are correct-control passage, target-clause detection, O0/O1/O1K/O2 detection, adapter physical lines, and whether the generic checker core changes after the first-subject freeze. These nine scenarios remain separate from the 28-fault primary corpus and cannot increase its denominator. Because the adapter and scenarios are authored by the research team and the upstream runtime is not executed, the result supports schema-level adaptability, not independent external validation or upstream product correctness.
+
+## 10. Protocol amendment A2: keyed post-state baseline
+
+Amendment freeze date: 2026-08-26
+
+Status: frozen before rerunning the primary, counterexample, cost, adaptation, and browser-path evaluations
+
+Internal review identified that O0 and O1 are useful lower bounds but do not represent a common regression assertion that binds visible fields to stable identifiers. The original O0, O1, and O2 definitions, the 28-fault corpus, the nine adaptation scenarios, and the contract clauses remain unchanged. A fourth comparator is added:
+
+- `O1K Keyed post-state`: applies O0, then requires the exact semantic-identity set and source-owned public fields to match by stable identity after a successful handoff. It inspects neither destination-owned pre-state nor message, sequence, persistence, or completion order.
+
+All post-amendment runs report O1K beside O0, O1, and O2. The primary comparison for incremental contract detection becomes O2 versus O1K; O0 and O1 remain descriptive lower baselines. Cost runs add a standalone keyed post-state implementation and report O2 increment over both O1 and O1K. This amendment strengthens the comparator without adding, removing, or relabeling faults after seeing O1K results.
