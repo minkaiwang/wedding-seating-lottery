@@ -1,0 +1,175 @@
+{
+  "catalogue_version": "jsep-holdout-v1-2026-08-26",
+  "status": "selection-frozen-before-harness-results-and-before-holdout-execution",
+  "application_base_commit": "e7373e212d711103f0822c9928200289b0adb5c4",
+  "selection_rule": "Two reachable, build-preserving operators were selected in each of four implementation strata. Within every stratum, one operator changes record or state handling and one changes a guard, order, or persistence action. Selection used source inspection and designated-path reachability only; no holdout O2 result was available.",
+  "unit_of_analysis": "fault",
+  "browser_repetitions": [
+    "chromium",
+    "firefox",
+    "webkit"
+  ],
+  "synthetic_roster_size": 200,
+  "pre_o2_exclusion_rules": [
+    "The mutation does not compile or build.",
+    "The designated production-browser path cannot reach the mutated statement.",
+    "Complete source, trace, and destination observations are behaviorally equivalent to the unmutated control."
+  ],
+  "reporting_rules": [
+    "Retain every selected mutation and report every exclusion with its reason.",
+    "Count a fault once; browser executions are technical replications, not independent faults.",
+    "Report unchanged existing tests, the independent state baseline, and O2 separately.",
+    "Do not combine the eight holdout faults with the 28-fault primary corpus or nine adaptation scenarios.",
+    "If O2 adds no fault-level detection beyond both baselines, do not claim improved fault detection from the holdout."
+  ],
+  "mutants": [
+    {
+      "id": "JSEP-H01",
+      "stratum": "replacement-sender",
+      "operator": "field-assignment-deletion",
+      "file": "src/lib/storage-core.ts",
+      "project": "root",
+      "scenario": "replace-normal-200",
+      "existing_test_command": ["npm", "test"],
+      "expected_external_consequence": "The destination receives records without the planner stable identity while public fields remain present.",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1",
+      "edits": [
+        {
+          "search": "        plannerGuestId: guest.id,\n",
+          "replacement": "        plannerGuestId: undefined,\n"
+        }
+      ]
+    },
+    {
+      "id": "JSEP-H02",
+      "stratum": "replacement-sender",
+      "operator": "field-source-replacement",
+      "file": "src/lib/storage-core.ts",
+      "project": "root",
+      "scenario": "replace-normal-200",
+      "existing_test_command": ["npm", "test"],
+      "expected_external_consequence": "The destination binds the identity-tag text to the table field for every record.",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1",
+      "edits": [
+        {
+          "search": "        department: tableName,\n",
+          "replacement": "        department: identity,\n"
+        }
+      ]
+    },
+    {
+      "id": "JSEP-H03",
+      "stratum": "replacement-receiver",
+      "operator": "boundary-condition-replacement",
+      "file": "log-lottery/src/utils/weddingSeatingBridge.ts",
+      "project": "lottery",
+      "scenario": "replace-empty-reject-after-seeded-state",
+      "existing_test_command": ["npm", "test"],
+      "expected_external_consequence": "An empty normalized replacement is committed and reported successful instead of being rejected without changing the destination.",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I3/I4",
+      "edits": [
+        {
+          "search": "        if (rows.length === 0) {\n",
+          "replacement": "        if (rows.length < 0) {\n"
+        }
+      ]
+    },
+    {
+      "id": "JSEP-H04",
+      "stratum": "replacement-receiver",
+      "operator": "asynchronous-completion-reordering",
+      "file": "log-lottery/src/utils/weddingSeatingBridge.ts",
+      "project": "lottery",
+      "scenario": "replace-normal-200",
+      "existing_test_command": ["npm", "test"],
+      "expected_external_consequence": "The receiver emits successful completion before the persistence promise settles, although the eventual destination state is correct.",
+      "expected_b_state": "miss",
+      "expected_o2_clause": "I4",
+      "edits": [
+        {
+          "search": "            emitWeddingSeatingHandoffTrace('replace', 'commit-started')\n            const replacement = personConfig.replacePersonList(processed)\n",
+          "replacement": "            emitWeddingSeatingHandoffTrace('replace', 'commit-started')\n            emitWeddingSeatingHandoffTrace('replace', 'completion-success')\n            const replacement = personConfig.replacePersonList(processed)\n"
+        },
+        {
+          "search": "                    emitWeddingSeatingHandoffTrace('replace', 'commit-succeeded')\n                    emitWeddingSeatingHandoffTrace('replace', 'completion-success')\n",
+          "replacement": "                    emitWeddingSeatingHandoffTrace('replace', 'commit-succeeded')\n"
+        }
+      ]
+    },
+    {
+      "id": "JSEP-H05",
+      "stratum": "synchronization-protocol",
+      "operator": "relational-boundary-replacement",
+      "file": "log-lottery/src/utils/weddingSeatingProtocol.ts",
+      "project": "lottery",
+      "scenario": "sync-duplicate-sequence",
+      "existing_test_command": ["npm", "test"],
+      "expected_external_consequence": "A message whose sequence equals the accepted watermark is merged again instead of being ignored.",
+      "expected_b_state": "miss",
+      "expected_o2_clause": "I3",
+      "edits": [
+        {
+          "search": "    if (seq !== undefined && seq <= lastAppliedSeq) {\n",
+          "replacement": "    if (seq !== undefined && seq < lastAppliedSeq) {\n"
+        }
+      ]
+    },
+    {
+      "id": "JSEP-H06",
+      "stratum": "synchronization-protocol",
+      "operator": "boolean-connector-replacement",
+      "file": "log-lottery/src/utils/weddingSeatingProtocol.ts",
+      "project": "lottery",
+      "scenario": "sync-transient-empty-single-positive-counter",
+      "existing_test_command": ["npm", "test"],
+      "expected_external_consequence": "An empty payload clears the destination when only one authoritative count remains positive.",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I3",
+      "edits": [
+        {
+          "search": "    if ((guestCount ?? 0) > 0 || (plannerGuestTotal ?? 0) > 0) {\n",
+          "replacement": "    if ((guestCount ?? 0) > 0 && (plannerGuestTotal ?? 0) > 0) {\n"
+        }
+      ]
+    },
+    {
+      "id": "JSEP-H07",
+      "stratum": "merge-persistence",
+      "operator": "state-assignment-deletion",
+      "file": "log-lottery/src/utils/weddingSeatingMerge.ts",
+      "project": "lottery",
+      "scenario": "sync-avatar-update-preserve-owned-state",
+      "existing_test_command": ["npm", "test"],
+      "expected_external_consequence": "A matched destination record retains its old avatar while other source-owned fields update and destination-owned state remains present.",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1",
+      "edits": [
+        {
+          "search": "            existing.avatar = row.avatar\n",
+          "replacement": ""
+        }
+      ]
+    },
+    {
+      "id": "JSEP-H08",
+      "stratum": "merge-persistence",
+      "operator": "persistence-call-deletion",
+      "file": "log-lottery/src/store/personConfig.ts",
+      "project": "lottery",
+      "scenario": "sync-durable-update",
+      "existing_test_command": ["npm", "test"],
+      "expected_external_consequence": "The in-memory merge reports successful completion without writing the merged snapshot to IndexedDB.",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1/I4",
+      "edits": [
+        {
+          "search": "        const persistence = replacePersonSnapshot(merged.allPersonList, merged.alreadyPersonList)\n",
+          "replacement": "        const persistence = Promise.resolve()\n"
+        }
+      ]
+    }
+  ]
+}
