@@ -22,6 +22,7 @@ const serverMode = process.env.EVAL_SERVER_MODE ?? 'development';
 if (!['development', 'production'].includes(serverMode))
   throw new Error(`Unsupported EVAL_SERVER_MODE: ${serverMode}`);
 const rosterSize = Math.max(1, Number(process.env.EVAL_FAULT_ROSTER_SIZE ?? '200'));
+const actionTimeoutMs = Math.max(1_000, Number(process.env.EVAL_FAULT_ACTION_TIMEOUT_MS ?? '15000'));
 const browserName = process.env.EVAL_FAULT_BROWSER ?? 'chromium';
 const launcher = { chromium, firefox, webkit }[browserName];
 if (!launcher)
@@ -209,19 +210,24 @@ async function inject(page, payload) {
 }
 
 async function waitForAction(frame, previousCount, action) {
+  const startedAt = performance.now();
   try {
     await frame.waitForFunction(({ count, expected }) => {
       const events = window.__ecLiveSyncEvents;
       return Array.isArray(events) && events.slice(count).some(event => event.action === expected);
-    }, { count: previousCount, expected: action }, { timeout: 15_000 });
+    }, { count: previousCount, expected: action }, { timeout: actionTimeoutMs });
   }
   catch (error) {
     const observed = await frame.evaluate(count => window.__ecLiveSyncEvents.slice(count), previousCount);
     throw new Error(`Expected live-sync action ${action}; observed ${JSON.stringify(observed)}`, { cause: error });
   }
-  return frame.evaluate(({ count, expected }) => {
+  const event = await frame.evaluate(({ count, expected }) => {
     return window.__ecLiveSyncEvents.slice(count).find(event => event.action === expected);
   }, { count: previousCount, expected: action });
+  return {
+    ...event,
+    evaluationActionWaitMs: performance.now() - startedAt,
+  };
 }
 
 async function readTracePhases(frame, previousCount, incomingSequence) {
@@ -244,6 +250,7 @@ function record(records, scenario, expectedAction, event, roster, pass, detail =
     unique_stable_ids: new Set(roster.map(row => row.plannerGuestId).filter(Boolean)).size,
     duplicate_rows_removed: event?.duplicateRowsRemoved ?? null,
     protocol_completion_latency_ms: event?.completionLatencyMs ?? event?.latencyMs ?? null,
+    action_wait_ms: event?.evaluationActionWaitMs ?? null,
     ...detail,
   });
 }
@@ -330,6 +337,7 @@ const lotteryServer = startServer(
 
 let browser;
 let browserVersion = '';
+let activeScenario = 'startup';
 try {
   await Promise.all([
     waitForHttp(`${seatingOrigin}/guests?lang=zh`),
@@ -387,6 +395,7 @@ try {
   let eventCount = events.length;
   let traceCount = await frame.evaluate(() => window.__jsepHandoffTrace.length);
   let before = roster.map(row => ({ ...row }));
+  activeScenario = 'control-current-sequence';
   await inject(page, { persons: rows, seq, guestCount: rosterSize, plannerGuestTotal: rosterSize, tableCount: plan.tables.length, sentAt: Date.now() });
   let event = await waitForAction(frame, eventCount, 'merge');
   let phases = await readTracePhases(frame, traceCount, seq);
@@ -409,6 +418,7 @@ try {
   eventCount = events.length;
   traceCount = await frame.evaluate(() => window.__jsepHandoffTrace.length);
   before = roster.map(row => ({ ...row }));
+  activeScenario = 'duplicate-sequence';
   await inject(page, { persons: rows, seq, guestCount: rosterSize, plannerGuestTotal: rosterSize, tableCount: plan.tables.length, sentAt: Date.now() });
   event = await waitForAction(frame, eventCount, 'ignore-stale');
   phases = await readTracePhases(frame, traceCount, seq);
@@ -431,6 +441,7 @@ try {
   eventCount = events.length;
   traceCount = await frame.evaluate(() => window.__jsepHandoffTrace.length);
   before = roster.map(row => ({ ...row }));
+  activeScenario = 'transient-empty';
   await inject(page, { persons: [], seq: ++seq, guestCount: rosterSize, plannerGuestTotal: rosterSize, tableCount: plan.tables.length, sentAt: Date.now() });
   event = await waitForAction(frame, eventCount, 'skip-empty');
   phases = await readTracePhases(frame, traceCount, seq);
@@ -454,6 +465,7 @@ try {
   traceCount = await frame.evaluate(() => window.__jsepHandoffTrace.length);
   before = roster.map(row => ({ ...row }));
   const duplicateRows = [...rows, { ...rows[0], department: 'Table corrected' }];
+  activeScenario = 'duplicate-row-last-wins';
   await inject(page, { persons: duplicateRows, seq: ++seq, guestCount: duplicateRows.length, plannerGuestTotal: rosterSize, tableCount: plan.tables.length, sentAt: Date.now() });
   event = await waitForAction(frame, eventCount, 'merge');
   phases = await readTracePhases(frame, traceCount, seq);
@@ -486,6 +498,7 @@ try {
   eventCount = events.length;
   traceCount = await frame.evaluate(() => window.__jsepHandoffTrace.length);
   before = roster.map(row => ({ ...row }));
+  activeScenario = 'intentional-clear';
   await inject(page, { persons: [], seq: ++seq, guestCount: 0, plannerGuestTotal: 0, tableCount: 0, sentAt: Date.now() });
   event = await waitForAction(frame, eventCount, 'clear');
   phases = await readTracePhases(frame, traceCount, seq);
@@ -508,6 +521,7 @@ try {
   eventCount = events.length;
   traceCount = await frame.evaluate(() => window.__jsepHandoffTrace.length);
   before = roster.map(row => ({ ...row }));
+  activeScenario = 'recovery-after-clear';
   await inject(page, { persons: rows, seq: ++seq, guestCount: rosterSize, plannerGuestTotal: rosterSize, tableCount: plan.tables.length, sentAt: Date.now() });
   event = await waitForAction(frame, eventCount, 'merge');
   phases = await readTracePhases(frame, traceCount, seq);
@@ -528,6 +542,21 @@ try {
 
   await context.close();
 }
+catch (error) {
+  records.push({
+    scenario: activeScenario,
+    expected_action: '',
+    observed_action: '',
+    status: 'error',
+    final_count: null,
+    unique_stable_ids: null,
+    duplicate_rows_removed: null,
+    protocol_completion_latency_ms: null,
+    action_wait_ms: null,
+    error_class: error instanceof Error ? error.name : 'UnknownError',
+    error_message: error instanceof Error ? error.message : String(error),
+  });
+}
 finally {
   await browser?.close();
   await Promise.all([stop(nextServer), stop(lotteryServer)]);
@@ -546,6 +575,7 @@ const output = {
     browser: browserName,
     browser_version: browserVersion,
     roster_size: rosterSize,
+    action_timeout_ms: actionTimeoutMs,
     server_mode: serverMode,
     seating_origin: seatingOrigin,
     lottery_origin: lotteryOrigin,

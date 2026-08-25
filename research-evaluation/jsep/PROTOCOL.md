@@ -149,3 +149,13 @@ Replacement uses a fresh browser context for each transfer, so its destination p
 Synchronization runs one fixed seven-step sequence per browser-size cell: startup merge, current-sequence merge, duplicate-sequence rejection, transient-empty protection, duplicate-row last-write merge, explicit clear, and recovery merge. The startup row verifies deployment readiness but is excluded from contract replay because retry messages may establish more than one destination pre-state before its final event. The remaining six steps yield 72 contract-replayed checkpoints across three browser engines and four sizes. Each step records the actual receiver phase sequence and IndexedDB states; accepted and persisted watermarks are derived from the injected sequence and the receiver action event.
 
 Checker execution time is measured in the runner after the browser state is observed. It describes offline replay cost and is not added to, or subtracted from, application completion latency. Browser findings establish observation availability and correct-path contract passage in the tested production builds; the 28-fault matrix remains the evidence for fault discrimination.
+
+## 12. Protocol amendment A4: WebKit slow-path diagnostic
+
+Amendment date: 2026-08-26
+
+Status: added after the first production-browser execution and before any extended-timeout diagnostic
+
+The A3 synchronization run used the runner's pre-existing 15,000 ms per-action observation window. In the WebKit 1,000-record cell, the first three replayed actions completed, but the duplicate-row merge produced no result event within that window; an immediate repeat under the same condition stopped at the same action. These timeouts remain part of the execution record and are not replaced by a later successful run.
+
+The runner now writes partial records when a sequence stops and exposes the action observation window as metadata. A repeat at 15,000 ms is used to preserve a machine-readable failure record. One 60,000 ms run may then determine whether the same action eventually completes and measure its wait; that run is diagnostic and is reported separately from the A3 formal denominator. No fault, oracle, roster, browser, or sequence definition changes under A4.
