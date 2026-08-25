@@ -1,0 +1,10 @@
+scenario_id,target_clause,mode,mechanism,correct_o2_passed,o0_detected,o1_detected,o1k_detected,o2_detected,target_clause_detected,o2_failure_codes
+EXT-I1-01,I1,synchronize,swap-public-state-between-stable-identities,true,false,false,true,true,true,I1_PUBLIC_STATE_MISMATCH|I1_PUBLIC_STATE_MISMATCH
+EXT-I1-02,I1,replace,duplicate-retained-roster-id,true,false,false,true,true,true,I1_DUPLICATE_DESTINATION_IDENTITY|I1_PUBLIC_STATE_MISMATCH|I1_MISSING_DESTINATION_IDENTITY
+EXT-I1-03,I1,replace,drop-imported-roster-record,true,false,true,true,true,true,I1_MISSING_DESTINATION_IDENTITY
+EXT-I1-04,I1,synchronize,regenerate-retained-roster-id,true,false,false,true,true,true,I1_MISSING_DESTINATION_IDENTITY|I1_MISSING_DESTINATION_IDENTITY|I1_UNEXPECTED_DESTINATION_IDENTITY|I1_UNEXPECTED_DESTINATION_IDENTITY|I2_CONTINUITY_TARGET_MISSING|I2_CONTINUITY_TARGET_MISSING
+EXT-I2-01,I2,synchronize,reset-check-in-state,true,false,false,false,true,true,I2_DESTINATION_STATE_CHANGED
+EXT-I3-01,I3,synchronize,retain-failed-sequence-watermark,true,false,false,false,true,true,I3_FAILED_SEQUENCE_NOT_RETRYABLE
+EXT-I3-02,I3,synchronize,accept-unbound-import-peer,true,false,false,false,true,true,I3_UNBOUND_PEER_ACCEPTED|I3_DECISION_MISMATCH
+EXT-I4-01,I4,synchronize,complete-before-durable-commit,true,false,false,false,true,true,I4_COMMIT_COMPLETION_ORDER
+EXT-I4-02,I4,synchronize,change-durable-state-after-failed-commit,true,false,false,false,true,true,I4_FAILED_COMMIT_CHANGED_DURABLE_STATE

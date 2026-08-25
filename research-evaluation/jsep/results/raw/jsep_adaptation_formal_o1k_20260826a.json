@@ -1,0 +1,204 @@
+{
+  "schemaVersion": "jsep-adaptation-v1",
+  "runId": "jsep_adaptation_formal_o1k_20260826a",
+  "runClass": "formal-candidate",
+  "generatedAt": "2026-08-25T17:33:51.822Z",
+  "git": {
+    "head": "7c3a4142ca5e854215e7073d3824cba3fcb9e57c",
+    "dirty": false,
+    "branch": "research/jsep-technology-evaluation"
+  },
+  "runtime": {
+    "node": "v24.15.0",
+    "platform": "win32",
+    "release": "10.0.26200",
+    "cpuModel": "AMD Ryzen 9 9955HX3D 16-Core Processor         ",
+    "logicalCpus": 32,
+    "totalMemoryBytes": 33483378688,
+    "freeMemoryBytesAtStart": 12011683840
+  },
+  "externalSubject": {
+    "repository": "https://github.com/GDSC-ESTIN/checkin-system",
+    "commit": "839831c9be7d2409e825ca14d27a3c285bde3764",
+    "license": "MIT",
+    "evaluationBoundary": "schema-level adaptation with synthetic records; upstream implementation not executed"
+  },
+  "interpretationBoundary": {
+    "unit": "predefined cross-subject adaptation scenario",
+    "separateFromPrimaryFaultCorpus": true,
+    "independentExternalValidation": false,
+    "upstreamRuntimeExecuted": false
+  },
+  "sourceFingerprints": [
+    {
+      "path": "log-lottery/src/utils/stateHandoffContract.ts",
+      "sha256": "92e8edc80a5d05772fccb720f25cf1398562d7e5caf1e87b90b71ab71bb672fe",
+      "physicalLines": 632
+    },
+    {
+      "path": "research-evaluation/jsep/subjects/checkInRosterContractAdapter.ts",
+      "sha256": "9e130900ff54794455cd08a6876aa024292f97bfaa7c2ad690a0063d1452450d",
+      "physicalLines": 83
+    },
+    {
+      "path": "research-evaluation/jsep/subjects/GDSC_CHECKIN_SUBJECT.md",
+      "sha256": "70cf3a5433c5d09425d0ea2b46e54a2ee8b281979e9cf0d2ea44afc04aee9bc6",
+      "physicalLines": 35
+    },
+    {
+      "path": "research-evaluation/scripts/run-jsep-adaptation-evaluation.ts",
+      "sha256": "2ad63bbfec0e979c908163f8f577d02ad71140d21d3a61257d846bf14da8932b",
+      "physicalLines": 410
+    }
+  ],
+  "summary": {
+    "scenarios": 9,
+    "correctControlsPassed": 9,
+    "targetClausesDetected": 9,
+    "oracleSummary": [
+      {
+        "oracle": "O0",
+        "scenarios": 9,
+        "detected": 0,
+        "detection_rate": 0
+      },
+      {
+        "oracle": "O1",
+        "scenarios": 9,
+        "detected": 1,
+        "detection_rate": 0.1111111111111111
+      },
+      {
+        "oracle": "O1K",
+        "scenarios": 9,
+        "detected": 4,
+        "detection_rate": 0.4444444444444444
+      },
+      {
+        "oracle": "O2",
+        "scenarios": 9,
+        "detected": 9,
+        "detection_rate": 1
+      }
+    ]
+  },
+  "records": [
+    {
+      "scenario_id": "EXT-I1-01",
+      "target_clause": "I1",
+      "mode": "synchronize",
+      "mechanism": "swap-public-state-between-stable-identities",
+      "correct_o2_passed": true,
+      "o0_detected": false,
+      "o1_detected": false,
+      "o1k_detected": true,
+      "o2_detected": true,
+      "target_clause_detected": true,
+      "o2_failure_codes": "I1_PUBLIC_STATE_MISMATCH|I1_PUBLIC_STATE_MISMATCH"
+    },
+    {
+      "scenario_id": "EXT-I1-02",
+      "target_clause": "I1",
+      "mode": "replace",
+      "mechanism": "duplicate-retained-roster-id",
+      "correct_o2_passed": true,
+      "o0_detected": false,
+      "o1_detected": false,
+      "o1k_detected": true,
+      "o2_detected": true,
+      "target_clause_detected": true,
+      "o2_failure_codes": "I1_DUPLICATE_DESTINATION_IDENTITY|I1_PUBLIC_STATE_MISMATCH|I1_MISSING_DESTINATION_IDENTITY"
+    },
+    {
+      "scenario_id": "EXT-I1-03",
+      "target_clause": "I1",
+      "mode": "replace",
+      "mechanism": "drop-imported-roster-record",
+      "correct_o2_passed": true,
+      "o0_detected": false,
+      "o1_detected": true,
+      "o1k_detected": true,
+      "o2_detected": true,
+      "target_clause_detected": true,
+      "o2_failure_codes": "I1_MISSING_DESTINATION_IDENTITY"
+    },
+    {
+      "scenario_id": "EXT-I1-04",
+      "target_clause": "I1",
+      "mode": "synchronize",
+      "mechanism": "regenerate-retained-roster-id",
+      "correct_o2_passed": true,
+      "o0_detected": false,
+      "o1_detected": false,
+      "o1k_detected": true,
+      "o2_detected": true,
+      "target_clause_detected": true,
+      "o2_failure_codes": "I1_MISSING_DESTINATION_IDENTITY|I1_MISSING_DESTINATION_IDENTITY|I1_UNEXPECTED_DESTINATION_IDENTITY|I1_UNEXPECTED_DESTINATION_IDENTITY|I2_CONTINUITY_TARGET_MISSING|I2_CONTINUITY_TARGET_MISSING"
+    },
+    {
+      "scenario_id": "EXT-I2-01",
+      "target_clause": "I2",
+      "mode": "synchronize",
+      "mechanism": "reset-check-in-state",
+      "correct_o2_passed": true,
+      "o0_detected": false,
+      "o1_detected": false,
+      "o1k_detected": false,
+      "o2_detected": true,
+      "target_clause_detected": true,
+      "o2_failure_codes": "I2_DESTINATION_STATE_CHANGED"
+    },
+    {
+      "scenario_id": "EXT-I3-01",
+      "target_clause": "I3",
+      "mode": "synchronize",
+      "mechanism": "retain-failed-sequence-watermark",
+      "correct_o2_passed": true,
+      "o0_detected": false,
+      "o1_detected": false,
+      "o1k_detected": false,
+      "o2_detected": true,
+      "target_clause_detected": true,
+      "o2_failure_codes": "I3_FAILED_SEQUENCE_NOT_RETRYABLE"
+    },
+    {
+      "scenario_id": "EXT-I3-02",
+      "target_clause": "I3",
+      "mode": "synchronize",
+      "mechanism": "accept-unbound-import-peer",
+      "correct_o2_passed": true,
+      "o0_detected": false,
+      "o1_detected": false,
+      "o1k_detected": false,
+      "o2_detected": true,
+      "target_clause_detected": true,
+      "o2_failure_codes": "I3_UNBOUND_PEER_ACCEPTED|I3_DECISION_MISMATCH"
+    },
+    {
+      "scenario_id": "EXT-I4-01",
+      "target_clause": "I4",
+      "mode": "synchronize",
+      "mechanism": "complete-before-durable-commit",
+      "correct_o2_passed": true,
+      "o0_detected": false,
+      "o1_detected": false,
+      "o1k_detected": false,
+      "o2_detected": true,
+      "target_clause_detected": true,
+      "o2_failure_codes": "I4_COMMIT_COMPLETION_ORDER"
+    },
+    {
+      "scenario_id": "EXT-I4-02",
+      "target_clause": "I4",
+      "mode": "synchronize",
+      "mechanism": "change-durable-state-after-failed-commit",
+      "correct_o2_passed": true,
+      "o0_detected": false,
+      "o1_detected": false,
+      "o1k_detected": false,
+      "o2_detected": true,
+      "target_clause_detected": true,
+      "o2_failure_codes": "I4_FAILED_COMMIT_CHANGED_DURABLE_STATE"
+    }
+  ]
+}

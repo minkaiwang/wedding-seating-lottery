@@ -6,7 +6,116 @@ Start with `PROTOCOL.md`, then read `RESULTS_REPORT.md` and `DEFECT_LOG.md`. Raw
 
 Do not copy wedding guest files, photographs, contact details, questionnaires, or private event exports into this directory.
 
-## Current JSS evidence set
+## Current JSEP evidence set
+
+The JSEP study evaluates four nested observation regimes (`O0`, `O1`, `O1K`, and `O2`) and keeps development-corpus, source-variant, generated-counterexample, cost, browser, and adaptation results as separate evidence units. The study protocol and amendments are in `jsep/PROTOCOL.md`; the executable fault definitions are in `jsep/fault-catalogue.json` and `jsep/holdout-mutants.json`.
+
+### Contract and implementation evidence
+
+- Development-corpus oracle matrix: `jsep/results/raw/jsep_oracle_formal_o1k_20260826a.json`
+- Processed oracle matrix: `jsep/results/processed/jsep_oracle_formal_o1k_20260826a_matrix.csv`
+- Generated counterexamples: `jsep/results/raw/jsep_counterexamples_formal_o1k_20260826a.json`
+- Counterexample records and summary: `jsep/results/raw/jsep_counterexamples_formal_o1k_20260826a_records.csv` and `jsep/results/processed/jsep_counterexamples_formal_o1k_20260826a_summary.csv`
+- In-process checker cost: `jsep/results/raw/jsep_contract_cost_formal_o1k_20260826a.json`
+- Cost records and summary: `jsep/results/raw/jsep_contract_cost_formal_o1k_20260826a_records.csv` and `jsep/results/processed/jsep_contract_cost_formal_o1k_20260826a_summary.csv`
+- Check-in schema adaptation: `jsep/results/raw/jsep_adaptation_formal_o1k_20260826a.json`
+- Processed adaptation matrix: `jsep/results/processed/jsep_adaptation_formal_o1k_20260826a_matrix.csv`
+- Source-level browser variants: `results/raw/jsep_holdout_suite_formal_20260826d.json` and `results/raw/jsep_holdout_formal_20260826d/`
+
+The 28-item development corpus was used to construct and diagnose the nested oracle regimes. It is not an independent estimate of detection performance. The later source-level comparison uses eight implementation variants, 24 paired control executions, and three browser engines as technical replications. Existing project tests, an independently implemented keyed post-state check, and O2 detected 1/8, 6/8, and 8/8 variants, respectively.
+
+### Production-browser evidence
+
+- Replacement matrix: `results/raw/jsep_bridge_contract_formal_20260826a.json` and `results/raw/jsep_bridge_contract_formal_20260826a.csv`
+- Synchronization formal records: `results/raw/jsep_sync_contract_formal_{chromium,firefox,webkit}_*.json`
+- Formal 15-second WebKit timeout record: `results/raw/jsep_sync_contract_failure_record15s_webkit_2026-08-25T181231998Z.json`
+- Separate 60-second diagnostic: `results/raw/jsep_sync_contract_diagnostic60s_webkit_2026-08-25T181355434Z.json`
+
+The replacement matrix contains 120 measured production-build transfers. The synchronization sequence contains 69 passed contract checkpoints, one timed-out checkpoint, and two checkpoints not executed after that timeout. The 60-second diagnostic is reported separately and does not replace the formal timeout.
+
+All JSEP records use deterministic synthetic rosters. In code and older raw labels, `atomicCommit` or `durable` denotes state observable from IndexedDB within the declared transaction boundary; it does not claim hardware-level durability or crash recovery.
+
+## Reproducing JSEP evidence
+
+Install dependencies and browser engines, then run the existing regression suites:
+
+```powershell
+npm ci
+npm ci --prefix ./log-lottery
+npx playwright install chromium firefox webkit
+npm test
+npm test --prefix ./log-lottery -- --run
+```
+
+Run the development-corpus, counterexample, cost, and adaptation evaluations with new run IDs:
+
+```powershell
+$env:JSEP_ORACLE_RUN_ID='jsep_oracle_local'
+npm run evaluate:jsep:oracles
+
+$env:JSEP_COUNTEREXAMPLE_RUN_ID='jsep_counterexamples_local'
+npm run evaluate:jsep:counterexamples
+
+$env:JSEP_COST_RUN_ID='jsep_contract_cost_local'
+npm run evaluate:jsep:cost
+
+$env:JSEP_ADAPTATION_RUN_ID='jsep_adaptation_local'
+npm run evaluate:jsep:adaptation
+```
+
+Build the two production applications before browser replay:
+
+```powershell
+$env:NEXT_PUBLIC_LOTTERY_IMPORT_URL='http://localhost:6721/log-lottery/config/person/all'
+npm run build
+$env:VITE_WEDDING_SEATING_ORIGINS='http://localhost:3101'
+npm run build --prefix ./log-lottery
+```
+
+Run the replacement matrix:
+
+```powershell
+$env:EVAL_SEATING_ORIGIN='http://localhost:3101'
+$env:EVAL_LOTTERY_ORIGIN='http://localhost:6721'
+$env:EVAL_SIZES='50,200,500,1000'
+$env:EVAL_REPETITIONS='10'
+$env:EVAL_WARMUPS='1'
+$env:EVAL_BROWSERS='chromium,firefox,webkit'
+$env:EVAL_SERVER_MODE='production'
+$env:EVAL_BATCH_LABEL='jsep_bridge_contract_reproduction'
+$env:EVAL_RUN_ID='local-run'
+npm run evaluate:bridge:pilot
+```
+
+Run one synchronization sequence for each browser and roster size. Each invocation writes a separate JSON result:
+
+```powershell
+$env:EVAL_SEATING_ORIGIN='http://localhost:3101'
+$env:EVAL_LOTTERY_ORIGIN='http://localhost:6721'
+$env:EVAL_SERVER_MODE='production'
+$env:EVAL_FAULT_BATCH_LABEL='jsep_sync_contract_reproduction'
+$env:EVAL_FAULT_ACTION_TIMEOUT_MS='15000'
+foreach ($browser in 'chromium','firefox','webkit') {
+  $env:EVAL_FAULT_BROWSER=$browser
+  foreach ($size in 50,200,500,1000) {
+    $env:EVAL_FAULT_ROSTER_SIZE=[string]$size
+    npm run evaluate:faults:pilot
+  }
+}
+```
+
+The source-level variant suite mutates and restores product files. Run it only in a clean linked worktree checked out at the application base commit recorded by `jsep/holdout-mutants.json`:
+
+```powershell
+git worktree add ../wedding-jsep-holdout-reproduction e7373e212d711103f0822c9928200289b0adb5c4
+Set-Location ../wedding-jsep-holdout-reproduction
+npm ci
+npm ci --prefix ./log-lottery
+npx playwright install chromium firefox webkit
+node ./research-evaluation/scripts/run-jsep-holdout-suite.mjs --run-id local_reproduction
+```
+
+## Historical JSS evidence set
 
 The manuscript uses the two research questions stated in `PROTOCOL.md`. The reported evaluation is selected by the exact commit and artifact anchors listed in the manuscript and supplementary appendix; later branch-tip maintenance commits do not retroactively change the measured batches. `PROPERTY_MANIFEST_SHA256.txt` is the historical property-evaluation snapshot created at commit `978d43e55e6b4fcaae1356c94fdea688dbc84a42`. Use `JSS_EVIDENCE_MANIFEST_SHA256.txt` and `scripts/verify-evidence-manifest.py` to verify the current JSS evidence set.
 
@@ -29,7 +138,7 @@ The four evidence units remain separate:
 
 Hosted Linux, Windows, and macOS jobs replay the same fixed-seed property cases. They are portability replays, not an additional 54,000 independent cases.
 
-## Reproduction
+## Historical JSS reproduction
 
 Install root and lottery dependencies plus the three Playwright browser engines:
 
@@ -115,6 +224,6 @@ python ./research-evaluation/scripts/summarize_ablation.py $ablation
 
 The property runner writes its raw JSON and summary CSV directly. The runners refuse to overwrite an existing run ID where one is required. Pilot, interrupted, and earlier formal batches remain under `results/` for audit and are excluded from current estimates unless explicitly named.
 
-## Hosted replay archive
+## Historical JSS hosted replay archive
 
 GitHub Actions run `30880727356` executed the same fixed-seed property set on Linux, Windows, and macOS. A repository copy of its six raw and processed artifacts is retained under `results/hosted/gh-run-30880727356/`, together with SHA-256 hashes, so reproduction does not depend on the temporary Actions artifact-retention window. The run used the property source fingerprint recorded in each raw JSON file; it should not be described as CI for a later repository tip.
