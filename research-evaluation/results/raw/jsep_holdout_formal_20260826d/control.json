@@ -1,0 +1,3368 @@
+{
+  "metadata": {
+    "generated_at_utc": "2026-08-25T19:38:03.233Z",
+    "catalogue_version": "jsep-holdout-v1-2026-08-26",
+    "manifest_sha256": "9f10986b2f6cd1d81942190a3c0ec692841607ed9369154885d0df046c1da9e0",
+    "application_base_commit": "e7373e212d711103f0822c9928200289b0adb5c4",
+    "evaluated_commit": "e7373e212d711103f0822c9928200289b0adb5c4",
+    "evaluated_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "variant": "control",
+    "selected_holdout_ids": [
+      "JSEP-H01",
+      "JSEP-H02",
+      "JSEP-H03",
+      "JSEP-H04",
+      "JSEP-H05",
+      "JSEP-H06",
+      "JSEP-H07",
+      "JSEP-H08"
+    ],
+    "unit_of_analysis": "fault",
+    "browser_repetitions_are_technical_replications": true,
+    "roster_size": 200,
+    "browsers": [
+      "chromium",
+      "firefox",
+      "webkit"
+    ],
+    "browser_versions": {
+      "chromium": "149.0.7827.55",
+      "firefox": "151.0",
+      "webkit": "26.5"
+    },
+    "node": "v24.15.0",
+    "playwright": "1.61.1",
+    "platform": "win32-x64",
+    "os_release": "10.0.26200",
+    "cpu_model": "AMD Ryzen 9 9955HX3D 16-Core Processor         ",
+    "logical_cpu_count": 32,
+    "total_memory_bytes": 33483378688,
+    "server_mode": "production-only",
+    "seating_origin": "http://127.0.0.1:3111",
+    "lottery_origin": "http://127.0.0.1:6811",
+    "next_build_id_sha256": "4905733ca2361948545482e381de73b9cf8f04aac2b60713a6c3c625935c92d1",
+    "lottery_dist_index_sha256": "b5710a9b555283ab09fd572949390fa94dd3a582dd00243d00c20bd21c591cd2",
+    "baseline_independence": "B-state is implemented locally as a keyed durable post-state comparison and never calls the O2 implementation.",
+    "h04_completion_boundary": "DONE receipt is observed externally in every browser; the sender call is supplementary where the browser permits wrapping it. IndexedDB-at-DONE is reconstructed from all init-script-observed readwrite transactions plus pre/post snapshots. Trace is retained as phase evidence only."
+  },
+  "records": [
+    {
+      "scenario_id": "JSEP-H01",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "replace",
+      "terminal_kind": "imported",
+      "terminal_action": "",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 0,
+        "completed_count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "owned_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "semantic_state_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": []
+      },
+      "indexeddb_at_done_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_basis": "all-scenario-readwrite-transactions-completed-before-DONE",
+      "indexeddb_at_done_certainty": "transaction-timeline",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_done_probe_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": 1787686550442,
+      "on_done_ui_epoch_ms": 1787686550446,
+      "done_probe_started_epoch_ms": 1787686550450,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "replace",
+          "phase": "message-received",
+          "trace_sequence": 1
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-started",
+          "trace_sequence": 2
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-succeeded",
+          "trace_sequence": 3
+        },
+        {
+          "mode": "replace",
+          "phase": "completion-success",
+          "trace_sequence": 4
+        }
+      ],
+      "indexeddb_write_transactions": [
+        {
+          "sequence": 1,
+          "stores": [
+            "allPersonList",
+            "alreadyPersonList"
+          ],
+          "mode": "readwrite",
+          "startedEpochMs": 1787686550380,
+          "completedEpochMs": 1787686550434,
+          "abortedEpochMs": null,
+          "errorEpochMs": null
+        }
+      ],
+      "event_wait_ms": 162,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "replace",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "4a5718285ca3cacb8bf9749ea3a0b406d13e964bb4a9b8c9d08148f6bc302d48",
+      "holdout_id": "JSEP-H01",
+      "scenario": "replace-normal-200",
+      "variant": "control",
+      "browser": "chromium",
+      "browser_version": "149.0.7827.55",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H02",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "replace",
+      "terminal_kind": "imported",
+      "terminal_action": "",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 0,
+        "completed_count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "owned_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "semantic_state_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": []
+      },
+      "indexeddb_at_done_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_basis": "all-scenario-readwrite-transactions-completed-before-DONE",
+      "indexeddb_at_done_certainty": "transaction-timeline",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_done_probe_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": 1787686551159,
+      "on_done_ui_epoch_ms": 1787686551162,
+      "done_probe_started_epoch_ms": 1787686551165,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "replace",
+          "phase": "message-received",
+          "trace_sequence": 1
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-started",
+          "trace_sequence": 2
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-succeeded",
+          "trace_sequence": 3
+        },
+        {
+          "mode": "replace",
+          "phase": "completion-success",
+          "trace_sequence": 4
+        }
+      ],
+      "indexeddb_write_transactions": [
+        {
+          "sequence": 1,
+          "stores": [
+            "allPersonList",
+            "alreadyPersonList"
+          ],
+          "mode": "readwrite",
+          "startedEpochMs": 1787686551098,
+          "completedEpochMs": 1787686551152,
+          "abortedEpochMs": null,
+          "errorEpochMs": null
+        }
+      ],
+      "event_wait_ms": 165,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "replace",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "4a5718285ca3cacb8bf9749ea3a0b406d13e964bb4a9b8c9d08148f6bc302d48",
+      "holdout_id": "JSEP-H02",
+      "scenario": "replace-normal-200",
+      "variant": "control",
+      "browser": "chromium",
+      "browser_version": "149.0.7827.55",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H03",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "reject",
+      "terminal_kind": "failed",
+      "terminal_action": "invalid-data",
+      "observed_source_summary": {
+        "count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "intended_source_summary": {
+        "count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-required-for-rejected-empty-scenario",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": 1787686551859,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "replace",
+          "phase": "message-received",
+          "trace_sequence": 1
+        }
+      ],
+      "indexeddb_write_transactions": [],
+      "event_wait_ms": 3,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "reject",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "4c38fa3bba306c21061aae9b91fbafc2c3770b22a7e3ba785feb81efadb84a29",
+      "holdout_id": "JSEP-H03",
+      "scenario": "replace-empty-reject-after-seeded-state",
+      "variant": "control",
+      "browser": "chromium",
+      "browser_version": "149.0.7827.55",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I3/I4",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H04",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "replace",
+      "terminal_kind": "imported",
+      "terminal_action": "",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 0,
+        "completed_count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "owned_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "semantic_state_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": []
+      },
+      "indexeddb_at_done_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_basis": "all-scenario-readwrite-transactions-completed-before-DONE",
+      "indexeddb_at_done_certainty": "transaction-timeline",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_done_probe_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": 1787686552508,
+      "on_done_ui_epoch_ms": 1787686552511,
+      "done_probe_started_epoch_ms": 1787686552514,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "replace",
+          "phase": "message-received",
+          "trace_sequence": 1
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-started",
+          "trace_sequence": 2
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-succeeded",
+          "trace_sequence": 3
+        },
+        {
+          "mode": "replace",
+          "phase": "completion-success",
+          "trace_sequence": 4
+        }
+      ],
+      "indexeddb_write_transactions": [
+        {
+          "sequence": 1,
+          "stores": [
+            "allPersonList",
+            "alreadyPersonList"
+          ],
+          "mode": "readwrite",
+          "startedEpochMs": 1787686552446,
+          "completedEpochMs": 1787686552500,
+          "abortedEpochMs": null,
+          "errorEpochMs": null
+        }
+      ],
+      "event_wait_ms": 171,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "replace",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "4a5718285ca3cacb8bf9749ea3a0b406d13e964bb4a9b8c9d08148f6bc302d48",
+      "holdout_id": "JSEP-H04",
+      "scenario": "replace-normal-200",
+      "variant": "control",
+      "browser": "chromium",
+      "browser_version": "149.0.7827.55",
+      "expected_b_state": "miss",
+      "expected_o2_clause": "I4",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H05",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "ignore-stale",
+      "terminal_kind": "live-sync-result",
+      "terminal_action": "ignore-stale",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-applicable-to-hidden-iframe-sync",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": null,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "synchronize",
+          "phase": "message-received",
+          "trace_sequence": 33,
+          "incoming_sequence": 10000
+        }
+      ],
+      "indexeddb_write_transactions": [],
+      "event_wait_ms": 3.6942999999992026,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "ignore-stale",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "730b83fc326996f78efaa42e6a0d76d63395ddb09da98f02008094a8567ecfd5",
+      "holdout_id": "JSEP-H05",
+      "scenario": "sync-duplicate-sequence",
+      "variant": "control",
+      "browser": "chromium",
+      "browser_version": "149.0.7827.55",
+      "expected_b_state": "miss",
+      "expected_o2_clause": "I3",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H06",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "skip-empty",
+      "terminal_kind": "live-sync-result",
+      "terminal_action": "skip-empty",
+      "observed_source_summary": {
+        "count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "intended_source_summary": {
+        "count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-applicable-to-hidden-iframe-sync",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": null,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "synchronize",
+          "phase": "message-received",
+          "trace_sequence": 33,
+          "incoming_sequence": 10001
+        }
+      ],
+      "indexeddb_write_transactions": [],
+      "event_wait_ms": 4.039099999999962,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "skip-empty",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "cbe03ac88e0d2afac372e51aacc56ffb845bb9d2279c90e8d33ff3ae87973fcb",
+      "holdout_id": "JSEP-H06",
+      "scenario": "sync-transient-empty-single-positive-counter",
+      "variant": "control",
+      "browser": "chromium",
+      "browser_version": "149.0.7827.55",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I3",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H07",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "merge",
+      "terminal_kind": "live-sync-result",
+      "terminal_action": "merge",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "b2315534eb4654875ea3800f25f51959d168e43228a0d097aa9aaca27c684c8b"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "b2315534eb4654875ea3800f25f51959d168e43228a0d097aa9aaca27c684c8b"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "e8b2650646ec6267e32339def76d03c133f55872483b9eb4d7bdeb21a869deec",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "c7a158363dbc31742ce3c3ff3242341547a8baae299641d2f951e6cad0258536",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-applicable-to-hidden-iframe-sync",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "b2315534eb4654875ea3800f25f51959d168e43228a0d097aa9aaca27c684c8b",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "ef833cb909919ac94008a982109c5d2b234df1d3a82017ffd1371f16527cc469",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": null,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "synchronize",
+          "phase": "message-received",
+          "trace_sequence": 33,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-started",
+          "trace_sequence": 34,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-succeeded",
+          "trace_sequence": 35,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "completion-success",
+          "trace_sequence": 36,
+          "incoming_sequence": 10001
+        }
+      ],
+      "indexeddb_write_transactions": [
+        {
+          "sequence": 4,
+          "stores": [
+            "allPersonList",
+            "alreadyPersonList"
+          ],
+          "mode": "readwrite",
+          "startedEpochMs": 1787686563632,
+          "completedEpochMs": 1787686563650,
+          "abortedEpochMs": null,
+          "errorEpochMs": null
+        }
+      ],
+      "event_wait_ms": 39.692300000000614,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "merge",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "bd84dec253b5a92bd9fcd19f21d8e2e78ab753be77f24ca40357ed17cb5aaf0a",
+      "holdout_id": "JSEP-H07",
+      "scenario": "sync-avatar-update-preserve-owned-state",
+      "variant": "control",
+      "browser": "chromium",
+      "browser_version": "149.0.7827.55",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H08",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "merge",
+      "terminal_kind": "live-sync-result",
+      "terminal_action": "merge",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "fe3003c11153834112ad65468e2833385e522c04d0eec97f950d83aa499285b3"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "fe3003c11153834112ad65468e2833385e522c04d0eec97f950d83aa499285b3"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "e8b2650646ec6267e32339def76d03c133f55872483b9eb4d7bdeb21a869deec",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "c7a158363dbc31742ce3c3ff3242341547a8baae299641d2f951e6cad0258536",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-applicable-to-hidden-iframe-sync",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "fe3003c11153834112ad65468e2833385e522c04d0eec97f950d83aa499285b3",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "5c275e5ba8a213e74470e277b0a79bc4e82ebba22ae400cbec115999a93ce589",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": null,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "synchronize",
+          "phase": "message-received",
+          "trace_sequence": 33,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-started",
+          "trace_sequence": 34,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-succeeded",
+          "trace_sequence": 35,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "completion-success",
+          "trace_sequence": 36,
+          "incoming_sequence": 10001
+        }
+      ],
+      "indexeddb_write_transactions": [
+        {
+          "sequence": 5,
+          "stores": [
+            "allPersonList",
+            "alreadyPersonList"
+          ],
+          "mode": "readwrite",
+          "startedEpochMs": 1787686567445,
+          "completedEpochMs": 1787686567471,
+          "abortedEpochMs": null,
+          "errorEpochMs": null
+        }
+      ],
+      "event_wait_ms": 43.76299999999901,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "merge",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "132f1e06c300b5705ec0cda31f2f90bd9a211126e1e1a6b5b5de440e08d65ccd",
+      "holdout_id": "JSEP-H08",
+      "scenario": "sync-durable-update",
+      "variant": "control",
+      "browser": "chromium",
+      "browser_version": "149.0.7827.55",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1/I4",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H01",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "replace",
+      "terminal_kind": "imported",
+      "terminal_action": "",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 0,
+        "completed_count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "owned_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "semantic_state_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": []
+      },
+      "indexeddb_at_done_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_basis": "all-scenario-readwrite-transactions-completed-before-DONE",
+      "indexeddb_at_done_certainty": "transaction-timeline",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_done_probe_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": 1787686570492,
+      "on_done_ui_epoch_ms": 1787686570504,
+      "done_probe_started_epoch_ms": 1787686570513,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "replace",
+          "phase": "message-received",
+          "trace_sequence": 1
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-started",
+          "trace_sequence": 2
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-succeeded",
+          "trace_sequence": 3
+        },
+        {
+          "mode": "replace",
+          "phase": "completion-success",
+          "trace_sequence": 4
+        }
+      ],
+      "indexeddb_write_transactions": [
+        {
+          "sequence": 1,
+          "stores": [
+            "allPersonList",
+            "alreadyPersonList"
+          ],
+          "mode": "readwrite",
+          "startedEpochMs": 1787686570455,
+          "completedEpochMs": 1787686570488,
+          "abortedEpochMs": null,
+          "errorEpochMs": null
+        }
+      ],
+      "event_wait_ms": 424,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "replace",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "4a5718285ca3cacb8bf9749ea3a0b406d13e964bb4a9b8c9d08148f6bc302d48",
+      "holdout_id": "JSEP-H01",
+      "scenario": "replace-normal-200",
+      "variant": "control",
+      "browser": "firefox",
+      "browser_version": "151.0",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H02",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "replace",
+      "terminal_kind": "imported",
+      "terminal_action": "",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 0,
+        "completed_count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "owned_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "semantic_state_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": []
+      },
+      "indexeddb_at_done_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_basis": "all-scenario-readwrite-transactions-completed-before-DONE",
+      "indexeddb_at_done_certainty": "transaction-timeline",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_done_probe_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": 1787686572312,
+      "on_done_ui_epoch_ms": 1787686572325,
+      "done_probe_started_epoch_ms": 1787686572332,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "replace",
+          "phase": "message-received",
+          "trace_sequence": 1
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-started",
+          "trace_sequence": 2
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-succeeded",
+          "trace_sequence": 3
+        },
+        {
+          "mode": "replace",
+          "phase": "completion-success",
+          "trace_sequence": 4
+        }
+      ],
+      "indexeddb_write_transactions": [
+        {
+          "sequence": 1,
+          "stores": [
+            "allPersonList",
+            "alreadyPersonList"
+          ],
+          "mode": "readwrite",
+          "startedEpochMs": 1787686572269,
+          "completedEpochMs": 1787686572306,
+          "abortedEpochMs": null,
+          "errorEpochMs": null
+        }
+      ],
+      "event_wait_ms": 417,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "replace",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "4a5718285ca3cacb8bf9749ea3a0b406d13e964bb4a9b8c9d08148f6bc302d48",
+      "holdout_id": "JSEP-H02",
+      "scenario": "replace-normal-200",
+      "variant": "control",
+      "browser": "firefox",
+      "browser_version": "151.0",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H03",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "reject",
+      "terminal_kind": "failed",
+      "terminal_action": "invalid-data",
+      "observed_source_summary": {
+        "count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "intended_source_summary": {
+        "count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-required-for-rejected-empty-scenario",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": 1787686573845,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "replace",
+          "phase": "message-received",
+          "trace_sequence": 1
+        }
+      ],
+      "indexeddb_write_transactions": [],
+      "event_wait_ms": 3,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "reject",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "4c38fa3bba306c21061aae9b91fbafc2c3770b22a7e3ba785feb81efadb84a29",
+      "holdout_id": "JSEP-H03",
+      "scenario": "replace-empty-reject-after-seeded-state",
+      "variant": "control",
+      "browser": "firefox",
+      "browser_version": "151.0",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I3/I4",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H04",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "replace",
+      "terminal_kind": "imported",
+      "terminal_action": "",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 0,
+        "completed_count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "owned_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "semantic_state_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": []
+      },
+      "indexeddb_at_done_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_basis": "all-scenario-readwrite-transactions-completed-before-DONE",
+      "indexeddb_at_done_certainty": "transaction-timeline",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_done_probe_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": 1787686575118,
+      "on_done_ui_epoch_ms": 1787686575130,
+      "done_probe_started_epoch_ms": 1787686575197,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "replace",
+          "phase": "message-received",
+          "trace_sequence": 1
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-started",
+          "trace_sequence": 2
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-succeeded",
+          "trace_sequence": 3
+        },
+        {
+          "mode": "replace",
+          "phase": "completion-success",
+          "trace_sequence": 4
+        }
+      ],
+      "indexeddb_write_transactions": [
+        {
+          "sequence": 1,
+          "stores": [
+            "allPersonList",
+            "alreadyPersonList"
+          ],
+          "mode": "readwrite",
+          "startedEpochMs": 1787686575067,
+          "completedEpochMs": 1787686575109,
+          "abortedEpochMs": null,
+          "errorEpochMs": null
+        }
+      ],
+      "event_wait_ms": 508,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "replace",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "4a5718285ca3cacb8bf9749ea3a0b406d13e964bb4a9b8c9d08148f6bc302d48",
+      "holdout_id": "JSEP-H04",
+      "scenario": "replace-normal-200",
+      "variant": "control",
+      "browser": "firefox",
+      "browser_version": "151.0",
+      "expected_b_state": "miss",
+      "expected_o2_clause": "I4",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H05",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "ignore-stale",
+      "terminal_kind": "live-sync-result",
+      "terminal_action": "ignore-stale",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-applicable-to-hidden-iframe-sync",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": null,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "synchronize",
+          "phase": "message-received",
+          "trace_sequence": 33,
+          "incoming_sequence": 10000
+        }
+      ],
+      "indexeddb_write_transactions": [],
+      "event_wait_ms": 4.563999999998487,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "ignore-stale",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "730b83fc326996f78efaa42e6a0d76d63395ddb09da98f02008094a8567ecfd5",
+      "holdout_id": "JSEP-H05",
+      "scenario": "sync-duplicate-sequence",
+      "variant": "control",
+      "browser": "firefox",
+      "browser_version": "151.0",
+      "expected_b_state": "miss",
+      "expected_o2_clause": "I3",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H06",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "skip-empty",
+      "terminal_kind": "live-sync-result",
+      "terminal_action": "skip-empty",
+      "observed_source_summary": {
+        "count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "intended_source_summary": {
+        "count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-applicable-to-hidden-iframe-sync",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": null,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "synchronize",
+          "phase": "message-received",
+          "trace_sequence": 33,
+          "incoming_sequence": 10001
+        }
+      ],
+      "indexeddb_write_transactions": [],
+      "event_wait_ms": 7.757600000004459,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "skip-empty",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "cbe03ac88e0d2afac372e51aacc56ffb845bb9d2279c90e8d33ff3ae87973fcb",
+      "holdout_id": "JSEP-H06",
+      "scenario": "sync-transient-empty-single-positive-counter",
+      "variant": "control",
+      "browser": "firefox",
+      "browser_version": "151.0",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I3",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H07",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "merge",
+      "terminal_kind": "live-sync-result",
+      "terminal_action": "merge",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "b2315534eb4654875ea3800f25f51959d168e43228a0d097aa9aaca27c684c8b"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "b2315534eb4654875ea3800f25f51959d168e43228a0d097aa9aaca27c684c8b"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "e8b2650646ec6267e32339def76d03c133f55872483b9eb4d7bdeb21a869deec",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "c7a158363dbc31742ce3c3ff3242341547a8baae299641d2f951e6cad0258536",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-applicable-to-hidden-iframe-sync",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "b2315534eb4654875ea3800f25f51959d168e43228a0d097aa9aaca27c684c8b",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "ef833cb909919ac94008a982109c5d2b234df1d3a82017ffd1371f16527cc469",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": null,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "synchronize",
+          "phase": "message-received",
+          "trace_sequence": 33,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-started",
+          "trace_sequence": 34,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-succeeded",
+          "trace_sequence": 35,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "completion-success",
+          "trace_sequence": 36,
+          "incoming_sequence": 10001
+        }
+      ],
+      "indexeddb_write_transactions": [
+        {
+          "sequence": 4,
+          "stores": [
+            "allPersonList",
+            "alreadyPersonList"
+          ],
+          "mode": "readwrite",
+          "startedEpochMs": 1787686587345,
+          "completedEpochMs": 1787686587372,
+          "abortedEpochMs": null,
+          "errorEpochMs": null
+        }
+      ],
+      "event_wait_ms": 40.84169999999722,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "merge",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "bd84dec253b5a92bd9fcd19f21d8e2e78ab753be77f24ca40357ed17cb5aaf0a",
+      "holdout_id": "JSEP-H07",
+      "scenario": "sync-avatar-update-preserve-owned-state",
+      "variant": "control",
+      "browser": "firefox",
+      "browser_version": "151.0",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H08",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "merge",
+      "terminal_kind": "live-sync-result",
+      "terminal_action": "merge",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "fe3003c11153834112ad65468e2833385e522c04d0eec97f950d83aa499285b3"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "fe3003c11153834112ad65468e2833385e522c04d0eec97f950d83aa499285b3"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "e8b2650646ec6267e32339def76d03c133f55872483b9eb4d7bdeb21a869deec",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "c7a158363dbc31742ce3c3ff3242341547a8baae299641d2f951e6cad0258536",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-applicable-to-hidden-iframe-sync",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "fe3003c11153834112ad65468e2833385e522c04d0eec97f950d83aa499285b3",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "5c275e5ba8a213e74470e277b0a79bc4e82ebba22ae400cbec115999a93ce589",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": null,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "synchronize",
+          "phase": "message-received",
+          "trace_sequence": 33,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-started",
+          "trace_sequence": 34,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-succeeded",
+          "trace_sequence": 35,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "completion-success",
+          "trace_sequence": 36,
+          "incoming_sequence": 10001
+        }
+      ],
+      "indexeddb_write_transactions": [
+        {
+          "sequence": 5,
+          "stores": [
+            "allPersonList",
+            "alreadyPersonList"
+          ],
+          "mode": "readwrite",
+          "startedEpochMs": 1787686591339,
+          "completedEpochMs": 1787686591375,
+          "abortedEpochMs": null,
+          "errorEpochMs": null
+        }
+      ],
+      "event_wait_ms": 48.460800000000745,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "merge",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "132f1e06c300b5705ec0cda31f2f90bd9a211126e1e1a6b5b5de440e08d65ccd",
+      "holdout_id": "JSEP-H08",
+      "scenario": "sync-durable-update",
+      "variant": "control",
+      "browser": "firefox",
+      "browser_version": "151.0",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1/I4",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H01",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "replace",
+      "terminal_kind": "imported",
+      "terminal_action": "",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 0,
+        "completed_count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "owned_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "semantic_state_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": []
+      },
+      "indexeddb_at_done_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_basis": "all-scenario-readwrite-transactions-completed-before-DONE",
+      "indexeddb_at_done_certainty": "transaction-timeline",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_done_probe_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": 1787686600015,
+      "on_done_ui_epoch_ms": 1787686600065,
+      "done_probe_started_epoch_ms": 1787686600035,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "replace",
+          "phase": "message-received",
+          "trace_sequence": 1
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-started",
+          "trace_sequence": 2
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-succeeded",
+          "trace_sequence": 3
+        },
+        {
+          "mode": "replace",
+          "phase": "completion-success",
+          "trace_sequence": 4
+        }
+      ],
+      "indexeddb_write_transactions": [
+        {
+          "sequence": 1,
+          "stores": [
+            "allPersonList",
+            "alreadyPersonList"
+          ],
+          "mode": "readwrite",
+          "startedEpochMs": 1787686596366,
+          "completedEpochMs": 1787686600001,
+          "abortedEpochMs": null,
+          "errorEpochMs": null
+        }
+      ],
+      "event_wait_ms": 4381,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "replace",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "4a5718285ca3cacb8bf9749ea3a0b406d13e964bb4a9b8c9d08148f6bc302d48",
+      "holdout_id": "JSEP-H01",
+      "scenario": "replace-normal-200",
+      "variant": "control",
+      "browser": "webkit",
+      "browser_version": "26.5",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H02",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "replace",
+      "terminal_kind": "imported",
+      "terminal_action": "",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 0,
+        "completed_count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "owned_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "semantic_state_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": []
+      },
+      "indexeddb_at_done_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_basis": "all-scenario-readwrite-transactions-completed-before-DONE",
+      "indexeddb_at_done_certainty": "transaction-timeline",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_done_probe_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": 1787686608221,
+      "on_done_ui_epoch_ms": 1787686608253,
+      "done_probe_started_epoch_ms": 1787686608226,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "replace",
+          "phase": "message-received",
+          "trace_sequence": 1
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-started",
+          "trace_sequence": 2
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-succeeded",
+          "trace_sequence": 3
+        },
+        {
+          "mode": "replace",
+          "phase": "completion-success",
+          "trace_sequence": 4
+        }
+      ],
+      "indexeddb_write_transactions": [
+        {
+          "sequence": 1,
+          "stores": [
+            "allPersonList",
+            "alreadyPersonList"
+          ],
+          "mode": "readwrite",
+          "startedEpochMs": 1787686604653,
+          "completedEpochMs": 1787686608188,
+          "abortedEpochMs": null,
+          "errorEpochMs": null
+        }
+      ],
+      "event_wait_ms": 4232,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "replace",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "4a5718285ca3cacb8bf9749ea3a0b406d13e964bb4a9b8c9d08148f6bc302d48",
+      "holdout_id": "JSEP-H02",
+      "scenario": "replace-normal-200",
+      "variant": "control",
+      "browser": "webkit",
+      "browser_version": "26.5",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H03",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "reject",
+      "terminal_kind": "failed",
+      "terminal_action": "invalid-data",
+      "observed_source_summary": {
+        "count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "intended_source_summary": {
+        "count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-required-for-rejected-empty-scenario",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": 1787686616428,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "replace",
+          "phase": "message-received",
+          "trace_sequence": 1
+        }
+      ],
+      "indexeddb_write_transactions": [],
+      "event_wait_ms": 63,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "reject",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "4c38fa3bba306c21061aae9b91fbafc2c3770b22a7e3ba785feb81efadb84a29",
+      "holdout_id": "JSEP-H03",
+      "scenario": "replace-empty-reject-after-seeded-state",
+      "variant": "control",
+      "browser": "webkit",
+      "browser_version": "26.5",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I3/I4",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H04",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "replace",
+      "terminal_kind": "imported",
+      "terminal_action": "",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 0,
+        "completed_count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "owned_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "semantic_state_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": []
+      },
+      "indexeddb_at_done_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_basis": "all-scenario-readwrite-transactions-completed-before-DONE",
+      "indexeddb_at_done_certainty": "transaction-timeline",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_done_probe_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": 1787686624522,
+      "on_done_ui_epoch_ms": 1787686624555,
+      "done_probe_started_epoch_ms": 1787686624612,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "replace",
+          "phase": "message-received",
+          "trace_sequence": 1
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-started",
+          "trace_sequence": 2
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-succeeded",
+          "trace_sequence": 3
+        },
+        {
+          "mode": "replace",
+          "phase": "completion-success",
+          "trace_sequence": 4
+        }
+      ],
+      "indexeddb_write_transactions": [
+        {
+          "sequence": 1,
+          "stores": [
+            "allPersonList",
+            "alreadyPersonList"
+          ],
+          "mode": "readwrite",
+          "startedEpochMs": 1787686621030,
+          "completedEpochMs": 1787686624506,
+          "abortedEpochMs": null,
+          "errorEpochMs": null
+        }
+      ],
+      "event_wait_ms": 4185,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "replace",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "4a5718285ca3cacb8bf9749ea3a0b406d13e964bb4a9b8c9d08148f6bc302d48",
+      "holdout_id": "JSEP-H04",
+      "scenario": "replace-normal-200",
+      "variant": "control",
+      "browser": "webkit",
+      "browser_version": "26.5",
+      "expected_b_state": "miss",
+      "expected_o2_clause": "I4",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H05",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "ignore-stale",
+      "terminal_kind": "live-sync-result",
+      "terminal_action": "ignore-stale",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-applicable-to-hidden-iframe-sync",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": null,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "synchronize",
+          "phase": "message-received",
+          "trace_sequence": 33,
+          "incoming_sequence": 10000
+        }
+      ],
+      "indexeddb_write_transactions": [],
+      "event_wait_ms": 31.41349999999511,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "ignore-stale",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "730b83fc326996f78efaa42e6a0d76d63395ddb09da98f02008094a8567ecfd5",
+      "holdout_id": "JSEP-H05",
+      "scenario": "sync-duplicate-sequence",
+      "variant": "control",
+      "browser": "webkit",
+      "browser_version": "26.5",
+      "expected_b_state": "miss",
+      "expected_o2_clause": "I3",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H06",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "skip-empty",
+      "terminal_kind": "live-sync-result",
+      "terminal_action": "skip-empty",
+      "observed_source_summary": {
+        "count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "intended_source_summary": {
+        "count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-applicable-to-hidden-iframe-sync",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": null,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "synchronize",
+          "phase": "message-received",
+          "trace_sequence": 33,
+          "incoming_sequence": 10001
+        }
+      ],
+      "indexeddb_write_transactions": [],
+      "event_wait_ms": 4.853700000006938,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "skip-empty",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "cbe03ac88e0d2afac372e51aacc56ffb845bb9d2279c90e8d33ff3ae87973fcb",
+      "holdout_id": "JSEP-H06",
+      "scenario": "sync-transient-empty-single-positive-counter",
+      "variant": "control",
+      "browser": "webkit",
+      "browser_version": "26.5",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I3",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H07",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "merge",
+      "terminal_kind": "live-sync-result",
+      "terminal_action": "merge",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "b2315534eb4654875ea3800f25f51959d168e43228a0d097aa9aaca27c684c8b"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "b2315534eb4654875ea3800f25f51959d168e43228a0d097aa9aaca27c684c8b"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "e8b2650646ec6267e32339def76d03c133f55872483b9eb4d7bdeb21a869deec",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "c7a158363dbc31742ce3c3ff3242341547a8baae299641d2f951e6cad0258536",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-applicable-to-hidden-iframe-sync",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "b2315534eb4654875ea3800f25f51959d168e43228a0d097aa9aaca27c684c8b",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "ef833cb909919ac94008a982109c5d2b234df1d3a82017ffd1371f16527cc469",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": null,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "synchronize",
+          "phase": "message-received",
+          "trace_sequence": 29,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-started",
+          "trace_sequence": 30,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-succeeded",
+          "trace_sequence": 31,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "completion-success",
+          "trace_sequence": 32,
+          "incoming_sequence": 10001
+        }
+      ],
+      "indexeddb_write_transactions": [
+        {
+          "sequence": 4,
+          "stores": [
+            "allPersonList",
+            "alreadyPersonList"
+          ],
+          "mode": "readwrite",
+          "startedEpochMs": 1787686659535,
+          "completedEpochMs": 1787686662656,
+          "abortedEpochMs": null,
+          "errorEpochMs": null
+        }
+      ],
+      "event_wait_ms": 3149.3524000000034,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "merge",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "bd84dec253b5a92bd9fcd19f21d8e2e78ab753be77f24ca40357ed17cb5aaf0a",
+      "holdout_id": "JSEP-H07",
+      "scenario": "sync-avatar-update-preserve-owned-state",
+      "variant": "control",
+      "browser": "webkit",
+      "browser_version": "26.5",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H08",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "merge",
+      "terminal_kind": "live-sync-result",
+      "terminal_action": "merge",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "fe3003c11153834112ad65468e2833385e522c04d0eec97f950d83aa499285b3"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "fe3003c11153834112ad65468e2833385e522c04d0eec97f950d83aa499285b3"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "e8b2650646ec6267e32339def76d03c133f55872483b9eb4d7bdeb21a869deec",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "c7a158363dbc31742ce3c3ff3242341547a8baae299641d2f951e6cad0258536",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-applicable-to-hidden-iframe-sync",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "fe3003c11153834112ad65468e2833385e522c04d0eec97f950d83aa499285b3",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "5c275e5ba8a213e74470e277b0a79bc4e82ebba22ae400cbec115999a93ce589",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": null,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "synchronize",
+          "phase": "message-received",
+          "trace_sequence": 33,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-started",
+          "trace_sequence": 34,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-succeeded",
+          "trace_sequence": 35,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "completion-success",
+          "trace_sequence": 36,
+          "incoming_sequence": 10001
+        }
+      ],
+      "indexeddb_write_transactions": [
+        {
+          "sequence": 5,
+          "stores": [
+            "allPersonList",
+            "alreadyPersonList"
+          ],
+          "mode": "readwrite",
+          "startedEpochMs": 1787686679643,
+          "completedEpochMs": 1787686682773,
+          "abortedEpochMs": null,
+          "errorEpochMs": null
+        }
+      ],
+      "event_wait_ms": 3154.3373999999894,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": true,
+      "o2_failure_codes": [],
+      "o2_failures": [],
+      "o2_expected_decision": "merge",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        }
+      },
+      "observation_signature_sha256": "132f1e06c300b5705ec0cda31f2f90bd9a211126e1e1a6b5b5de440e08d65ccd",
+      "holdout_id": "JSEP-H08",
+      "scenario": "sync-durable-update",
+      "variant": "control",
+      "browser": "webkit",
+      "browser_version": "26.5",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1/I4",
+      "error_class": "",
+      "error_message": ""
+    }
+  ]
+}

@@ -1,0 +1,781 @@
+{
+  "metadata": {
+    "generated_at_utc": "2026-08-25T19:40:59.873Z",
+    "catalogue_version": "jsep-holdout-v1-2026-08-26",
+    "manifest_sha256": "9f10986b2f6cd1d81942190a3c0ec692841607ed9369154885d0df046c1da9e0",
+    "application_base_commit": "e7373e212d711103f0822c9928200289b0adb5c4",
+    "evaluated_commit": "e7373e212d711103f0822c9928200289b0adb5c4",
+    "evaluated_diff_sha256": "e183e554917a39dac26859cba59007be89df6bb0f4d782e7c44b739c2db2e39d",
+    "variant": "JSEP-H03",
+    "selected_holdout_ids": [
+      "JSEP-H03"
+    ],
+    "unit_of_analysis": "fault",
+    "browser_repetitions_are_technical_replications": true,
+    "roster_size": 200,
+    "browsers": [
+      "chromium",
+      "firefox",
+      "webkit"
+    ],
+    "browser_versions": {
+      "chromium": "149.0.7827.55",
+      "firefox": "151.0",
+      "webkit": "26.5"
+    },
+    "node": "v24.15.0",
+    "playwright": "1.61.1",
+    "platform": "win32-x64",
+    "os_release": "10.0.26200",
+    "cpu_model": "AMD Ryzen 9 9955HX3D 16-Core Processor         ",
+    "logical_cpu_count": 32,
+    "total_memory_bytes": 33483378688,
+    "server_mode": "production-only",
+    "seating_origin": "http://127.0.0.1:3111",
+    "lottery_origin": "http://127.0.0.1:6811",
+    "next_build_id_sha256": "51e91f6939eeed51f3f23abe0ef8ef6b0bf46b16de5e12d9d415810d761585d1",
+    "lottery_dist_index_sha256": "2db137371cf6f1b5eea89bdde8b9b283da33bcdb31825abaa3d424af1150a77f",
+    "baseline_independence": "B-state is implemented locally as a keyed durable post-state comparison and never calls the O2 implementation.",
+    "h04_completion_boundary": "DONE receipt is observed externally in every browser; the sender call is supplementary where the browser permits wrapping it. IndexedDB-at-DONE is reconstructed from all init-script-observed readwrite transactions plus pre/post snapshots. Trace is retained as phase evidence only."
+  },
+  "records": [
+    {
+      "scenario_id": "JSEP-H03",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "replace",
+      "terminal_kind": "imported",
+      "terminal_action": "",
+      "observed_source_summary": {
+        "count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "intended_source_summary": {
+        "count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-required-for-rejected-empty-scenario",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 0,
+        "completed_count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "owned_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "semantic_state_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": []
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": 1787686846528,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "replace",
+          "phase": "message-received",
+          "trace_sequence": 1
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-started",
+          "trace_sequence": 2
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-succeeded",
+          "trace_sequence": 3
+        },
+        {
+          "mode": "replace",
+          "phase": "completion-success",
+          "trace_sequence": 4
+        }
+      ],
+      "indexeddb_write_transactions": [
+        {
+          "sequence": 1,
+          "stores": [
+            "allPersonList",
+            "alreadyPersonList"
+          ],
+          "mode": "readwrite",
+          "startedEpochMs": 1787686846520,
+          "completedEpochMs": 1787686846526,
+          "abortedEpochMs": null,
+          "errorEpochMs": null
+        }
+      ],
+      "event_wait_ms": 9,
+      "b_state_pass": false,
+      "b_state_failure_codes": [
+        "B_COUNT_MISMATCH",
+        "B_IDENTITY_MISSING"
+      ],
+      "b_state_failures": [
+        {
+          "code": "B_COUNT_MISMATCH",
+          "expected": 200,
+          "observed": 0
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00012"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00136"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00018"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00096"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00005"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00138"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00054"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00004"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00190"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00064"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00195"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00092"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00172"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00173"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00019"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00028"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00165"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00046"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00042"
+        }
+      ],
+      "o2_pass": false,
+      "o2_failure_codes": [
+        "I3_DECISION_MISMATCH",
+        "I4_INELIGIBLE_MESSAGE_COMMITTED",
+        "I4_INELIGIBLE_MESSAGE_COMPLETED",
+        "I4_INELIGIBLE_MESSAGE_CHANGED_STATE"
+      ],
+      "o2_failures": [
+        {
+          "code": "I3_DECISION_MISMATCH",
+          "message": "Expected protocol decision reject, observed replace"
+        },
+        {
+          "code": "I4_INELIGIBLE_MESSAGE_COMMITTED",
+          "message": "An ineligible or protected message entered the commit path"
+        },
+        {
+          "code": "I4_INELIGIBLE_MESSAGE_COMPLETED",
+          "message": "An ineligible or protected message reported successful completion"
+        },
+        {
+          "code": "I4_INELIGIBLE_MESSAGE_CHANGED_STATE",
+          "message": "Destination changed for an ineligible or protected message"
+        }
+      ],
+      "o2_expected_decision": "reject",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": false,
+          "failure_codes": [
+            "I3_DECISION_MISMATCH"
+          ]
+        },
+        "I4": {
+          "applicable": true,
+          "passed": false,
+          "failure_codes": [
+            "I4_INELIGIBLE_MESSAGE_COMMITTED",
+            "I4_INELIGIBLE_MESSAGE_COMPLETED",
+            "I4_INELIGIBLE_MESSAGE_CHANGED_STATE"
+          ]
+        }
+      },
+      "observation_signature_sha256": "634a770e7b83580d3a48debd28e911577d9214d30f9a464dda6bcbae978962b6",
+      "holdout_id": "JSEP-H03",
+      "scenario": "replace-empty-reject-after-seeded-state",
+      "variant": "JSEP-H03",
+      "browser": "chromium",
+      "browser_version": "149.0.7827.55",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I3/I4",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H03",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "replace",
+      "terminal_kind": "imported",
+      "terminal_action": "",
+      "observed_source_summary": {
+        "count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "intended_source_summary": {
+        "count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-required-for-rejected-empty-scenario",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 0,
+        "completed_count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "owned_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "semantic_state_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": []
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": 1787686849448,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "replace",
+          "phase": "message-received",
+          "trace_sequence": 1
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-started",
+          "trace_sequence": 2
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-succeeded",
+          "trace_sequence": 3
+        },
+        {
+          "mode": "replace",
+          "phase": "completion-success",
+          "trace_sequence": 4
+        }
+      ],
+      "indexeddb_write_transactions": [
+        {
+          "sequence": 1,
+          "stores": [
+            "allPersonList",
+            "alreadyPersonList"
+          ],
+          "mode": "readwrite",
+          "startedEpochMs": 1787686849430,
+          "completedEpochMs": 1787686849441,
+          "abortedEpochMs": null,
+          "errorEpochMs": null
+        }
+      ],
+      "event_wait_ms": 22,
+      "b_state_pass": false,
+      "b_state_failure_codes": [
+        "B_COUNT_MISMATCH",
+        "B_IDENTITY_MISSING"
+      ],
+      "b_state_failures": [
+        {
+          "code": "B_COUNT_MISMATCH",
+          "expected": 200,
+          "observed": 0
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00152"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00190"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00197"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00092"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00141"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00168"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00007"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00050"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00077"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00083"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00114"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00033"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00051"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00129"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00048"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00151"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00074"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00177"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00169"
+        }
+      ],
+      "o2_pass": false,
+      "o2_failure_codes": [
+        "I3_DECISION_MISMATCH",
+        "I4_INELIGIBLE_MESSAGE_COMMITTED",
+        "I4_INELIGIBLE_MESSAGE_COMPLETED",
+        "I4_INELIGIBLE_MESSAGE_CHANGED_STATE"
+      ],
+      "o2_failures": [
+        {
+          "code": "I3_DECISION_MISMATCH",
+          "message": "Expected protocol decision reject, observed replace"
+        },
+        {
+          "code": "I4_INELIGIBLE_MESSAGE_COMMITTED",
+          "message": "An ineligible or protected message entered the commit path"
+        },
+        {
+          "code": "I4_INELIGIBLE_MESSAGE_COMPLETED",
+          "message": "An ineligible or protected message reported successful completion"
+        },
+        {
+          "code": "I4_INELIGIBLE_MESSAGE_CHANGED_STATE",
+          "message": "Destination changed for an ineligible or protected message"
+        }
+      ],
+      "o2_expected_decision": "reject",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": false,
+          "failure_codes": [
+            "I3_DECISION_MISMATCH"
+          ]
+        },
+        "I4": {
+          "applicable": true,
+          "passed": false,
+          "failure_codes": [
+            "I4_INELIGIBLE_MESSAGE_COMMITTED",
+            "I4_INELIGIBLE_MESSAGE_COMPLETED",
+            "I4_INELIGIBLE_MESSAGE_CHANGED_STATE"
+          ]
+        }
+      },
+      "observation_signature_sha256": "634a770e7b83580d3a48debd28e911577d9214d30f9a464dda6bcbae978962b6",
+      "holdout_id": "JSEP-H03",
+      "scenario": "replace-empty-reject-after-seeded-state",
+      "variant": "JSEP-H03",
+      "browser": "firefox",
+      "browser_version": "151.0",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I3/I4",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H03",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "replace",
+      "terminal_kind": "imported",
+      "terminal_action": "",
+      "observed_source_summary": {
+        "count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "intended_source_summary": {
+        "count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-required-for-rejected-empty-scenario",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 0,
+        "completed_count": 0,
+        "stable_identity_count": 0,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "owned_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "semantic_state_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": []
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": 1787686859366,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "replace",
+          "phase": "message-received",
+          "trace_sequence": 1
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-started",
+          "trace_sequence": 2
+        },
+        {
+          "mode": "replace",
+          "phase": "commit-succeeded",
+          "trace_sequence": 3
+        },
+        {
+          "mode": "replace",
+          "phase": "completion-success",
+          "trace_sequence": 4
+        }
+      ],
+      "indexeddb_write_transactions": [
+        {
+          "sequence": 1,
+          "stores": [
+            "allPersonList",
+            "alreadyPersonList"
+          ],
+          "mode": "readwrite",
+          "startedEpochMs": 1787686859277,
+          "completedEpochMs": 1787686859351,
+          "abortedEpochMs": null,
+          "errorEpochMs": null
+        }
+      ],
+      "event_wait_ms": 137,
+      "b_state_pass": false,
+      "b_state_failure_codes": [
+        "B_COUNT_MISMATCH",
+        "B_IDENTITY_MISSING"
+      ],
+      "b_state_failures": [
+        {
+          "code": "B_COUNT_MISMATCH",
+          "expected": 200,
+          "observed": 0
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00199"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00192"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00058"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00142"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00172"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00061"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00141"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00014"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00176"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00138"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00063"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00089"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00171"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00062"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00022"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00125"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00042"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00106"
+        },
+        {
+          "code": "B_IDENTITY_MISSING",
+          "identity": "guest-00070"
+        }
+      ],
+      "o2_pass": false,
+      "o2_failure_codes": [
+        "I3_DECISION_MISMATCH",
+        "I4_INELIGIBLE_MESSAGE_COMMITTED",
+        "I4_INELIGIBLE_MESSAGE_COMPLETED",
+        "I4_INELIGIBLE_MESSAGE_CHANGED_STATE"
+      ],
+      "o2_failures": [
+        {
+          "code": "I3_DECISION_MISMATCH",
+          "message": "Expected protocol decision reject, observed replace"
+        },
+        {
+          "code": "I4_INELIGIBLE_MESSAGE_COMMITTED",
+          "message": "An ineligible or protected message entered the commit path"
+        },
+        {
+          "code": "I4_INELIGIBLE_MESSAGE_COMPLETED",
+          "message": "An ineligible or protected message reported successful completion"
+        },
+        {
+          "code": "I4_INELIGIBLE_MESSAGE_CHANGED_STATE",
+          "message": "Destination changed for an ineligible or protected message"
+        }
+      ],
+      "o2_expected_decision": "reject",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": false,
+          "failure_codes": [
+            "I3_DECISION_MISMATCH"
+          ]
+        },
+        "I4": {
+          "applicable": true,
+          "passed": false,
+          "failure_codes": [
+            "I4_INELIGIBLE_MESSAGE_COMMITTED",
+            "I4_INELIGIBLE_MESSAGE_COMPLETED",
+            "I4_INELIGIBLE_MESSAGE_CHANGED_STATE"
+          ]
+        }
+      },
+      "observation_signature_sha256": "634a770e7b83580d3a48debd28e911577d9214d30f9a464dda6bcbae978962b6",
+      "holdout_id": "JSEP-H03",
+      "scenario": "replace-empty-reject-after-seeded-state",
+      "variant": "JSEP-H03",
+      "browser": "webkit",
+      "browser_version": "26.5",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I3/I4",
+      "error_class": "",
+      "error_message": ""
+    }
+  ]
+}

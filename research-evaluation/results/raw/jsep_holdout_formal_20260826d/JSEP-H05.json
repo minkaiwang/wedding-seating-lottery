@@ -1,0 +1,493 @@
+{
+  "metadata": {
+    "generated_at_utc": "2026-08-25T19:43:09.518Z",
+    "catalogue_version": "jsep-holdout-v1-2026-08-26",
+    "manifest_sha256": "9f10986b2f6cd1d81942190a3c0ec692841607ed9369154885d0df046c1da9e0",
+    "application_base_commit": "e7373e212d711103f0822c9928200289b0adb5c4",
+    "evaluated_commit": "e7373e212d711103f0822c9928200289b0adb5c4",
+    "evaluated_diff_sha256": "4afd959c53da265f19b879d8818b15bb87afafc008efae41fc63f7c70c8b834f",
+    "variant": "JSEP-H05",
+    "selected_holdout_ids": [
+      "JSEP-H05"
+    ],
+    "unit_of_analysis": "fault",
+    "browser_repetitions_are_technical_replications": true,
+    "roster_size": 200,
+    "browsers": [
+      "chromium",
+      "firefox",
+      "webkit"
+    ],
+    "browser_versions": {
+      "chromium": "149.0.7827.55",
+      "firefox": "151.0",
+      "webkit": "26.5"
+    },
+    "node": "v24.15.0",
+    "playwright": "1.61.1",
+    "platform": "win32-x64",
+    "os_release": "10.0.26200",
+    "cpu_model": "AMD Ryzen 9 9955HX3D 16-Core Processor         ",
+    "logical_cpu_count": 32,
+    "total_memory_bytes": 33483378688,
+    "server_mode": "production-only",
+    "seating_origin": "http://127.0.0.1:3111",
+    "lottery_origin": "http://127.0.0.1:6811",
+    "next_build_id_sha256": "99bbb8f127801a878ad16fcd4ef3e4e46189d5f1787bd34c74c395b86d01be89",
+    "lottery_dist_index_sha256": "0e787282aff719a1c7ffc0b372b1ad54c4bd731229194a862f1aeb93c4d6a3ed",
+    "baseline_independence": "B-state is implemented locally as a keyed durable post-state comparison and never calls the O2 implementation.",
+    "h04_completion_boundary": "DONE receipt is observed externally in every browser; the sender call is supplementary where the browser permits wrapping it. IndexedDB-at-DONE is reconstructed from all init-script-observed readwrite transactions plus pre/post snapshots. Trace is retained as phase evidence only."
+  },
+  "records": [
+    {
+      "scenario_id": "JSEP-H05",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "merge",
+      "terminal_kind": "live-sync-result",
+      "terminal_action": "merge",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-applicable-to-hidden-iframe-sync",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": null,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "synchronize",
+          "phase": "message-received",
+          "trace_sequence": 33,
+          "incoming_sequence": 10000
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-started",
+          "trace_sequence": 34,
+          "incoming_sequence": 10000
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-succeeded",
+          "trace_sequence": 35,
+          "incoming_sequence": 10000
+        },
+        {
+          "mode": "synchronize",
+          "phase": "completion-success",
+          "trace_sequence": 36,
+          "incoming_sequence": 10000
+        }
+      ],
+      "indexeddb_write_transactions": [],
+      "event_wait_ms": 10.371000000000095,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": false,
+      "o2_failure_codes": [
+        "I3_DECISION_MISMATCH",
+        "I4_INELIGIBLE_MESSAGE_COMMITTED",
+        "I4_INELIGIBLE_MESSAGE_COMPLETED"
+      ],
+      "o2_failures": [
+        {
+          "code": "I3_DECISION_MISMATCH",
+          "message": "Expected protocol decision ignore-stale, observed merge"
+        },
+        {
+          "code": "I4_INELIGIBLE_MESSAGE_COMMITTED",
+          "message": "An ineligible or protected message entered the commit path"
+        },
+        {
+          "code": "I4_INELIGIBLE_MESSAGE_COMPLETED",
+          "message": "An ineligible or protected message reported successful completion"
+        }
+      ],
+      "o2_expected_decision": "ignore-stale",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": false,
+          "failure_codes": [
+            "I3_DECISION_MISMATCH"
+          ]
+        },
+        "I4": {
+          "applicable": true,
+          "passed": false,
+          "failure_codes": [
+            "I4_INELIGIBLE_MESSAGE_COMMITTED",
+            "I4_INELIGIBLE_MESSAGE_COMPLETED"
+          ]
+        }
+      },
+      "observation_signature_sha256": "f11f5c301a9bca8686e4534cdf2124df77ea6bb3bf35cb71f5ed6b0cd0925fbd",
+      "holdout_id": "JSEP-H05",
+      "scenario": "sync-duplicate-sequence",
+      "variant": "JSEP-H05",
+      "browser": "chromium",
+      "browser_version": "149.0.7827.55",
+      "expected_b_state": "miss",
+      "expected_o2_clause": "I3",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H05",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "merge",
+      "terminal_kind": "live-sync-result",
+      "terminal_action": "merge",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-applicable-to-hidden-iframe-sync",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": null,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "synchronize",
+          "phase": "message-received",
+          "trace_sequence": 33,
+          "incoming_sequence": 10000
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-started",
+          "trace_sequence": 34,
+          "incoming_sequence": 10000
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-succeeded",
+          "trace_sequence": 35,
+          "incoming_sequence": 10000
+        },
+        {
+          "mode": "synchronize",
+          "phase": "completion-success",
+          "trace_sequence": 36,
+          "incoming_sequence": 10000
+        }
+      ],
+      "indexeddb_write_transactions": [],
+      "event_wait_ms": 9.528000000000247,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": false,
+      "o2_failure_codes": [
+        "I3_DECISION_MISMATCH",
+        "I4_INELIGIBLE_MESSAGE_COMMITTED",
+        "I4_INELIGIBLE_MESSAGE_COMPLETED"
+      ],
+      "o2_failures": [
+        {
+          "code": "I3_DECISION_MISMATCH",
+          "message": "Expected protocol decision ignore-stale, observed merge"
+        },
+        {
+          "code": "I4_INELIGIBLE_MESSAGE_COMMITTED",
+          "message": "An ineligible or protected message entered the commit path"
+        },
+        {
+          "code": "I4_INELIGIBLE_MESSAGE_COMPLETED",
+          "message": "An ineligible or protected message reported successful completion"
+        }
+      ],
+      "o2_expected_decision": "ignore-stale",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": false,
+          "failure_codes": [
+            "I3_DECISION_MISMATCH"
+          ]
+        },
+        "I4": {
+          "applicable": true,
+          "passed": false,
+          "failure_codes": [
+            "I4_INELIGIBLE_MESSAGE_COMMITTED",
+            "I4_INELIGIBLE_MESSAGE_COMPLETED"
+          ]
+        }
+      },
+      "observation_signature_sha256": "f11f5c301a9bca8686e4534cdf2124df77ea6bb3bf35cb71f5ed6b0cd0925fbd",
+      "holdout_id": "JSEP-H05",
+      "scenario": "sync-duplicate-sequence",
+      "variant": "JSEP-H05",
+      "browser": "firefox",
+      "browser_version": "151.0",
+      "expected_b_state": "miss",
+      "expected_o2_clause": "I3",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H05",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "merge",
+      "terminal_kind": "live-sync-result",
+      "terminal_action": "merge",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-applicable-to-hidden-iframe-sync",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "2b3f7ee8d6cb4725165e9f0ebba6412b7111b15340e50bd42b5376687e88d518",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "4e04d7f32a8d691b9466f8ebf0cbbcaf0d331c22e024246d92c5c0d4f8da03b8",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": null,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": false,
+      "metadata_phases": [
+        {
+          "mode": "synchronize",
+          "phase": "message-received",
+          "trace_sequence": 29,
+          "incoming_sequence": 10000
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-started",
+          "trace_sequence": 30,
+          "incoming_sequence": 10000
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-succeeded",
+          "trace_sequence": 31,
+          "incoming_sequence": 10000
+        },
+        {
+          "mode": "synchronize",
+          "phase": "completion-success",
+          "trace_sequence": 32,
+          "incoming_sequence": 10000
+        }
+      ],
+      "indexeddb_write_transactions": [],
+      "event_wait_ms": 14.036400000000867,
+      "b_state_pass": true,
+      "b_state_failure_codes": [],
+      "b_state_failures": [],
+      "o2_pass": false,
+      "o2_failure_codes": [
+        "I3_DECISION_MISMATCH",
+        "I4_INELIGIBLE_MESSAGE_COMMITTED",
+        "I4_INELIGIBLE_MESSAGE_COMPLETED"
+      ],
+      "o2_failures": [
+        {
+          "code": "I3_DECISION_MISMATCH",
+          "message": "Expected protocol decision ignore-stale, observed merge"
+        },
+        {
+          "code": "I4_INELIGIBLE_MESSAGE_COMMITTED",
+          "message": "An ineligible or protected message entered the commit path"
+        },
+        {
+          "code": "I4_INELIGIBLE_MESSAGE_COMPLETED",
+          "message": "An ineligible or protected message reported successful completion"
+        }
+      ],
+      "o2_expected_decision": "ignore-stale",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I2": {
+          "applicable": false,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": false,
+          "failure_codes": [
+            "I3_DECISION_MISMATCH"
+          ]
+        },
+        "I4": {
+          "applicable": true,
+          "passed": false,
+          "failure_codes": [
+            "I4_INELIGIBLE_MESSAGE_COMMITTED",
+            "I4_INELIGIBLE_MESSAGE_COMPLETED"
+          ]
+        }
+      },
+      "observation_signature_sha256": "f11f5c301a9bca8686e4534cdf2124df77ea6bb3bf35cb71f5ed6b0cd0925fbd",
+      "holdout_id": "JSEP-H05",
+      "scenario": "sync-duplicate-sequence",
+      "variant": "JSEP-H05",
+      "browser": "webkit",
+      "browser_version": "26.5",
+      "expected_b_state": "miss",
+      "expected_o2_clause": "I3",
+      "error_class": "",
+      "error_message": ""
+    }
+  ]
+}

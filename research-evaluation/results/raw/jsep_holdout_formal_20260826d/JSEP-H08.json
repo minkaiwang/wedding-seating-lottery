@@ -1,0 +1,4309 @@
+{
+  "metadata": {
+    "generated_at_utc": "2026-08-25T19:46:32.665Z",
+    "catalogue_version": "jsep-holdout-v1-2026-08-26",
+    "manifest_sha256": "9f10986b2f6cd1d81942190a3c0ec692841607ed9369154885d0df046c1da9e0",
+    "application_base_commit": "e7373e212d711103f0822c9928200289b0adb5c4",
+    "evaluated_commit": "e7373e212d711103f0822c9928200289b0adb5c4",
+    "evaluated_diff_sha256": "72ec2913fe0d9ef469c08b495004e2d681d913a18f383428d05a3dff117d683d",
+    "variant": "JSEP-H08",
+    "selected_holdout_ids": [
+      "JSEP-H08"
+    ],
+    "unit_of_analysis": "fault",
+    "browser_repetitions_are_technical_replications": true,
+    "roster_size": 200,
+    "browsers": [
+      "chromium",
+      "firefox",
+      "webkit"
+    ],
+    "browser_versions": {
+      "chromium": "149.0.7827.55",
+      "firefox": "151.0",
+      "webkit": "26.5"
+    },
+    "node": "v24.15.0",
+    "playwright": "1.61.1",
+    "platform": "win32-x64",
+    "os_release": "10.0.26200",
+    "cpu_model": "AMD Ryzen 9 9955HX3D 16-Core Processor         ",
+    "logical_cpu_count": 32,
+    "total_memory_bytes": 33483378688,
+    "server_mode": "production-only",
+    "seating_origin": "http://127.0.0.1:3111",
+    "lottery_origin": "http://127.0.0.1:6811",
+    "next_build_id_sha256": "abc40c06f840a39ad37e038dc73db695a115725a100b3814c8f89cf98a9b80f7",
+    "lottery_dist_index_sha256": "2ca34538b470f6cf176fc72a427972ef0a9f317aa8ad38f4e289393d922a2dba",
+    "baseline_independence": "B-state is implemented locally as a keyed durable post-state comparison and never calls the O2 implementation.",
+    "h04_completion_boundary": "DONE receipt is observed externally in every browser; the sender call is supplementary where the browser permits wrapping it. IndexedDB-at-DONE is reconstructed from all init-script-observed readwrite transactions plus pre/post snapshots. Trace is retained as phase evidence only."
+  },
+  "records": [
+    {
+      "scenario_id": "JSEP-H08",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "merge",
+      "terminal_kind": "live-sync-result",
+      "terminal_action": "merge",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "fe3003c11153834112ad65468e2833385e522c04d0eec97f950d83aa499285b3"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "fe3003c11153834112ad65468e2833385e522c04d0eec97f950d83aa499285b3"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "e8b2650646ec6267e32339def76d03c133f55872483b9eb4d7bdeb21a869deec",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "c7a158363dbc31742ce3c3ff3242341547a8baae299641d2f951e6cad0258536",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-applicable-to-hidden-iframe-sync",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "e8b2650646ec6267e32339def76d03c133f55872483b9eb4d7bdeb21a869deec",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "c7a158363dbc31742ce3c3ff3242341547a8baae299641d2f951e6cad0258536",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": null,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": true,
+      "metadata_phases": [
+        {
+          "mode": "synchronize",
+          "phase": "message-received",
+          "trace_sequence": 33,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-started",
+          "trace_sequence": 34,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-succeeded",
+          "trace_sequence": 35,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "completion-success",
+          "trace_sequence": 36,
+          "incoming_sequence": 10001
+        }
+      ],
+      "indexeddb_write_transactions": [],
+      "event_wait_ms": 23.597799999999552,
+      "b_state_pass": false,
+      "b_state_failure_codes": [
+        "B_PUBLIC_STATE_MISMATCH"
+      ],
+      "b_state_failures": [
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00001"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00002"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00003"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00004"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00005"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00006"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00007"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00008"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00009"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00010"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00011"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00012"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00013"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00014"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00015"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00016"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00017"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00018"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00019"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00020"
+        }
+      ],
+      "o2_pass": false,
+      "o2_failure_codes": [
+        "I1_PUBLIC_STATE_MISMATCH",
+        "I4_NON_ATOMIC_COMMIT"
+      ],
+      "o2_failures": [
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00001"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00002"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00003"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00004"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00005"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00006"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00007"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00008"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00009"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00010"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00011"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00012"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00013"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00014"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00015"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00016"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00017"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00018"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00019"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00020"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00021"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00022"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00023"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00024"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00025"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00026"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00027"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00028"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00029"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00030"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00031"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00032"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00033"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00034"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00035"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00036"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00037"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00038"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00039"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00040"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00041"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00042"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00043"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00044"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00045"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00046"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00047"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00048"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00049"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00050"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00051"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00052"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00053"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00054"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00055"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00056"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00057"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00058"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00059"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00060"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00061"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00062"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00063"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00064"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00065"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00066"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00067"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00068"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00069"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00070"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00071"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00072"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00073"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00074"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00075"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00076"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00077"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00078"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00079"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00080"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00081"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00082"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00083"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00084"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00085"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00086"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00087"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00088"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00089"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00090"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00091"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00092"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00093"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00094"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00095"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00096"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00097"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00098"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00099"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00100"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00101"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00102"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00103"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00104"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00105"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00106"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00107"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00108"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00109"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00110"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00111"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00112"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00113"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00114"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00115"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00116"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00117"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00118"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00119"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00120"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00121"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00122"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00123"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00124"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00125"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00126"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00127"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00128"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00129"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00130"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00131"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00132"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00133"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00134"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00135"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00136"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00137"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00138"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00139"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00140"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00141"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00142"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00143"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00144"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00145"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00146"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00147"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00148"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00149"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00150"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00151"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00152"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00153"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00154"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00155"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00156"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00157"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00158"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00159"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00160"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00161"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00162"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00163"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00164"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00165"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00166"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00167"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00168"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00169"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00170"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00171"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00172"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00173"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00174"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00175"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00176"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00177"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00178"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00179"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00180"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00181"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00182"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00183"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00184"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00185"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00186"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00187"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00188"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00189"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00190"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00191"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00192"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00193"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00194"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00195"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00196"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00197"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00198"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00199"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00200"
+        },
+        {
+          "code": "I4_NON_ATOMIC_COMMIT",
+          "message": "The destination snapshot was not committed atomically"
+        }
+      ],
+      "o2_expected_decision": "merge",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": true,
+          "passed": false,
+          "failure_codes": [
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH"
+          ]
+        },
+        "I2": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": false,
+          "failure_codes": [
+            "I4_NON_ATOMIC_COMMIT"
+          ]
+        }
+      },
+      "observation_signature_sha256": "ea4fb990e4b0773b6b717505867545c71f239f63a5817f643e7f5c3305090125",
+      "holdout_id": "JSEP-H08",
+      "scenario": "sync-durable-update",
+      "variant": "JSEP-H08",
+      "browser": "chromium",
+      "browser_version": "149.0.7827.55",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1/I4",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H08",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "merge",
+      "terminal_kind": "live-sync-result",
+      "terminal_action": "merge",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "fe3003c11153834112ad65468e2833385e522c04d0eec97f950d83aa499285b3"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "fe3003c11153834112ad65468e2833385e522c04d0eec97f950d83aa499285b3"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "e8b2650646ec6267e32339def76d03c133f55872483b9eb4d7bdeb21a869deec",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "c7a158363dbc31742ce3c3ff3242341547a8baae299641d2f951e6cad0258536",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-applicable-to-hidden-iframe-sync",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "e8b2650646ec6267e32339def76d03c133f55872483b9eb4d7bdeb21a869deec",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "c7a158363dbc31742ce3c3ff3242341547a8baae299641d2f951e6cad0258536",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": null,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": true,
+      "metadata_phases": [
+        {
+          "mode": "synchronize",
+          "phase": "message-received",
+          "trace_sequence": 29,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-started",
+          "trace_sequence": 30,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-succeeded",
+          "trace_sequence": 31,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "completion-success",
+          "trace_sequence": 32,
+          "incoming_sequence": 10001
+        }
+      ],
+      "indexeddb_write_transactions": [],
+      "event_wait_ms": 19.18029999999999,
+      "b_state_pass": false,
+      "b_state_failure_codes": [
+        "B_PUBLIC_STATE_MISMATCH"
+      ],
+      "b_state_failures": [
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00001"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00002"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00003"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00004"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00005"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00006"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00007"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00008"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00009"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00010"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00011"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00012"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00013"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00014"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00015"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00016"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00017"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00018"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00019"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00020"
+        }
+      ],
+      "o2_pass": false,
+      "o2_failure_codes": [
+        "I1_PUBLIC_STATE_MISMATCH",
+        "I4_NON_ATOMIC_COMMIT"
+      ],
+      "o2_failures": [
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00001"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00002"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00003"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00004"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00005"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00006"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00007"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00008"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00009"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00010"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00011"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00012"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00013"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00014"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00015"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00016"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00017"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00018"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00019"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00020"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00021"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00022"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00023"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00024"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00025"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00026"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00027"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00028"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00029"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00030"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00031"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00032"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00033"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00034"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00035"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00036"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00037"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00038"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00039"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00040"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00041"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00042"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00043"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00044"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00045"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00046"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00047"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00048"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00049"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00050"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00051"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00052"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00053"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00054"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00055"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00056"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00057"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00058"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00059"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00060"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00061"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00062"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00063"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00064"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00065"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00066"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00067"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00068"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00069"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00070"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00071"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00072"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00073"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00074"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00075"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00076"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00077"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00078"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00079"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00080"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00081"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00082"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00083"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00084"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00085"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00086"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00087"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00088"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00089"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00090"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00091"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00092"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00093"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00094"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00095"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00096"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00097"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00098"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00099"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00100"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00101"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00102"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00103"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00104"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00105"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00106"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00107"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00108"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00109"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00110"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00111"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00112"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00113"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00114"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00115"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00116"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00117"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00118"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00119"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00120"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00121"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00122"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00123"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00124"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00125"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00126"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00127"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00128"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00129"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00130"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00131"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00132"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00133"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00134"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00135"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00136"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00137"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00138"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00139"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00140"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00141"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00142"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00143"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00144"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00145"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00146"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00147"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00148"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00149"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00150"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00151"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00152"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00153"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00154"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00155"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00156"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00157"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00158"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00159"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00160"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00161"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00162"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00163"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00164"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00165"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00166"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00167"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00168"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00169"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00170"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00171"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00172"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00173"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00174"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00175"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00176"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00177"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00178"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00179"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00180"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00181"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00182"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00183"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00184"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00185"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00186"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00187"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00188"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00189"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00190"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00191"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00192"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00193"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00194"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00195"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00196"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00197"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00198"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00199"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00200"
+        },
+        {
+          "code": "I4_NON_ATOMIC_COMMIT",
+          "message": "The destination snapshot was not committed atomically"
+        }
+      ],
+      "o2_expected_decision": "merge",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": true,
+          "passed": false,
+          "failure_codes": [
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH"
+          ]
+        },
+        "I2": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": false,
+          "failure_codes": [
+            "I4_NON_ATOMIC_COMMIT"
+          ]
+        }
+      },
+      "observation_signature_sha256": "ea4fb990e4b0773b6b717505867545c71f239f63a5817f643e7f5c3305090125",
+      "holdout_id": "JSEP-H08",
+      "scenario": "sync-durable-update",
+      "variant": "JSEP-H08",
+      "browser": "firefox",
+      "browser_version": "151.0",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1/I4",
+      "error_class": "",
+      "error_message": ""
+    },
+    {
+      "scenario_id": "JSEP-H08",
+      "status": "complete",
+      "designated_path_reached": true,
+      "observed_decision": "merge",
+      "terminal_kind": "live-sync-result",
+      "terminal_action": "merge",
+      "observed_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "fe3003c11153834112ad65468e2833385e522c04d0eec97f950d83aa499285b3"
+      },
+      "intended_source_summary": {
+        "count": 200,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "semantic_public_digest_sha256": "fe3003c11153834112ad65468e2833385e522c04d0eec97f950d83aa499285b3"
+      },
+      "indexeddb_before_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "e8b2650646ec6267e32339def76d03c133f55872483b9eb4d7bdeb21a869deec",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "c7a158363dbc31742ce3c3ff3242341547a8baae299641d2f951e6cad0258536",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "indexeddb_at_done_summary": null,
+      "indexeddb_at_done_basis": "not-applicable-to-hidden-iframe-sync",
+      "indexeddb_at_done_certainty": "not-applicable",
+      "indexeddb_after_summary": {
+        "all_count": 200,
+        "completed_count": 0,
+        "stable_identity_count": 200,
+        "missing_stable_identity_count": 0,
+        "duplicate_stable_identity_count": 0,
+        "public_digest_sha256": "e8b2650646ec6267e32339def76d03c133f55872483b9eb4d7bdeb21a869deec",
+        "owned_digest_sha256": "a9258a2c96cc6795597e8c397b681ec4f93e3a4564142619ae29888359bf1ba7",
+        "semantic_state_digest_sha256": "c7a158363dbc31742ce3c3ff3242341547a8baae299641d2f951e6cad0258536",
+        "completed_identity_digest_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "first_stable_id_examples": [
+          "guest-00001",
+          "guest-00002",
+          "guest-00003"
+        ]
+      },
+      "done_send_call_epoch_ms": null,
+      "done_received_epoch_ms": null,
+      "on_done_ui_epoch_ms": null,
+      "done_before_durable_commit": true,
+      "metadata_phases": [
+        {
+          "mode": "synchronize",
+          "phase": "message-received",
+          "trace_sequence": 29,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-started",
+          "trace_sequence": 30,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "commit-succeeded",
+          "trace_sequence": 31,
+          "incoming_sequence": 10001
+        },
+        {
+          "mode": "synchronize",
+          "phase": "completion-success",
+          "trace_sequence": 32,
+          "incoming_sequence": 10001
+        }
+      ],
+      "indexeddb_write_transactions": [],
+      "event_wait_ms": 48.75499999999738,
+      "b_state_pass": false,
+      "b_state_failure_codes": [
+        "B_PUBLIC_STATE_MISMATCH"
+      ],
+      "b_state_failures": [
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00001"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00002"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00003"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00004"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00005"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00006"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00007"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00008"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00009"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00010"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00011"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00012"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00013"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00014"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00015"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00016"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00017"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00018"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00019"
+        },
+        {
+          "code": "B_PUBLIC_STATE_MISMATCH",
+          "identity": "guest-00020"
+        }
+      ],
+      "o2_pass": false,
+      "o2_failure_codes": [
+        "I1_PUBLIC_STATE_MISMATCH",
+        "I4_NON_ATOMIC_COMMIT"
+      ],
+      "o2_failures": [
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00001"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00002"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00003"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00004"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00005"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00006"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00007"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00008"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00009"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00010"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00011"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00012"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00013"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00014"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00015"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00016"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00017"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00018"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00019"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00020"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00021"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00022"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00023"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00024"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00025"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00026"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00027"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00028"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00029"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00030"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00031"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00032"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00033"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00034"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00035"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00036"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00037"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00038"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00039"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00040"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00041"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00042"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00043"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00044"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00045"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00046"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00047"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00048"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00049"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00050"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00051"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00052"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00053"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00054"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00055"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00056"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00057"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00058"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00059"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00060"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00061"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00062"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00063"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00064"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00065"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00066"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00067"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00068"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00069"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00070"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00071"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00072"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00073"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00074"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00075"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00076"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00077"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00078"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00079"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00080"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00081"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00082"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00083"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00084"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00085"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00086"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00087"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00088"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00089"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00090"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00091"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00092"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00093"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00094"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00095"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00096"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00097"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00098"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00099"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00100"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00101"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00102"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00103"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00104"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00105"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00106"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00107"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00108"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00109"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00110"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00111"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00112"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00113"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00114"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00115"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00116"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00117"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00118"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00119"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00120"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00121"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00122"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00123"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00124"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00125"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00126"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00127"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00128"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00129"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00130"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00131"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00132"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00133"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00134"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00135"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00136"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00137"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00138"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00139"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00140"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00141"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00142"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00143"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00144"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00145"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00146"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00147"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00148"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00149"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00150"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00151"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00152"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00153"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00154"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00155"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00156"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00157"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00158"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00159"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00160"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00161"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00162"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00163"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00164"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00165"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00166"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00167"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00168"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00169"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00170"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00171"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00172"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00173"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00174"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00175"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00176"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00177"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00178"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00179"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00180"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00181"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00182"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00183"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00184"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00185"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00186"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00187"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00188"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00189"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00190"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00191"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00192"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00193"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00194"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00195"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00196"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00197"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00198"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00199"
+        },
+        {
+          "code": "I1_PUBLIC_STATE_MISMATCH",
+          "message": "Source-owned public state did not match by semantic identity",
+          "identity": "gid:guest-00200"
+        },
+        {
+          "code": "I4_NON_ATOMIC_COMMIT",
+          "message": "The destination snapshot was not committed atomically"
+        }
+      ],
+      "o2_expected_decision": "merge",
+      "o2_clause_results": {
+        "I1": {
+          "applicable": true,
+          "passed": false,
+          "failure_codes": [
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH",
+            "I1_PUBLIC_STATE_MISMATCH"
+          ]
+        },
+        "I2": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I3": {
+          "applicable": true,
+          "passed": true,
+          "failure_codes": []
+        },
+        "I4": {
+          "applicable": true,
+          "passed": false,
+          "failure_codes": [
+            "I4_NON_ATOMIC_COMMIT"
+          ]
+        }
+      },
+      "observation_signature_sha256": "ea4fb990e4b0773b6b717505867545c71f239f63a5817f643e7f5c3305090125",
+      "holdout_id": "JSEP-H08",
+      "scenario": "sync-durable-update",
+      "variant": "JSEP-H08",
+      "browser": "webkit",
+      "browser_version": "26.5",
+      "expected_b_state": "detect",
+      "expected_o2_clause": "I1/I4",
+      "error_class": "",
+      "error_message": ""
+    }
+  ]
+}
