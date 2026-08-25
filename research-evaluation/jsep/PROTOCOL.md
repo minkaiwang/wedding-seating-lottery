@@ -105,3 +105,20 @@ Cost measurements compare the unkeyed surface oracle and the full contract check
 ## 8. Interpretation boundary
 
 The first evaluation can establish behavior of the checker, the fixed defect corpus, and the seating-to-prize-draw adapter. It does not estimate field defect prevalence, prove all browser handoffs correct, measure audience or operator outcomes, or establish cross-domain validity. Transfer beyond the first application requires a second subject or later replication.
+
+## 9. Protocol amendment A1: external reference-subject adaptation
+
+Amendment freeze date: 2026-08-26
+
+Status: frozen after repository screening and adapter implementation checks, before the formal-candidate adaptation run
+
+The adaptation study uses the independently authored, MIT-licensed `GDSC-ESTIN/checkin-system` repository at commit `839831c9be7d2409e825ca14d27a3c285bde3764`. Its published workflow separates CSV roster preparation, a check-in backend, and a scanner client. The prepared source schema contains generated `id` values together with `email`, `username`, `teamName`, and `tShirt`; the check-in backend later maintains the `checked` field. Full provenance and the interpretation boundary are recorded in `subjects/GDSC_CHECKIN_SUBJECT.md`.
+
+The adapter models initial import as replacement and a later roster-correction feature as state-preserving synchronization. The latter is an evolution scenario applied to the published schema, not a feature attributed to the upstream repository. Evaluation uses nine predefined synthetic scenarios:
+
+- I1: swapped public state across stable identities, duplicated or regenerated retained identifiers, and a missing replacement record;
+- I2: reset check-in state;
+- I3: retained failed-sequence watermark and acceptance from an unbound import peer;
+- I4: completion before durable commit and durable-state change after failed commit.
+
+Each faulty scenario is paired with a correct control using the same synthetic source and destination pre-state. The primary measures are correct-control passage, target-clause detection, O0/O1/O2 detection, adapter physical lines, and whether the generic checker core changes after the first-subject freeze. These nine scenarios remain separate from the 28-fault primary corpus and cannot increase its denominator. Because the adapter and scenarios are authored by the research team and the upstream runtime is not executed, the result supports schema-level adaptability, not independent external validation or upstream product correctness.

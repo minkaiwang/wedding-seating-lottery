@@ -37,6 +37,7 @@
     "evaluate:jsep:oracles": "tsx ./research-evaluation/scripts/run-jsep-oracle-evaluation.ts",
     "evaluate:jsep:cost": "tsx ./research-evaluation/scripts/run-jsep-contract-cost.ts",
     "evaluate:jsep:counterexamples": "tsx ./research-evaluation/scripts/run-jsep-counterexamples.ts",
+    "evaluate:jsep:adaptation": "tsx ./research-evaluation/scripts/run-jsep-adaptation-evaluation.ts",
     "postinstall": "prisma generate",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
